@@ -9,17 +9,8 @@
             font-size: 12px;
         }
 
-        .panel {
-            background-color: #eee;
-        }
-
-        .panel:hover {
-            padding: 0 150px;
-        }
-
         .widget-1 {
             border: 1px solid silver;
-            margin: 50px;
             padding: 50px;
         }
 
@@ -38,23 +29,45 @@
             padding: 5px 300px;
             border: 1px solid red;
         }
+
+        .responsive-image img {
+            width: 100%;
+        }
+
+        .responsive-image[max-width^='400px'] img {
+            content: url(demo/image-400px.jpg);
+        }
+
+        .responsive-image[max-width^='1000px'] img {
+            content: url(demo/image-1000px.jpg);
+        }
+
+        .responsive-image[min-width$='1000px'] img {
+            content: url(demo/image-full.jpg);
+        }
     </style>
 </head>
 <body>
     <div class="panel">
         <div class="widget-1">
             <h2>Widget #1</h2>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
             sed diam nonumy eirmod tempor invidunt ut labore et dolore
             magna aliquyam erat, sed diam voluptua. At vero eos et accusam
             et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.<br />
+            no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            <p>
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
             sed diam nonumy eirmod tempor invidunt ut labore et dolore
             magna aliquyam erat, sed diam voluptua. At vero eos et accusam
             et justo duo dolores et ea rebum. Stet clita kasd gubergren,
             no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            </p>
         </div>
+    </div>
+
+    <div class="responsive-image">
+        <img src="demo/image-400px.jpg" />
     </div>
 
     <script src="src/ElementQueries.js"></script>

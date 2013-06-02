@@ -26,6 +26,23 @@ Example
 .widget-name[min-width="500px"] {
     padding: 55px;
 }
+
+/* responsive images /*
+.responsive-image img {
+    width: 100%;
+}
+
+.responsive-image[max-width^='400px'] img {
+    content: url(demo/image-400px.jpg);
+}
+
+.responsive-image[max-width^='1000px'] img {
+    content: url(demo/image-1000px.jpg);
+}
+
+.responsive-image[min-width$='1000px'] img {
+    content: url(demo/image-full.jpg);
+}
 ```
 
 Include then the javascript file at the bottom and you're good to go. No custom javascript calls needed.
@@ -35,3 +52,10 @@ Include then the javascript file at the bottom and you're good to go. No custom 
 ```
 
 Info: This is a first very experimental version! You should not use it yet.
+
+
+Issues
+------
+
+ - Does not work on `img` tags. A wrapper `div` around it works fine. See the demo.
+ - Adds in non-internet-explorer browsers a additional hidden element into the selected target element. Forces the target element to be relative or absolute.

@@ -200,8 +200,9 @@
             }
 
             var attributes = ['min-width', 'min-height', 'max-width', 'max-height'];
+
             /**
-             * Extracts the computed width/height and sets to min/max
+             * Extracts the computed width/height and sets to min/max- attribute.
              */
             this.call = function() {
                 // extract current dimensions
@@ -274,7 +275,7 @@
             }
         }
 
-        var regex = /,*([^,]*)\[[\s\t]*(min|max)-(width|height)[\s\t]*~?=[\s\t]*"([^"]*)"[\s\t]*]/;
+        var regex = /,*([^,]*)\[[\s\t]*(min|max)-(width|height)[\s\t]*[~$\^]?=[\s\t]*"([^"]*)"[\s\t]*]/;
         /**
          * @param {CssRule} rule
          */
@@ -309,7 +310,14 @@
         }
     }
 
-    //for debugging purposes.
-    //TODO, add onload/domready etc.
-    new ElementQueries().init();
+    function init(){
+        new ElementQueries().init();
+    }
+
+    if (window.addEventListener){
+        window.addEventListener('load',init,false);
+    } else {
+        window.attachEvent('onload',init);
+    }
+
 })();
