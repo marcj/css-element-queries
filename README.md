@@ -12,6 +12,7 @@ This means:
  - All CSS selectors available. It uses the normal attribute selector.
  - Support for webkit/gecko/internet explorer.
  - `min-width`, `min-height`, `max-width` and `max-height` are yet supported.
+ - It works for almost all modification: HTML changes, inline styles, DOM mutation, CSS3 transitions.
 
 Example
 -------
