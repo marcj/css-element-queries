@@ -17,7 +17,7 @@
                 element.addEventListener('overflowchanged', function (e) {
                     callback.call(this, e);
                 });
-            } else {
+            } else {
                 element.addEventListener('overflow', function (e) {
                     callback.call(this, e);
                 });
@@ -305,7 +305,7 @@
          */
         this.init = function(){
             for (var i = 0, j = document.styleSheets.length; i < j; i++) {
-                readRules(document.styleSheets[i].cssRules || document.styleSheets[i].rules);
+                readRules(document.styleSheets[i].cssRules || document.styleSheets[i].rules);
             }
         }
     }

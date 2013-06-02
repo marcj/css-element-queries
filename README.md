@@ -40,7 +40,7 @@ Example
     content: url(demo/image-1000px.jpg);
 }
 
-.responsive-image[min-width$='1000px'] img {
+.responsive-image[min-width='1000px'] img {
     content: url(demo/image-full.jpg);
 }
 ```
