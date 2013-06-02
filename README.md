@@ -7,8 +7,7 @@ This means:
 
  - High-speed.
  - No interval/timeout detection. It's truly event-based.
- - No CSS modifications.
- - Valid CSS Syntax.
+ - No CSS modifications. Valid CSS Syntax.
  - All CSS selectors available. It uses the normal attribute selector.
  - Support for webkit/gecko/internet explorer.
  - `min-width`, `min-height`, `max-width` and `max-height` are yet supported.
@@ -27,6 +26,12 @@ Example
 .widget-name[min-width="500px"] {
     padding: 55px;
 }
+```
+
+Include then the javascript file at the bottom and you're good to go. No custom javascript calls needed.
+
+```html
+<script src="src/ElementQueries.js"></script>
 ```
 
 Info: This is a first very experimental version! You should not use it yet.
