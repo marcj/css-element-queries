@@ -295,9 +295,13 @@ Drag the gray line at the right to see it in action.
 
 <h2>
 <a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h2>
+
+After including ElementQueries.js the class attaches the `init` method to `load` of the page,
+so it get initialised after all CSS files have been loaded.<br />
+<br />
 <div class="highlight highlight-html"><pre>
   Class ElementQueries()
-    -> init() // Scans all css rules and attach the event listener
+    -> init() // Scans all css rules and attach the event listener.
 
   Class ResizeSensor(element, callback)
 </pre>
