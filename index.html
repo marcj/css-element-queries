@@ -146,6 +146,26 @@
         }
       }
 
+      @-moz-keyframes anim {
+        0% {
+          padding: 50px;
+          width: 50%;
+          background-color: gray;
+        }
+
+        50% {
+          padding: 10px;
+          width: 40%;
+          background-color: #806522;
+        }
+
+        100% {
+          padding: 50px;
+          width: 50%;
+          background-color: gray;
+        }
+      }
+
     </style>
   </head>
   <body>
@@ -266,9 +286,11 @@ Drag the gray line at the right to see it in action.
 <span class="p">}</span>
 </pre></div>
 
-<p>Include then the javascript file at the bottom and you're good to go. No custom javascript calls needed.</p>
+<p>Include then these javascript files at the bottom and you're good to go. No custom javascript calls needed.</p>
 
-<div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"src/ElementQueries.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<div class="highlight highlight-html">
+<pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"src/ResizeSensor.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"src/ElementQueries.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 </pre></div>
 
 <h2>
