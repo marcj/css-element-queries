@@ -12,6 +12,7 @@ This means:
  - Support for webkit/gecko/internet explorer.
  - `min-width`, `min-height`, `max-width` and `max-height` are yet supported.
  - It works for actual all layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3 transitions, fluid layout changes (parent changes too), pseudo classes (:hover etc), window resizes, etc.
+ - No Javascript-Framework dependency, so works with jQuery, Mootools, etc.
 
 More demos and information here: http://marcj.github.io/css-element-queries/
 
