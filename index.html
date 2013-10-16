@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Css-element-queries by marcj</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Css-element-queries</h1>
+        <p class="header">proof-of-concept for high-speed element dimension/media queries in valid css.</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/marcj/css-element-queries/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/marcj/css-element-queries/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/marcj/css-element-queries">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/marcj">marcj</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a name="css-element-queries" class="anchor" href="#css-element-queries"><span class="octicon octicon-link"></span></a>CSS Element Queries</h1>
+
+<p>A proof-of-concept event-based CSS element dimension query with valid CSS selector syntax.</p>
+
+<p>This means:</p>
+
+<ul>
+<li>High-speed.</li>
+<li>No interval/timeout detection. It's truly event-based.</li>
+<li>No CSS modifications. Valid CSS Syntax.</li>
+<li>All CSS selectors available. It uses the normal attribute selector.</li>
+<li>Support for webkit/gecko/internet explorer.</li>
+<li>
+<code>min-width</code>, <code>min-height</code>, <code>max-width</code> and <code>max-height</code> are yet supported.</li>
+<li>It works for actual all layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3 transitions, fluid layout changes (parent changes too), pseudo classes (:hover etc), window resizes, etc.</li>
+</ul><h2>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h2>
+
+<div class="highlight highlight-css"><pre><span class="nc">.widget-name</span> <span class="p">{</span>
+    <span class="k">padding</span><span class="o">:</span> <span class="m">25px</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.widget-name</span><span class="o">[</span><span class="nt">max-width</span><span class="o">=</span><span class="s2">"200px"</span><span class="o">]</span> <span class="p">{</span>
+    <span class="k">padding</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.widget-name</span><span class="o">[</span><span class="nt">min-width</span><span class="o">=</span><span class="s2">"500px"</span><span class="o">]</span> <span class="p">{</span>
+    <span class="k">padding</span><span class="o">:</span> <span class="m">55px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">/*</span> <span class="nt">responsive</span> <span class="nt">images</span> <span class="o">/*</span>
+<span class="nc">.responsive-image</span> <span class="nt">img</span> <span class="p">{</span>
+    <span class="k">width</span><span class="o">:</span> <span class="m">100</span><span class="o">%</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.responsive-image</span><span class="o">[</span><span class="nt">max-width</span><span class="o">^=</span><span class="s1">'400px'</span><span class="o">]</span> <span class="nt">img</span> <span class="p">{</span>
+    <span class="k">content</span><span class="o">:</span> <span class="sx">url(demo/image-400px.jpg)</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.responsive-image</span><span class="o">[</span><span class="nt">max-width</span><span class="o">^=</span><span class="s1">'1000px'</span><span class="o">]</span> <span class="nt">img</span> <span class="p">{</span>
+    <span class="k">content</span><span class="o">:</span> <span class="sx">url(demo/image-1000px.jpg)</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.responsive-image</span><span class="o">[</span><span class="nt">min-width</span><span class="o">=</span><span class="s1">'1000px'</span><span class="o">]</span> <span class="nt">img</span> <span class="p">{</span>
+    <span class="k">content</span><span class="o">:</span> <span class="sx">url(demo/image-full.jpg)</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Include then the javascript file at the bottom and you're good to go. No custom javascript calls needed.</p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"src/ElementQueries.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+<p>Info: This is a first very experimental version! You should not use it yet.</p>
+
+<h2>
+<a name="issues" class="anchor" href="#issues"><span class="octicon octicon-link"></span></a>Issues</h2>
+
+<ul>
+<li>Does not work on <code>img</code> tags. A wrapper <code>div</code> around it works fine. See the demo.</li>
+<li>Adds in non-internet-explorer browsers a additional hidden element into the selected target element. Forces the target element to be relative or absolute.</li>
+</ul>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
