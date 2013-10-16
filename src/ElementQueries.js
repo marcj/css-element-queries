@@ -168,6 +168,9 @@
          */
         function readRules(rules) {
             var selector = '';
+            if (!rules) {
+                return;
+            }
             for (var i = 0, j = rules.length; i < j; i++) {
                 if (1 === rules[i].type) {
                     selector = rules[i].selectorText;

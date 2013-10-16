@@ -13,6 +13,8 @@ This means:
  - `min-width`, `min-height`, `max-width` and `max-height` are yet supported.
  - It works for actual all layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3 transitions, fluid layout changes (parent changes too), pseudo classes (:hover etc), window resizes, etc.
 
+More demos and information here: http://marcj.github.io/css-element-queries/
+
 Example
 -------
 
@@ -48,6 +50,7 @@ Example
 Include then the javascript file at the bottom and you're good to go. No custom javascript calls needed.
 
 ```html
+<script src="src/ResizeSensor.js"></script>
 <script src="src/ElementQueries.js"></script>
 ```
 
