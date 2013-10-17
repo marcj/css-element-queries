@@ -64,3 +64,6 @@ Issues
 
  - So far does not work on `img` tags. Wrapping with a `div` works fine though (See demo).
  - [only non-IE]: Adds additional hidden element into selected target element and forces target element to be relative or absolute.
+ 
+
+Event-Based resize detection inspired by [backalleycoder.com](http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/) <3
