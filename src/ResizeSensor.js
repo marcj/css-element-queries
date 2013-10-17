@@ -57,7 +57,7 @@
          */
         function getComputedStyle(element, prop) {
             if (element.currentStyle) {
-                return element.currentStyle(prop);
+                return element.currentStyle[prop];
             } else if (window.getComputedStyle) {
                 return window.getComputedStyle(element, null).getPropertyValue(prop);
             } else {
@@ -79,12 +79,16 @@
                 return;
             }
 
-            if (element.onresize) {
+            if ('onresize' in element) {
                 //internet explorer
                 if (element.attachEvent) {
-                    element.attachEvent('onresize', element.resizedAttached.call);
+                    element.attachEvent('onresize', function() {
+                        element.resizedAttached.call();
+                    });
                 } else if (element.addEventListener) {
-                    element.addEventListener('resize', element.resizedAttached.call);
+                    element.addEventListener('resize', function(){
+                        element.resizedAttached.call();
+                    });
                 }
             } else {
                 var myResized = function() {

@@ -9,7 +9,7 @@ This means:
  - No interval/timeout detection. It's truly event-based.
  - No CSS modifications. Valid CSS Syntax.
  - All CSS selectors available. It uses the normal attribute selector.
- - Support for webkit/gecko/internet explorer.
+ - Support and tested in webkit, gecko and internet explorer(8/9/10).
  - `min-width`, `min-height`, `max-width` and `max-height` are yet supported.
  - It works for actual all layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3 transitions, fluid layout changes (parent changes too), pseudo classes (:hover etc), window resizes, etc.
  - No Javascript-Framework dependency, so works with jQuery, Mootools, etc.
