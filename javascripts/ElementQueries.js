@@ -141,7 +141,15 @@
          * @param {String} value
          */
         function queueQuery(selector, mode, property, value) {
-            var elements = document.querySelectorAll(selector);
+            var query = document.querySelectorAll;
+            if ('undefined' !== typeof $$) query = $$;
+            if ('undefined' !== typeof jQuery) query = jQuery;
+
+            if (!query) {
+                throw 'No document.querySelectorAll, jQuery or Mootools\'s $$ found.';
+            }
+
+            var elements = query(selector);
             for (var i = 0, j = elements.length; i < j; i++) {
                 setupElement(elements[i], {
                     mode: mode,
@@ -151,32 +159,43 @@
             }
         }
 
-        var regex = /,*([^,]*)\[[\s\t]*(min|max)-(width|height)[\s\t]*[~$\^]?=[\s\t]*"([^"]*)"[\s\t]*]/;
+        var regex = /,?([^,\n]*)\[[\s\t]*(min|max)-(width|height)[\s\t]*[~$\^]?=[\s\t]*"([^"]*)"[\s\t]*]([^\n\s\{]*)/mgi;
 
         /**
-         * @param {CssRule} rule
+         * @param {String} css
          */
-        function extractQuery(rule) {
-            var matches = regex.exec(rule.selectorText);
-            if (matches && 5 === matches.length) {
-                queueQuery(matches[1], matches[2], matches[3], matches[4]);
+        function extractQuery(css) {
+            var match;
+            css = css.replace(/'/g, '"');
+            while (null !== (match = regex.exec(css))) {
+                if (5 < match.length) {
+                    queueQuery(match[1] || match[5], match[2], match[3], match[4]);
+                }
             }
         }
 
         /**
-         * @param {CssRule[]} rules
+         * @param {CssRule[]|String} rules
          */
         function readRules(rules) {
             var selector = '';
             if (!rules) {
                 return;
             }
-            for (var i = 0, j = rules.length; i < j; i++) {
-                if (1 === rules[i].type) {
-                    selector = rules[i].selectorText;
-                    if (-1 !== selector.indexOf('min-width') || -1 !== selector.indexOf('max-width')) {
-                        extractQuery(rules[i]);
-                        //todo, ie7-8 includes @imports in a rule, so extract it
+            if ('string' === typeof rules) {
+                rules = rules.toLowerCase();
+                if (-1 !== rules.indexOf('min-width') || -1 !== rules.indexOf('max-width')) {
+                    extractQuery(rules);
+                }
+            } else {
+                for (var i = 0, j = rules.length; i < j; i++) {
+                    if (1 === rules[i].type) {
+                        selector = rules[i].selectorText || rules[i].cssText;
+                        if (-1 !== selector.indexOf('min-width') || -1 !== selector.indexOf('max-width')) {
+                            extractQuery(selector);
+                        }
+                    } else if (4 === rules[i].type) {
+                        readRules(rules[i].cssRules || rules[i].rules);
                     }
                 }
             }
@@ -187,7 +206,7 @@
          */
         this.init = function() {
             for (var i = 0, j = document.styleSheets.length; i < j; i++) {
-                readRules(document.styleSheets[i].cssRules || document.styleSheets[i].rules);
+                readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
             }
         }
     }
