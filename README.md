@@ -1,9 +1,14 @@
 CSS Element Queries
 ===================
 
-A proof-of-concept event-based CSS element dimension query with valid CSS selector syntax.
+Forget Media Queries - Here Is Element Queries!
 
-This means:
+This is a polyfill for all new browsers (incl. IE8!) for CSS Element Queries, which
+means you can depend in your CSS on element's size and not only on window's size like in classical media queries.
+
+So, it's proof-of-concept event-based CSS element dimension query with valid CSS selector syntax.
+
+Features:
 
  - no performance issues
  - no interval/timeout detection. Truly event-based
@@ -12,6 +17,7 @@ This means:
  - support and tested in webkit, gecko and internet explorer(8/9/10).
  - `min-width`, `min-height`, `max-width` and `max-height` are supported so far
  - works with any layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3 transitions, fluid layout changes (also percent changes), pseudo classes (:hover etc.), window resizes and more
+ - no Javascript-Framework dependency, so works with jQuery, Mootools, etc.
 
 More demos and information here: http://marcj.github.io/css-element-queries/
 
