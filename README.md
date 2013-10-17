@@ -1,12 +1,11 @@
 CSS Element Queries
 ===================
 
-Forget Media Queries - Here Is Element Queries!
+Element Queries is a polyfill adding support for element based media-queries to all new browsers (incl. IE8+).
+It allows not only to define media-queries based on window-size but also adds 'media-queries' functionality depending on element (any selector supported)
+size while not causing performance lags due to event based implementation.
 
-This is a polyfill for all new browsers (incl. IE8!) for CSS Element Queries, which
-means you can depend in your CSS on element's size and not only on window's size like in classical media queries.
-
-So, it's proof-of-concept event-based CSS element dimension query with valid CSS selector syntax.
+It's a proof-of-concept event-based CSS element dimension query with valid CSS selector syntax.
 
 Features:
 
@@ -14,12 +13,12 @@ Features:
  - no interval/timeout detection. Truly event-based
  - no CSS modifications. Valid CSS Syntax
  - all CSS selectors available. Uses regular attribute selector
- - support and tested in webkit, gecko and internet explorer(8/9/10).
+ - supports and tested in webkit, gecko and IE(8/9/10).
  - `min-width`, `min-height`, `max-width` and `max-height` are supported so far
  - works with any layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3 transitions, fluid layout changes (also percent changes), pseudo classes (:hover etc.), window resizes and more
- - no Javascript-Framework dependency, so works with jQuery, Mootools, etc.
+ - no Javascript-Framework dependency (works with jQuery, Mootools, etc.)
 
-More demos and information here: http://marcj.github.io/css-element-queries/
+More demos and information: http://marcj.github.io/css-element-queries/
 
 Example
 -------
@@ -63,5 +62,5 @@ Include the javascript files at the bottom and you're good to go. No custom java
 Issues
 ------
 
- - Does not work on `img` tags. Wrapping with a `div` works fine though (See the demo).
- - Adds additional hidden element into selected target element in non-internet-explorer browsers and forces target element to be relative or absolute.
+ - So far does not work on `img` tags. Wrapping with a `div` works fine though (See demo).
+ - [only non-IE]: Adds additional hidden element into selected target element and forces target element to be relative or absolute.
