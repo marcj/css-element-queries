@@ -5,14 +5,13 @@ A proof-of-concept event-based CSS element dimension query with valid CSS select
 
 This means:
 
- - High-speed.
- - No interval/timeout detection. It's truly event-based.
- - No CSS modifications. Valid CSS Syntax.
- - All CSS selectors available. It uses the normal attribute selector.
- - Support and tested in webkit, gecko and internet explorer(8/9/10).
- - `min-width`, `min-height`, `max-width` and `max-height` are yet supported.
- - It works for actual all layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3 transitions, fluid layout changes (parent changes too), pseudo classes (:hover etc), window resizes, etc.
- - No Javascript-Framework dependency, so works with jQuery, Mootools, etc.
+ - no performance issues
+ - no interval/timeout detection. Truly event-based
+ - no CSS modifications. Valid CSS Syntax
+ - all CSS selectors available. Uses regular attribute selector
+ - support and tested in webkit, gecko and internet explorer(8/9/10).
+ - `min-width`, `min-height`, `max-width` and `max-height` are supported so far
+ - works with any layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3 transitions, fluid layout changes (also percent changes), pseudo classes (:hover etc.), window resizes and more
 
 More demos and information here: http://marcj.github.io/css-element-queries/
 
@@ -48,7 +47,7 @@ Example
 }
 ```
 
-Include then the javascript file at the bottom and you're good to go. No custom javascript calls needed.
+Include the javascript files at the bottom and you're good to go. No custom javascript calls needed.
 
 ```html
 <script src="src/ResizeSensor.js"></script>
@@ -61,5 +60,5 @@ Info: This is a first very experimental version! You should not use it yet.
 Issues
 ------
 
- - Does not work on `img` tags. A wrapper `div` around it works fine. See the demo.
- - Adds in non-internet-explorer browsers a additional hidden element into the selected target element. Forces the target element to be relative or absolute.
+ - Does not work on `img` tags. Wrapping with a `div` works fine though (See the demo).
+ - Adds additional hidden element into selected target element in non-internet-explorer browsers and forces target element to be relative or absolute.
