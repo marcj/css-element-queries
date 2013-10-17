@@ -95,7 +95,7 @@
                     if (setupSensor()) {
                         element.resizedAttached.call();
                     }
-                }
+                };
                 element.resizeSensor = document.createElement('div');
                 element.resizeSensor.className = 'resize-sensor';
                 var style =
@@ -125,14 +125,14 @@
                         height = element.resizeSensor.offsetHeight;
 
                     if (x != width) {
-                        firstStyle.width = width - 1 + 'px';
-                        lastStyle.width = width + 1 + 'px';
+                        firstStyle.width = (width - 1) + 'px';
+                        lastStyle.width = (width + 1) + 'px';
                         change = true;
                         x = width;
                     }
                     if (y != height) {
-                        firstStyle.height = height - 1 + 'px';
-                        lastStyle.height = height + 1 + 'px';
+                        firstStyle.height = (height - 1) + 'px';
+                        lastStyle.height = (height + 1) + 'px';
                         change = true;
                         y = height;
                     }

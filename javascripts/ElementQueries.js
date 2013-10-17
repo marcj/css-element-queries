@@ -96,15 +96,17 @@
                     attrValue = '';
 
                     if (option.mode == 'min' && actualValue >= value) {
-                        attrValue += ' ' + option.value;
+                        attrValue += option.value;
                     }
 
                     if (option.mode == 'max' && actualValue <= value) {
-                        attrValue += ' ' + option.value;
+                        attrValue += option.value;
                     }
 
                     if (!attrValues[attrName]) attrValues[attrName] = '';
-                    attrValues[attrName] += attrValue;
+                    if (attrValue && -1 === (' '+attrValues[attrName]+' ').indexOf(' ' + attrValue + ' ')) {
+                        attrValues[attrName] += ' ' + attrValue;
+                    }
                 }
 
                 for (var k in attributes) {
