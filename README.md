@@ -54,9 +54,6 @@ Include the javascript files at the bottom and you're good to go. No custom java
 <script src="src/ElementQueries.js"></script>
 ```
 
-Info: This is a first very experimental version! You should not use it yet.
-
-
 Issues
 ------
 
