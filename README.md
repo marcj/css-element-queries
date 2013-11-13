@@ -67,3 +67,7 @@ Issues
  
 
 Event-Based resize detection inspired by [backalleycoder.com](http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/) <3
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/marcj/css-element-queries/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
