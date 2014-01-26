@@ -114,8 +114,8 @@
                     element.style.position = 'relative';
                 }
 
-                var x = 0,
-                    y = 0,
+                var x = -1,
+                    y = -1,
                     firstStyle = element.resizeSensor.firstElementChild.firstChild.style,
                     lastStyle = element.resizeSensor.lastElementChild.firstChild.style;
 
