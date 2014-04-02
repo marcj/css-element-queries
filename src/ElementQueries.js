@@ -148,9 +148,10 @@
          * @param {String} value
          */
         function queueQuery(selector, mode, property, value) {
-            var query = document.querySelectorAll;
-            if ('undefined' !== typeof $$) query = $$;
-            if ('undefined' !== typeof jQuery) query = jQuery;
+            var query;
+            if (document.querySelectorAll) query = document.querySelectorAll.bind(document);
+            if (!query && 'undefined' !== typeof $$) query = $$;
+            if (!query && 'undefined' !== typeof jQuery) query = jQuery;
 
             if (!query) {
                 throw 'No document.querySelectorAll, jQuery or Mootools\'s $$ found.';
