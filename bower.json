@@ -1,0 +1,19 @@
+{
+  "name": "css-element-queries",
+  "version": "0.0.1",
+  "main": [
+    "./src/js/ElementQueries.js",
+    "./src/js/ResizeSensor.js"
+  ],
+  "ignore": [
+    "**/.*",
+    "_*",
+    "Gruntfile.js",
+    "composer.json",
+    "package.json",
+    "*.html"
+  ],
+  "dependencies": {
+  }
+}
+
