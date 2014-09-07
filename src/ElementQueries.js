@@ -1,3 +1,8 @@
+/**
+ * Copyright 2013 Marc J. Schmidt. See the LICENSE file at the top-level
+ * directory of this distribution and at
+ * https://github.com/marcj/css-element-queries/blob/master/LICENSE.
+ */
 ;
 (function() {
     /**
@@ -21,7 +26,7 @@
 
         /**
          *
-         * @copyright https://github.com/Mr0grog/element-query
+         * @copyright https://github.com/Mr0grog/element-query/blob/master/LICENSE
          *
          * @param element
          * @param value
@@ -143,9 +148,10 @@
          * @param {String} value
          */
         function queueQuery(selector, mode, property, value) {
-            var query = document.querySelectorAll;
-            if ('undefined' !== typeof $$) query = $$;
-            if ('undefined' !== typeof jQuery) query = jQuery;
+            var query;
+            if (document.querySelectorAll) query = document.querySelectorAll.bind(document);
+            if (!query && 'undefined' !== typeof $$) query = $$;
+            if (!query && 'undefined' !== typeof jQuery) query = jQuery;
 
             if (!query) {
                 throw 'No document.querySelectorAll, jQuery or Mootools\'s $$ found.';
@@ -193,7 +199,9 @@
                 for (var i = 0, j = rules.length; i < j; i++) {
                     if (1 === rules[i].type) {
                         selector = rules[i].selectorText || rules[i].cssText;
-                        if (-1 !== selector.indexOf('min-width') || -1 !== selector.indexOf('max-width')) {
+                        if (-1 !== selector.indexOf('min-height') || -1 !== selector.indexOf('max-height')) {
+                            extractQuery(selector);
+                        }else if(-1 !== selector.indexOf('min-width') || -1 !== selector.indexOf('max-width')) {
                             extractQuery(selector);
                         }
                     } else if (4 === rules[i].type) {
