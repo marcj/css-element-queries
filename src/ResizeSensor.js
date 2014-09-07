@@ -79,8 +79,8 @@
                 return;
             }
 
-            if ('onresize' in element) {
-                //internet explorer
+            if ('onresize' in element && 11 > document.documentMode) {
+                //internet explorer up to 10
                 if (element.attachEvent) {
                     element.attachEvent('onresize', function() {
                         element.resizedAttached.call();
