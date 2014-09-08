@@ -1,3 +1,8 @@
+/**
+ * Copyright Marc J. Schmidt. See the LICENSE file at the top-level
+ * directory of this distribution and at
+ * https://github.com/marcj/css-element-queries/blob/master/LICENSE.
+ */
 ;
 (function() {
     /**
@@ -21,7 +26,7 @@
 
         /**
          *
-         * @copyright https://github.com/Mr0grog/element-query
+         * @copyright https://github.com/Mr0grog/element-query/blob/master/LICENSE
          *
          * @param element
          * @param value
@@ -65,15 +70,16 @@
          */
         function SetupInformation(element) {
             this.element = element;
-            this.options = [];
-            var i, j, option, width = 0, height = 0, value, actualValue, attrValues, attrValue, attrName;
+            this.options = {};
+            var key, option, width = 0, height = 0, value, actualValue, attrValues, attrValue, attrName;
 
             /**
-             * @param option {mode: 'min|max', property: 'width|height', value: '123px'}
+             * @param {Object} option {mode: 'min|max', property: 'width|height', value: '123px'}
              */
             this.addOption = function(option) {
-                this.options.push(option);
-            }
+                var idx = [option.mode, option.property, option.value].join(',');
+                this.options[idx] = option;
+            };
 
             var attributes = ['min-width', 'min-height', 'max-width', 'max-height'];
 
@@ -87,8 +93,12 @@
 
                 attrValues = {};
 
-                for (i = 0, j = this.options.length; i < j; i++) {
-                    option = this.options[i];
+                for (key in this.options) {
+                    if (!this.options.hasOwnProperty(key)){
+                        continue;
+                    }
+                    option = this.options[key];
+
                     value = convertToPx(this.element, option.value);
 
                     actualValue = option.property == 'width' ? width : height;
@@ -143,9 +153,10 @@
          * @param {String} value
          */
         function queueQuery(selector, mode, property, value) {
-            var query = document.querySelectorAll;
-            if ('undefined' !== typeof $$) query = $$;
-            if ('undefined' !== typeof jQuery) query = jQuery;
+            var query;
+            if (document.querySelectorAll) query = document.querySelectorAll.bind(document);
+            if (!query && 'undefined' !== typeof $$) query = $$;
+            if (!query && 'undefined' !== typeof jQuery) query = jQuery;
 
             if (!query) {
                 throw 'No document.querySelectorAll, jQuery or Mootools\'s $$ found.';
@@ -193,7 +204,9 @@
                 for (var i = 0, j = rules.length; i < j; i++) {
                     if (1 === rules[i].type) {
                         selector = rules[i].selectorText || rules[i].cssText;
-                        if (-1 !== selector.indexOf('min-width') || -1 !== selector.indexOf('max-width')) {
+                        if (-1 !== selector.indexOf('min-height') || -1 !== selector.indexOf('max-height')) {
+                            extractQuery(selector);
+                        }else if(-1 !== selector.indexOf('min-width') || -1 !== selector.indexOf('max-width')) {
                             extractQuery(selector);
                         }
                     } else if (4 === rules[i].type) {
@@ -210,11 +223,18 @@
             for (var i = 0, j = document.styleSheets.length; i < j; i++) {
                 readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
             }
-        }
-    }
+        };
+
+        this.update = function() {
+            this.init();
+        };
+    };
 
     function init() {
-        new ElementQueries().init();
+        ElementQueries.instance = new ElementQueries().init();
+        ElementQueries.update = function() {
+            ElementQueries.instance.update();
+        }
     }
 
     if (window.addEventListener) {
