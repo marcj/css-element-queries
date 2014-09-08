@@ -16,28 +16,6 @@
      */
     this.ResizeSensor = function(element, callback) {
         /**
-         * Adds a listener to the over/under-flow event.
-         *
-         * @param {HTMLElement} element
-         * @param {Function}    callback
-         */
-        function addResizeListener(element, callback) {
-            if (window.OverflowEvent) {
-                //webkit
-                element.addEventListener('overflowchanged', function(e) {
-                    callback.call(this, e);
-                });
-            } else {
-                element.addEventListener('overflow', function(e) {
-                    callback.call(this, e);
-                });
-                element.addEventListener('underflow', function(e) {
-                    callback.call(this, e);
-                });
-            }
-        }
-
-        /**
          *
          * @constructor
          */
@@ -84,71 +62,70 @@
                 return;
             }
 
-            if ('onresize' in element && 11 > document.documentMode) {
-                //internet explorer up to 10
-                if (element.attachEvent) {
-                    element.attachEvent('onresize', function() {
-                        element.resizedAttached.call();
-                    });
-                } else if (element.addEventListener) {
-                    element.addEventListener('resize', function(){
-                        element.resizedAttached.call();
-                    });
-                }
-            } else {
-                var myResized = function() {
-                    if (setupSensor()) {
-                        element.resizedAttached.call();
-                    }
-                };
-                element.resizeSensor = document.createElement('div');
-                element.resizeSensor.className = 'resize-sensor';
-                var style =
-                    'position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1;';
-                element.resizeSensor.style.cssText = style;
-                element.resizeSensor.innerHTML =
-                    '<div class="resize-sensor-overflow" style="' + style + '">' +
-                        '<div></div>' +
-                        '</div>' +
-                        '<div class="resize-sensor-underflow" style="' + style + '">' +
-                        '<div></div>' +
-                        '</div>';
-                element.appendChild(element.resizeSensor);
+            element.resizeSensor = document.createElement('div');
+            element.resizeSensor.className = 'resize-sensor';
+            var style = 'position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;';
+            var styleChild = 'position: absolute; left: 0; top: 0;';
 
-                if ('absolute' !== getComputedStyle(element, 'position')) {
-                    element.style.position = 'relative';
-                }
+            element.resizeSensor.style.cssText = style;
+            element.resizeSensor.innerHTML =
+                '<div class="resize-sensor-expand" style="' + style + '">' +
+                    '<div style="' + styleChild + '"></div>' +
+                '</div>' +
+                '<div class="resize-sensor-shrink" style="' + style + '">' +
+                    '<div style="' + styleChild + ' width: 200%; height: 200%"></div>' +
+                '</div>';
+            element.appendChild(element.resizeSensor);
 
-                var x = -1,
-                    y = -1,
-                    firstStyle = element.resizeSensor.firstElementChild.firstChild.style,
-                    lastStyle = element.resizeSensor.lastElementChild.firstChild.style;
-
-                function setupSensor() {
-                    var change = false,
-                        width = element.resizeSensor.offsetWidth,
-                        height = element.resizeSensor.offsetHeight;
-
-                    if (x != width) {
-                        firstStyle.width = (width - 1) + 'px';
-                        lastStyle.width = (width + 1) + 'px';
-                        change = true;
-                        x = width;
-                    }
-                    if (y != height) {
-                        firstStyle.height = (height - 1) + 'px';
-                        lastStyle.height = (height + 1) + 'px';
-                        change = true;
-                        y = height;
-                    }
-                    return change;
-                }
-
-                setupSensor();
-                addResizeListener(element.resizeSensor, myResized);
-                addResizeListener(element.resizeSensor.firstElementChild, myResized);
-                addResizeListener(element.resizeSensor.lastElementChild, myResized);
+            if ('absolute' !== getComputedStyle(element, 'position')) {
+                element.style.position = 'relative';
             }
+
+            var expand = element.resizeSensor.childNodes[0];
+            var expandChild = expand.childNodes[0];
+            var shrink = element.resizeSensor.childNodes[1];
+            var shrinkChild = shrink.childNodes[0];
+
+            var lastWidth, lastHeight;
+
+            var reset = function() {
+                expandChild.style.width = expand.offsetWidth + 10 + 'px';
+                expandChild.style.height = expand.offsetHeight + 10 + 'px';
+                expand.scrollLeft = expand.scrollWidth;
+                expand.scrollTop = expand.scrollHeight;
+                shrink.scrollLeft = shrink.scrollWidth;
+                shrink.scrollTop = shrink.scrollHeight;
+                lastWidth = element.offsetWidth;
+                lastHeight = element.offsetHeight;
+            };
+
+            reset();
+
+            var changed = function() {
+                element.resizedAttached.call();
+            };
+
+            var addEvent = function(el, name, cb) {
+                if (el.attachEvent) {
+                    el.attachEvent('on' + name, cb);
+                } else {
+                    el.addEventListener(name, cb);
+                }
+            };
+
+            addEvent(expand, 'scroll', function() {
+                if (element.offsetWidth > lastWidth || element.offsetHeight > lastHeight) {
+                    changed();
+                }
+                reset();
+            });
+
+            addEvent(shrink, 'scroll',function() {
+                if (element.offsetWidth < lastWidth || element.offsetHeight < lastHeight) {
+                    changed();
+                }
+                reset();
+            });
         }
 
         if ('array' === typeof element

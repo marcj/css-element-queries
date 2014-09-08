@@ -70,15 +70,16 @@
          */
         function SetupInformation(element) {
             this.element = element;
-            this.options = [];
-            var i, j, option, width = 0, height = 0, value, actualValue, attrValues, attrValue, attrName;
+            this.options = {};
+            var key, option, width = 0, height = 0, value, actualValue, attrValues, attrValue, attrName;
 
             /**
-             * @param option {mode: 'min|max', property: 'width|height', value: '123px'}
+             * @param {Object} option {mode: 'min|max', property: 'width|height', value: '123px'}
              */
             this.addOption = function(option) {
-                this.options.push(option);
-            }
+                var idx = [option.mode, option.property, option.value].join(',');
+                this.options[idx] = option;
+            };
 
             var attributes = ['min-width', 'min-height', 'max-width', 'max-height'];
 
@@ -92,8 +93,12 @@
 
                 attrValues = {};
 
-                for (i = 0, j = this.options.length; i < j; i++) {
-                    option = this.options[i];
+                for (key in this.options) {
+                    if (!this.options.hasOwnProperty(key)){
+                        continue;
+                    }
+                    option = this.options[key];
+
                     value = convertToPx(this.element, option.value);
 
                     actualValue = option.property == 'width' ? width : height;
@@ -218,11 +223,18 @@
             for (var i = 0, j = document.styleSheets.length; i < j; i++) {
                 readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
             }
-        }
-    }
+        };
+
+        this.update = function() {
+            this.init();
+        };
+    };
 
     function init() {
-        new ElementQueries().init();
+        ElementQueries.instance = new ElementQueries().init();
+        ElementQueries.update = function() {
+            ElementQueries.instance.update();
+        }
     }
 
     if (window.addEventListener) {

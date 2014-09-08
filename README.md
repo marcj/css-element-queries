@@ -13,7 +13,7 @@ Features:
  - no interval/timeout detection. Truly event-based
  - no CSS modifications. Valid CSS Syntax
  - all CSS selectors available. Uses regular attribute selector
- - supports and tested in webkit, gecko and IE(8/9/10).
+ - supports and tested in webkit, gecko and IE(7/8/9/10/11).
  - `min-width`, `min-height`, `max-width` and `max-height` are supported so far
  - works with any layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3 transitions, fluid layout changes (also percent changes), pseudo classes (:hover etc.), window resizes and more
  - no Javascript-Framework dependency (works with jQuery, Mootools, etc.)
@@ -63,11 +63,8 @@ Issues
 ------
 
  - So far does not work on `img` tags. Wrapping with a `div` works fine though (See demo).
- - [only non-IE]: Adds additional hidden element into selected target element and forces target element to be relative or absolute.
+ - Adds additional hidden element into selected target element and forces target element to be relative or absolute.
  
-
-Event-Based resize detection inspired by [backalleycoder.com](http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/) <3
-
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/marcj/css-element-queries/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
