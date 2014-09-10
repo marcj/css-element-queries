@@ -1,7 +1,7 @@
 CSS Element Queries
 ===================
 
-Element Queries is a polyfill adding support for element based media-queries to all new browsers (incl. IE8+).
+Element Queries is a polyfill adding support for element based media-queries to all new browsers (incl. IE7+).
 It allows not only to define media-queries based on window-size but also adds 'media-queries' functionality depending on element (any selector supported)
 size while not causing performance lags due to event based implementation.
 
