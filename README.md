@@ -9,10 +9,10 @@ It's a proof-of-concept event-based CSS element dimension query with valid CSS s
 
 Features:
 
- - no performance issues
- - no interval/timeout detection. Truly event-based
+ - no performance issues since it listens on size changes of each element, not only on window.onresize (like all other element query polifills).
+ - no interval/timeout detection. Truly event-based through integrated ResizeSensor class.
  - no CSS modifications. Valid CSS Syntax
- - all CSS selectors available. Uses regular attribute selector
+ - all CSS selectors available. Uses regular attribute selector. No need to write rules in HTML.
  - supports and tested in webkit, gecko and IE(7/8/9/10/11).
  - `min-width`, `min-height`, `max-width` and `max-height` are supported so far
  - works with any layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3 transitions, fluid layout changes (also percent changes), pseudo classes (:hover etc.), window resizes and more
