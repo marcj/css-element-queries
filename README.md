@@ -9,7 +9,7 @@ It's a proof-of-concept event-based CSS element dimension query with valid CSS s
 
 Features:
 
- - no performance issues since it listens on size changes of each element, not only on window.onresize (like all other element query polifills).
+ - no performance issues since it listens only on size changes of elements that have element query rules defined through css. Other element query polifills only listen on `window.onresize` which causes performance issues and allows only to detect changes via window.resize event and not inside layout changes like css3 animation, :hover, DOM changes etc.
  - no interval/timeout detection. Truly event-based through integrated ResizeSensor class.
  - no CSS modifications. Valid CSS Syntax
  - all CSS selectors available. Uses regular attribute selector. No need to write rules in HTML.
