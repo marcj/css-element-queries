@@ -2,8 +2,8 @@
   "name": "css-element-queries",
   "version": "0.0.2",
   "main": [
-    "./src/js/ElementQueries.js",
-    "./src/js/ResizeSensor.js"
+    "./src/ElementQueries.js",
+    "./src/ResizeSensor.js"
   ],
   "ignore": [
     "**/.*",
