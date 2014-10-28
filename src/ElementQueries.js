@@ -154,7 +154,7 @@
          */
         function queueQuery(selector, mode, property, value) {
             var query;
-            if (document.querySelectorAll) query = document.querySelectorAll.bind(document);
+            if (document.querySelectorAll.bind) query = document.querySelectorAll.bind(document);
             if (!query && 'undefined' !== typeof $$) query = $$;
             if (!query && 'undefined' !== typeof jQuery) query = jQuery;
 
