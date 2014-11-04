@@ -221,7 +221,9 @@
          */
         this.init = function() {
             for (var i = 0, j = document.styleSheets.length; i < j; i++) {
-                readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
+                if (document.styleSheets[i].href && document.styleSheets[i].href.indexOf(document.domain) >= 0) {
+                    readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
+                }
             }
         };
 
