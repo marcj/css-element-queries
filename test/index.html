@@ -327,6 +327,29 @@
             }
         }
 
+        .dynamicElement {
+            margin: 50px;
+            width: 50px;
+
+            -moz-animation-name: animHeight;
+            animation-name: animHeight;
+            -webkit-animation-name: animHeight;
+
+            animation-duration: 3s;
+            -moz-animation-duration: 3s;
+            -webkit-animation-duration: 3s;
+            animation-iteration-count: infinite;
+            -webkit-animation-iteration-count: infinite;
+
+            display: inline-block;
+            border: 1px solid #eee;
+            background-color: #f9f9f9;
+        }
+
+        .dynamic {
+            margin: 15px;
+        }
+
     </style>
     Drag the gray line at the right to see it in action.
 </head>
@@ -378,7 +401,7 @@
             </div>
         </div>
 
-        <div style="height: 150px">
+        <div style="height: 200px">
             <div class="examplesResizerDemosXY">
                 <div id="example-5">
                     0 changes
@@ -425,6 +448,45 @@
                     box.innerHTML = (++changed) + ' changes. ' + box.getParent().getSize().x+'px/'+box.getParent().getSize().y+'px';
                 });
             })();
+        </script>
+        <div class="dynamic">
+            <input type="text" value="10" id="dynamicCount" />
+            <button onclick="addDynamic()">Add</button>
+            <button onclick="detachDynamic()">Detach</button>
+            <button onclick="removeDynamic()">Remove</button>
+            <div id="dynamicCounter"></div>
+            <div id="dynamicContainer"></div>
+        </div>
+        <script>
+            var container = $('dynamicContainer');
+            var dynamicCount = $('dynamicCount');
+            var dynamicCounter = $('dynamicCounter');
+
+            window.detachDynamic = function() {
+                container.getChildren().each(function(element) {
+                    ResizeSensor.detach(element);
+                });
+            };
+
+            window.removeDynamic = function() {
+                container.empty();
+            };
+
+            window.addDynamic = function() {
+                container.empty();
+                var i = 0, to = dynamicCount.value, div, counter = 0;
+                for (; i < to; i++) {
+                    div = new Element('div', {
+                        'class': 'dynamicElement',
+                        text: '#' + i
+                    }).inject(container);
+
+                    new ResizeSensor(div, function(){
+                        counter++;
+                        dynamicCounter.set('text', counter + ' changes.');
+                    });
+                }
+            }
         </script>
     </div>
 </body>

@@ -102,7 +102,9 @@
             reset();
 
             var changed = function() {
-                element.resizedAttached.call();
+                if (element.resizedAttached) {
+                    element.resizedAttached.call();
+                }
             };
 
             var addEvent = function(el, name, cb) {
@@ -139,6 +141,18 @@
         } else {
             attachResizeEvent(element, callback);
         }
-    }
+
+        this.detach = function() {
+            ResizeSensor.detach(element);
+        };
+    };
+
+    this.ResizeSensor.detach = function(element) {
+        if (element.resizeSensor) {
+            element.removeChild(element.resizeSensor);
+            delete element.resizeSensor;
+            delete element.resizedAttached;
+        }
+    };
 
 })();

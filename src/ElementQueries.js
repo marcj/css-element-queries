@@ -11,6 +11,10 @@
      * @constructor
      */
     var ElementQueries = this.ElementQueries = function() {
+
+        this.withTracking = false;
+        var elements = [];
+
         /**
          *
          * @param element
@@ -28,9 +32,8 @@
          *
          * @copyright https://github.com/Mr0grog/element-query/blob/master/LICENSE
          *
-         * @param element
-         * @param value
-         * @param units
+         * @param {HTMLElement} element
+         * @param {*} value
          * @returns {*}
          */
         function convertToPx(element, value) {
@@ -139,11 +142,15 @@
             } else {
                 element.elementQueriesSetupInformation = new SetupInformation(element);
                 element.elementQueriesSetupInformation.addOption(options);
-                new ResizeSensor(element, function() {
+                element.elementQueriesSensor = new ResizeSensor(element, function() {
                     element.elementQueriesSetupInformation.call();
                 });
             }
             element.elementQueriesSetupInformation.call();
+
+            if (this.withTracking) {
+                elements.push(element);
+            }
         }
 
         /**
@@ -218,23 +225,72 @@
 
         /**
          * Searches all css rules and setups the event listener to all elements with element query rules..
+         *
+         * @param {Boolean} withTracking allows and requires you to use detach, since we store internally all used elements
+         *                               (no garbage collection possible if you don not call .detach() first)
          */
-        this.init = function() {
+        this.init = function(withTracking) {
+            this.withTracking = withTracking;
             for (var i = 0, j = document.styleSheets.length; i < j; i++) {
                 readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
             }
         };
 
-        this.update = function() {
+        /**
+         *
+         * @param {Boolean} withTracking allows and requires you to use detach, since we store internally all used elements
+         *                               (no garbage collection possible if you don not call .detach() first)
+         */
+        this.update = function(withTracking) {
+            this.withTracking = withTracking;
             this.init();
+        };
+
+        this.detach = function() {
+            if (!this.withTracking) {
+                throw 'withTracking is not enabled. We can not detach elements since we don not store it.' +
+                'Use ElementQueries.withTracking = true; before domready.';
+            }
+
+            var element;
+            while (element = elements.pop()) {
+                ElementQueries.detach(element);
+            }
+
+            elements = [];
         };
     };
 
-    function init() {
-        ElementQueries.instance = new ElementQueries().init();
-        ElementQueries.update = function() {
-            ElementQueries.instance.update();
+    /**
+     *
+     * @param {Boolean} withTracking allows and requires you to use detach, since we store internally all used elements
+     *                               (no garbage collection possible if you don not call .detach() first)
+     */
+    ElementQueries.update = function(withTracking) {
+        ElementQueries.instance.update(withTracking);
+    };
+
+    /**
+     * Removes all sensor and elementquery information from the element.
+     *
+     * @param {HTMLElement} element
+     */
+    ElementQueries.detach = function(element) {
+        if (element.elementQueriesSetupInformation) {
+            element.elementQueriesSensor.detach();
+            delete element.elementQueriesSetupInformation;
+            delete element.elementQueriesSensor;
+            console.log('detached');
+        } else {
+            console.log('detached already', element);
         }
+    };
+
+    ElementQueries.withTracking = false;
+
+    function init() {
+        ElementQueries.instance = new ElementQueries();
+        ElementQueries.instance.init(ElementQueries.withTracking);
     }
 
     if (window.addEventListener) {
