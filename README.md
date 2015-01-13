@@ -62,8 +62,8 @@ Include the javascript files at the bottom and you're good to go. No custom java
 Issues
 ------
 
- - So far does not work on `img` tags. Wrapping with a `div` works fine though (See demo).
- - Adds additional hidden element into selected target element and forces target element to be relative or absolute.
+ - So far does not work on `img` and other elements that can't contain other elements. Wrapping with a `div` works fine though (See demo).
+ - Adds additional hidden elements into selected target element and forces target element to be relative or absolute.
  
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/marcj/css-element-queries/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
