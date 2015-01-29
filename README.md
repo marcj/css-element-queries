@@ -34,7 +34,7 @@ Example
     padding: 55px;
 }
 
-/* responsive images /*
+/* responsive images */
 .responsive-image img {
     width: 100%;
 }
