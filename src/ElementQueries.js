@@ -232,7 +232,13 @@
         this.init = function(withTracking) {
             this.withTracking = withTracking;
             for (var i = 0, j = document.styleSheets.length; i < j; i++) {
-                readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
+                try {
+                    readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
+                } catch(e) {
+                    if (e.name !== 'SecurityError') {
+                        throw e;
+                    }
+                }
             }
         };
 
