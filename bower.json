@@ -1,6 +1,6 @@
 {
   "name": "css-element-queries",
-  "version": "0.0.2",
+  "version": "0.2.0",
   "main": [
     "./src/ElementQueries.js",
     "./src/ResizeSensor.js"
