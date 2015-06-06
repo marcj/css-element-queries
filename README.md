@@ -1,6 +1,8 @@
 CSS Element Queries
 ===================
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/marcj/css-element-queries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 Element Queries is a polyfill adding support for element based media-queries to all new browsers (incl. IE7+).
 It allows not only to define media-queries based on window-size but also adds 'media-queries' functionality depending on element (any selector supported)
 size while not causing performance lags due to event based implementation.
@@ -64,9 +66,6 @@ Issues
 
  - So far does not work on `img` and other elements that can't contain other elements. Wrapping with a `div` works fine though (See demo).
  - Adds additional hidden elements into selected target element and forces target element to be relative or absolute.
- 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/marcj/css-element-queries/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 
 License
