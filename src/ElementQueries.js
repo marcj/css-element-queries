@@ -148,7 +148,7 @@
             }
             element.elementQueriesSetupInformation.call();
 
-            if (this.withTracking) {
+            if (ElementQueries.instance.withTracking && elements.indexOf(element) < 0) {
                 elements.push(element);
             }
         }
