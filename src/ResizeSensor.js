@@ -86,17 +86,28 @@
             var shrink = element.resizeSensor.childNodes[1];
             var shrinkChild = shrink.childNodes[0];
 
-            var lastWidth, lastHeight;
+            var lastShrinkWidth, lastShrinkHeight;
+            var lastExpandWidth, lastExpandHeight;
 
             var reset = function() {
+                resetExpand();
+                resetShrink();
+            };
+            
+            var resetExpand = function() {
                 expandChild.style.width = expand.offsetWidth + 10 + 'px';
                 expandChild.style.height = expand.offsetHeight + 10 + 'px';
                 expand.scrollLeft = expand.scrollWidth;
                 expand.scrollTop = expand.scrollHeight;
+                lastExpandWidth = element.offsetWidth;
+                lastExpandHeight = element.offsetHeight;
+            };
+            
+            var resetShrink = function() {
                 shrink.scrollLeft = shrink.scrollWidth;
                 shrink.scrollTop = shrink.scrollHeight;
-                lastWidth = element.offsetWidth;
-                lastHeight = element.offsetHeight;
+                lastShrinkWidth = element.offsetWidth;
+                lastShrinkHeight = element.offsetHeight;
             };
 
             reset();
@@ -116,17 +127,17 @@
             };
 
             addEvent(expand, 'scroll', function() {
-                if (element.offsetWidth > lastWidth || element.offsetHeight > lastHeight) {
+                if (element.offsetWidth > lastExpandWidth || element.offsetHeight > lastExpandHeight) {
                     changed();
                 }
-                reset();
+                resetExpand();
             });
 
             addEvent(shrink, 'scroll',function() {
-                if (element.offsetWidth < lastWidth || element.offsetHeight < lastHeight) {
+                if (element.offsetWidth < lastShrinkWidth || element.offsetHeight < lastShrinkHeight) {
                     changed();
                 }
-                reset();
+                resetShrink();
             });
         }
 
