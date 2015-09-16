@@ -90,24 +90,12 @@
             var lastExpandWidth, lastExpandHeight;
 
             var reset = function() {
-                resetExpand();
-                resetShrink();
-            };
-            
-            var resetExpand = function() {
                 expandChild.style.width = expand.offsetWidth + 10 + 'px';
                 expandChild.style.height = expand.offsetHeight + 10 + 'px';
                 expand.scrollLeft = expand.scrollWidth;
                 expand.scrollTop = expand.scrollHeight;
-                lastExpandWidth = element.offsetWidth;
-                lastExpandHeight = element.offsetHeight;
-            };
-            
-            var resetShrink = function() {
                 shrink.scrollLeft = shrink.scrollWidth;
                 shrink.scrollTop = shrink.scrollHeight;
-                lastShrinkWidth = element.offsetWidth;
-                lastShrinkHeight = element.offsetHeight;
             };
 
             reset();
@@ -130,14 +118,18 @@
                 if (element.offsetWidth > lastExpandWidth || element.offsetHeight > lastExpandHeight) {
                     changed();
                 }
-                resetExpand();
+                reset();
+                lastExpandWidth = element.offsetWidth;
+                lastExpandHeight = element.offsetHeight;
             });
 
             addEvent(shrink, 'scroll',function() {
                 if (element.offsetWidth < lastShrinkWidth || element.offsetHeight < lastShrinkHeight) {
                     changed();
                 }
-                resetShrink();
+                reset();
+                lastShrinkWidth = element.offsetWidth;
+                lastShrinkHeight = element.offsetHeight;
             });
         }
 
