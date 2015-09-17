@@ -86,8 +86,7 @@
             var shrink = element.resizeSensor.childNodes[1];
             var shrinkChild = shrink.childNodes[0];
 
-            var lastShrinkWidth, lastShrinkHeight;
-            var lastExpandWidth, lastExpandHeight;
+            var lastWidth, lastHeight;
 
             var reset = function() {
                 expandChild.style.width = expand.offsetWidth + 10 + 'px';
@@ -96,6 +95,8 @@
                 expand.scrollTop = expand.scrollHeight;
                 shrink.scrollLeft = shrink.scrollWidth;
                 shrink.scrollTop = shrink.scrollHeight;
+                lastWidth = element.offsetWidth;
+                lastHeight = element.offsetHeight;
             };
 
             reset();
@@ -113,24 +114,16 @@
                     el.addEventListener(name, cb);
                 }
             };
+            
+            var onScroll = function() {
+              if (element.offsetWidth != lastWidth || element.offsetHeight != lastHeight) {
+                  changed();
+              }
+              reset();
+            }
 
-            addEvent(expand, 'scroll', function() {
-                if (element.offsetWidth > lastExpandWidth || element.offsetHeight > lastExpandHeight) {
-                    changed();
-                }
-                reset();
-                lastExpandWidth = element.offsetWidth;
-                lastExpandHeight = element.offsetHeight;
-            });
-
-            addEvent(shrink, 'scroll',function() {
-                if (element.offsetWidth < lastShrinkWidth || element.offsetHeight < lastShrinkHeight) {
-                    changed();
-                }
-                reset();
-                lastShrinkWidth = element.offsetWidth;
-                lastShrinkHeight = element.offsetHeight;
-            });
+            addEvent(expand, 'scroll', onScroll);
+            addEvent(shrink, 'scroll', onScroll);
         }
 
         if ("[object Array]" === Object.prototype.toString.call(element)
