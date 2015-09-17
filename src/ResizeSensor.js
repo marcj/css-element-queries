@@ -86,28 +86,17 @@
             var shrink = element.resizeSensor.childNodes[1];
             var shrinkChild = shrink.childNodes[0];
 
-            var lastShrinkWidth, lastShrinkHeight;
-            var lastExpandWidth, lastExpandHeight;
+            var lastWidth, lastHeight;
 
             var reset = function() {
-                resetExpand();
-                resetShrink();
-            };
-            
-            var resetExpand = function() {
                 expandChild.style.width = expand.offsetWidth + 10 + 'px';
                 expandChild.style.height = expand.offsetHeight + 10 + 'px';
                 expand.scrollLeft = expand.scrollWidth;
                 expand.scrollTop = expand.scrollHeight;
-                lastExpandWidth = element.offsetWidth;
-                lastExpandHeight = element.offsetHeight;
-            };
-            
-            var resetShrink = function() {
                 shrink.scrollLeft = shrink.scrollWidth;
                 shrink.scrollTop = shrink.scrollHeight;
-                lastShrinkWidth = element.offsetWidth;
-                lastShrinkHeight = element.offsetHeight;
+                lastWidth = element.offsetWidth;
+                lastHeight = element.offsetHeight;
             };
 
             reset();
@@ -125,20 +114,16 @@
                     el.addEventListener(name, cb);
                 }
             };
+            
+            var onScroll = function() {
+              if (element.offsetWidth != lastWidth || element.offsetHeight != lastHeight) {
+                  changed();
+              }
+              reset();
+            }
 
-            addEvent(expand, 'scroll', function() {
-                if (element.offsetWidth > lastExpandWidth || element.offsetHeight > lastExpandHeight) {
-                    changed();
-                }
-                resetExpand();
-            });
-
-            addEvent(shrink, 'scroll',function() {
-                if (element.offsetWidth < lastShrinkWidth || element.offsetHeight < lastShrinkHeight) {
-                    changed();
-                }
-                resetShrink();
-            });
+            addEvent(expand, 'scroll', onScroll);
+            addEvent(shrink, 'scroll', onScroll);
         }
 
         if ("[object Array]" === Object.prototype.toString.call(element)
