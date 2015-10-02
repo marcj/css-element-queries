@@ -179,17 +179,19 @@
             }
         }
 
-        var regex = /,?([^,\n]*)\[[\s\t]*(min|max)-(width|height)[\s\t]*[~$\^]?=[\s\t]*"([^"]*)"[\s\t]*]([^\n\s\{]*)/mgi;
+        var regex = /,?([^,\n]*?)\[[\s\t]*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]([^\n\s\{]*?)/mgi;
 
         /**
          * @param {String} css
          */
         function extractQuery(css) {
             var match;
+            var smatch;
             css = css.replace(/'/g, '"');
             while (null !== (match = regex.exec(css))) {
                 if (5 < match.length) {
-                    queueQuery(match[1] || match[5], match[2], match[3], match[4]);
+                    smatch = match[1] || match[5] || smatch;
+                    queueQuery(smatch, match[2], match[3], match[4]);
                 }
             }
         }
