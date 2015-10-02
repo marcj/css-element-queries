@@ -128,8 +128,8 @@
         
         var elementType = Object.prototype.toString.call(element);
         if ('[object Array]' === elementType
-            || ('[object NodeList]' === elementTyle)
-            || ('[object HTMLCollection]' === elementTyle)
+            || ('[object NodeList]' === elementType)
+            || ('[object HTMLCollection]' === elementType)
             || ('undefined' !== typeof jQuery && element instanceof jQuery) //jquery
             || ('undefined' !== typeof Elements && element instanceof Elements) //mootools
             ) {
