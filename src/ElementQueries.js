@@ -187,10 +187,12 @@
         function extractQuery(css) {
             var match;
             var smatch;
+            var ieSelector = '.' + css.split('.')[1].trim();
+
             css = css.replace(/'/g, '"');
             while (null !== (match = regex.exec(css))) {
                 if (5 < match.length) {
-                    smatch = match[1] || match[5] || smatch;
+                    smatch = match[1] || match[5] || ieSelector || smatch;
                     queueQuery(smatch, match[2], match[3], match[4]);
                 }
             }
@@ -235,10 +237,24 @@
             this.withTracking = withTracking;
             for (var i = 0, j = document.styleSheets.length; i < j; i++) {
                 try {
-                    readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
+                    readRules(document.styleSheets[i].cssRules || document.styleSheets[i].cssText || document.styleSheets[i].rules);
                 } catch(e) {
-                    if (e.name !== 'SecurityError') {
-                        throw e;
+                     if (e.name !== 'SecurityError') {
+                        if (e.name === 'SyntaxError') {
+                            /* IE and edge will complain if the css classes are comma seperated
+                            * This is bad: 
+                            * .container[max-width='700px'], 
+                            * .container[max-width='500px'],
+                            * .container[max-width='300px'] {} 
+                            * This is good:
+                            * .container[max-width='700px'] {} 
+                            * .container[max-width='500px'] {}
+                            * .container[max-width='300px'] {} 
+                            * */
+                            throw 'You are probably mass assigning your css classes';
+                        } else {
+                            throw e;
+                        }
                     }
                 }
             }
