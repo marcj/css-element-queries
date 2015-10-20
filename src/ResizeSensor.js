@@ -125,14 +125,16 @@
             addEvent(expand, 'scroll', onScroll);
             addEvent(shrink, 'scroll', onScroll);
         }
-        
+
         var elementType = Object.prototype.toString.call(element);
-        if ('[object Array]' === elementType
+        var isCollectionTyped = ('[object Array]' === elementType
             || ('[object NodeList]' === elementType)
             || ('[object HTMLCollection]' === elementType)
             || ('undefined' !== typeof jQuery && element instanceof jQuery) //jquery
             || ('undefined' !== typeof Elements && element instanceof Elements) //mootools
-            ) {
+        );
+
+        if (isCollectionTyped) {
             var i = 0, j = element.length;
             for (; i < j; i++) {
                 attachResizeEvent(element[i], callback);
@@ -142,7 +144,14 @@
         }
 
         this.detach = function() {
-            ResizeSensor.detach(element);
+            if (isCollectionTyped) {
+                var i = 0, j = element.length;
+                for (; i < j; i++) {
+                    ResizeSensor.detach(element[i]);
+                }
+            } else {
+                ResizeSensor.detach(element);
+            }
         };
     };
 
