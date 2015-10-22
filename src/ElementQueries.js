@@ -46,9 +46,9 @@
                     return value * getEmSize(element);
                 case "rem":
                     return value * getEmSize();
-                // Viewport units!
-                // According to http://quirksmode.org/mobile/tableViewport.html
-                // documentElement.clientWidth/Height gets us the most reliable info
+                    // Viewport units!
+                    // According to http://quirksmode.org/mobile/tableViewport.html
+                    // documentElement.clientWidth/Height gets us the most reliable info
                 case "vw":
                     return value * document.documentElement.clientWidth / 100;
                 case "vh":
@@ -61,8 +61,8 @@
                     return value * chooser(vw, vh);
                 default:
                     return value;
-                // for now, not supporting physical units (since they are just a set number of px)
-                // or ex/ch (getting accurate measurements is hard)
+                    // for now, not supporting physical units (since they are just a set number of px)
+                    // or ex/ch (getting accurate measurements is hard)
             }
         }
 
@@ -74,7 +74,9 @@
         function SetupInformation(element) {
             this.element = element;
             this.options = {};
-            var key, option, width = 0, height = 0, value, actualValue, attrValues, attrValue, attrName;
+            var key, option, width = 0,
+                height = 0,
+                value, actualValue, attrValues, attrValue, attrName;
 
             /**
              * @param {Object} option {mode: 'min|max', property: 'width|height', value: '123px'}
@@ -97,7 +99,7 @@
                 attrValues = {};
 
                 for (key in this.options) {
-                    if (!this.options.hasOwnProperty(key)){
+                    if (!this.options.hasOwnProperty(key)) {
                         continue;
                     }
                     option = this.options[key];
@@ -117,7 +119,7 @@
                     }
 
                     if (!attrValues[attrName]) attrValues[attrName] = '';
-                    if (attrValue && -1 === (' '+attrValues[attrName]+' ').indexOf(' ' + attrValue + ' ')) {
+                    if (attrValue && -1 === (' ' + attrValues[attrName] + ' ').indexOf(' ' + attrValue + ' ')) {
                         attrValues[attrName] += ' ' + attrValue;
                     }
                 }
@@ -180,7 +182,7 @@
         }
 
         var regex = /,?([^,\n]*?)\[[\s\t]*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]([^\n\s\{]*?)/mgi;
-
+        var ieReg = /,?([^,\n]*?)\[*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]([^\n\s\{]*?)([.|\#]\w*[^,\n\t\s])/mgi;
         /**
          * @param {String} css
          */
@@ -188,12 +190,20 @@
             var match;
             var smatch;
             css = css.replace(/'/g, '"');
+
             while (null !== (match = regex.exec(css))) {
                 if (5 < match.length) {
                     smatch = match[1] || match[5] || smatch;
                     queueQuery(smatch, match[2], match[3], match[4]);
                 }
             }
+
+           while (null !== (match = ieReg.exec(css))) {
+                if (5 < match.length) {
+                    
+                    queueQuery(match[6], match[2], match[3], match[4]);
+                }
+            }            
         }
 
         /**
@@ -215,7 +225,7 @@
                         selector = rules[i].selectorText || rules[i].cssText;
                         if (-1 !== selector.indexOf('min-height') || -1 !== selector.indexOf('max-height')) {
                             extractQuery(selector);
-                        }else if(-1 !== selector.indexOf('min-width') || -1 !== selector.indexOf('max-width')) {
+                        } else if (-1 !== selector.indexOf('min-width') || -1 !== selector.indexOf('max-width')) {
                             extractQuery(selector);
                         }
                     } else if (4 === rules[i].type) {
@@ -235,11 +245,16 @@
             this.withTracking = withTracking;
             for (var i = 0, j = document.styleSheets.length; i < j; i++) {
                 try {
-                    readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
-                } catch(e) {
+                    readRules(document.styleSheets[i].cssRules || document.styleSheets[i].cssText || document.styleSheets[i].rules);
+                } catch (e) {
                     if (e.name !== 'SecurityError') {
-                        throw e;
+                        if (e.name === 'SyntaxError') {
+                            throw 'comma seperated css rules not allowed in IE ' + e.name;
+                        } else {
+                            throw e;
+                        }
                     }
+
                 }
             }
         };
@@ -257,7 +272,7 @@
         this.detach = function() {
             if (!this.withTracking) {
                 throw 'withTracking is not enabled. We can not detach elements since we don not store it.' +
-                'Use ElementQueries.withTracking = true; before domready.';
+                    'Use ElementQueries.withTracking = true; before domready.';
             }
 
             var element;
@@ -304,7 +319,7 @@
         ElementQueries.instance.init(ElementQueries.withTracking);
     };
 
-    var domLoaded = function (callback) {
+    var domLoaded = function(callback) {
         /* Internet Explorer */
         /*@cc_on
         @if (@_win32 || @_win64)
@@ -321,7 +336,7 @@
         }
         /* Safari, iCab, Konqueror */
         if (/KHTML|WebKit|iCab/i.test(navigator.userAgent)) {
-            var DOMLoadTimer = setInterval(function () {
+            var DOMLoadTimer = setInterval(function() {
                 if (/loaded|complete/i.test(document.readyState)) {
                     callback();
                     clearInterval(DOMLoadTimer);
