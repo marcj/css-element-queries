@@ -4,8 +4,7 @@
  * https://github.com/marcj/css-element-queries/blob/master/LICENSE.
  */
 ;
-(function() {
-
+define([ 'jquery' ], function ( jQuery ) {
     /**
      * Class for dimension change detection.
      *
@@ -14,7 +13,7 @@
      *
      * @constructor
      */
-    this.ResizeSensor = function(element, callback) {
+    ResizeSensor = function(element, callback) {
         /**
          *
          * @constructor
@@ -155,7 +154,7 @@
         };
     };
 
-    this.ResizeSensor.detach = function(element) {
+    ResizeSensor.detach = function(element) {
         if (element.resizeSensor) {
             element.removeChild(element.resizeSensor);
             delete element.resizeSensor;
@@ -163,4 +162,5 @@
         }
     };
 
-})();
+	 return ResizeSensor;
+});
