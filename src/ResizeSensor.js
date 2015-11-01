@@ -16,7 +16,6 @@
 	} else {
 		root.ResizeSensor = factory(root);
 	}
-	console.log('not reached');
 }(function(root, ResizeSensor, jQuery) {
     var previousResizeSensor = root.ResizeSensor;
     /**
