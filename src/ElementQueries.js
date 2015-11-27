@@ -13,7 +13,7 @@
 	if (typeof define === 'function' && define.amd) {
 		define([
 			'jquery',
-			'ResizeSensor',
+			'resizesensor',
 			'exports'
 		], function (jQuery, ResizeSensor, exports) {
 			return factory(root, exports, jQuery, ResizeSensor);

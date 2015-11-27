@@ -180,5 +180,11 @@
 		 return this;
 	 };
 
+	 if (typeof define === 'function' && define.amd ) {
+		 define( 'resizesensor', [], function() {
+			 return ResizeSensor;
+		 });
+	 }
+
 	 return ResizeSensor;
 }));
