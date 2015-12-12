@@ -159,7 +159,15 @@
          * @param {String} property width|height
          * @param {String} value
          */
+        var allQueries = {};
         function queueQuery(selector, mode, property, value) {
+            if (typeof(allQueries[mode]) == 'undefined') allQueries[mode] = {};
+            if (typeof(allQueries[mode][property]) == 'undefined') allQueries[mode][property] = {};
+            if (typeof(allQueries[mode][property][value]) == 'undefined') allQueries[mode][property][value] = selector;
+            else allQueries[mode][property][value] += ','+selector;
+        }
+
+        function executeQueries() {
             var query;
             if (document.querySelectorAll) query = document.querySelectorAll.bind(document);
             if (!query && 'undefined' !== typeof $$) query = $$;
@@ -169,14 +177,21 @@
                 throw 'No document.querySelectorAll, jQuery or Mootools\'s $$ found.';
             }
 
-            var elements = query(selector);
-            for (var i = 0, j = elements.length; i < j; i++) {
-                setupElement(elements[i], {
-                    mode: mode,
-                    property: property,
-                    value: value
-                });
+            for (var mode in allQueries) if (allQueries.hasOwnProperty(mode)) {
+              for (var property in allQueries[mode]) if (allQueries[mode].hasOwnProperty(property)) {
+                for (var value in allQueries[mode][property]) if (allQueries[mode][property].hasOwnProperty(value)) {
+                  var elements = query(allQueries[mode][property][value]);
+                  for (var i = 0, j = elements.length; i < j; i++) {
+                    setupElement(elements[i], {
+                      mode: mode,
+                      property: property,
+                      value: value
+                    });
+                  }
+                }
+              }
             }
+
         }
 
         var regex = /,?([^,\n]*?)\[[\s\t]*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]([^\n\s\{]*?)/mgi;
@@ -242,6 +257,7 @@
                     }
                 }
             }
+            executeQueries();
         };
 
         /**
@@ -320,7 +336,7 @@
             document.addEventListener('DOMContentLoaded', callback, false);
         }
         /* Safari, iCab, Konqueror */
-        if (/KHTML|WebKit|iCab/i.test(navigator.userAgent)) {
+        else if (/KHTML|WebKit|iCab/i.test(navigator.userAgent)) {
             var DOMLoadTimer = setInterval(function () {
                 if (/loaded|complete/i.test(document.readyState)) {
                     callback();
@@ -329,7 +345,7 @@
             }, 10);
         }
         /* Other web browsers */
-        window.onload = callback;
+        else window.onload = callback;
     };
 
     if (window.addEventListener) {
