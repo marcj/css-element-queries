@@ -4,13 +4,31 @@
  * https://github.com/marcj/css-element-queries/blob/master/LICENSE.
  */
 ;
-(function() {
+(function(factory) {
+	// Eastablish root object
+	var root = (typeof self == 'object' && self.self == self && self) ||
+		(typeof global == 'object' && global.global == global && global);
+
+	// Setup with dependency
+	if (typeof define === 'function' && define.amd) {
+		define([
+			'jquery',
+			'resizesensor',
+			'exports'
+		], function (jQuery, ResizeSensor, exports) {
+			return factory(root, exports, jQuery, ResizeSensor);
+		});
+	} else {
+		root.ElementQueries = factory(root);
+	}
+}(function(root, ElementQueries, jQuery, ResizeSensor) {
+	var previousElementQueries = root.ElementQueries;
     /**
      *
      * @type {Function}
      * @constructor
      */
-    var ElementQueries = this.ElementQueries = function() {
+    var ElementQueries = function() {
 
         this.withTracking = false;
         var elements = [];
@@ -179,7 +197,8 @@
             }
         }
 
-        var regex = /,?([^,\n]*?)\[[\s\t]*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]([^\n\s\{]*?)/mgi;
+        var regex = /,?([^,\n]*?)\[[\s\t]*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]([^\n\s\{]*)/mgi;
+        var ieReg = /,?([^,\n]*?)\[*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]([^\n\s\{]*?)([.|\#]\w*[^,\n\t\s])/mgi;
 
         /**
          * @param {String} css
@@ -190,10 +209,16 @@
             css = css.replace(/'/g, '"');
             while (null !== (match = regex.exec(css))) {
                 if (5 < match.length) {
-                    smatch = match[1] || match[5] || smatch;
+                    smatch = match[1] + match[5];
                     queueQuery(smatch, match[2], match[3], match[4]);
                 }
             }
+            while (null !== (match = ieReg.exec(css))) {
+                if (5 < match.length) {
+                    
+                    queueQuery(match[6], match[2], match[3], match[4]);
+                }
+            } 
         }
 
         /**
@@ -235,10 +260,14 @@
             this.withTracking = withTracking;
             for (var i = 0, j = document.styleSheets.length; i < j; i++) {
                 try {
-                    readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
+                    readRules(document.styleSheets[i].cssRules || document.styleSheets[i].cssText || document.styleSheets[i].rules);
                 } catch(e) {
                     if (e.name !== 'SecurityError') {
-                        throw e;
+                        if (e.name === 'SyntaxError') {
+                            throw 'comma seperated css rules not allowed in IE ' + e.name;
+                        } else {
+                            throw e;
+                        }
                     }
                 }
             }
@@ -338,5 +367,11 @@
         window.attachEvent('onload', ElementQueries.init);
     }
     domLoaded(ElementQueries.init);
+	 
+	 ElementQueries.noConflict = function() {
+		 root.ElementQueries = previousElementQueries;
+		 return this;
+	 };
 
-})();
+	 return ElementQueries;
+}));

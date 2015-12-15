@@ -3,9 +3,21 @@
  * directory of this distribution and at
  * https://github.com/marcj/css-element-queries/blob/master/LICENSE.
  */
-;
-(function() {
+(function(factory) {
+	// Eastablish root object
+	var root = (typeof self == 'object' && self.self == self && self) ||
+		(typeof global == 'object' && global.global == global && global);
 
+	// Setup with dependency
+	if (typeof define === 'function' && define.amd) {
+		define([ 'jquery', 'exports' ], function (jQuery, exports) {
+			return factory(root, exports, jQuery);
+		});
+	} else {
+		root.ResizeSensor = factory(root);
+	}
+}(function(root, ResizeSensor, jQuery) {
+    var previousResizeSensor = root.ResizeSensor;
     /**
      * Class for dimension change detection.
      *
@@ -14,7 +26,7 @@
      *
      * @constructor
      */
-    this.ResizeSensor = function(element, callback) {
+    ResizeSensor = function(element, callback) {
         /**
          *
          * @constructor
@@ -155,7 +167,7 @@
         };
     };
 
-    this.ResizeSensor.detach = function(element) {
+    ResizeSensor.detach = function(element) {
         if (element.resizeSensor) {
             element.removeChild(element.resizeSensor);
             delete element.resizeSensor;
@@ -163,4 +175,16 @@
         }
     };
 
-})();
+	 ResizeSensor.noConflict = function() {
+		 root.ResizeSensor = previousResizeSensor;
+		 return this;
+	 };
+
+	 if (typeof define === 'function' && define.amd ) {
+		 define( 'resizesensor', [], function() {
+			 return ResizeSensor;
+		 });
+	 }
+
+	 return ResizeSensor;
+}));
