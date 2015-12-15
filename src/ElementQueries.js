@@ -260,7 +260,7 @@
             this.withTracking = withTracking;
             for (var i = 0, j = document.styleSheets.length; i < j; i++) {
                 try {
-                    readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
+                    readRules(document.styleSheets[i].cssRules || document.styleSheets[i].cssText || document.styleSheets[i].rules);
                 } catch(e) {
                     if (e.name !== 'SecurityError') {
                         if (e.name === 'SyntaxError') {
