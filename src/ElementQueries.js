@@ -198,6 +198,7 @@
         }
 
         var regex = /,?([^,\n]*?)\[[\s\t]*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]([^\n\s\{]*?)/mgi;
+        var ieReg = /,?([^,\n]*?)\[*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]([^\n\s\{]*?)([.|\#]\w*[^,\n\t\s])/mgi;
 
         /**
          * @param {String} css
@@ -212,6 +213,12 @@
                     queueQuery(smatch, match[2], match[3], match[4]);
                 }
             }
+            while (null !== (match = ieReg.exec(css))) {
+                if (5 < match.length) {
+                    
+                    queueQuery(match[6], match[2], match[3], match[4]);
+                }
+            } 
         }
 
         /**
@@ -256,7 +263,11 @@
                     readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
                 } catch(e) {
                     if (e.name !== 'SecurityError') {
-                        throw e;
+                        if (e.name === 'SyntaxError') {
+                            throw 'comma seperated css rules not allowed in IE ' + e.name;
+                        } else {
+                            throw e;
+                        }
                     }
                 }
             }
