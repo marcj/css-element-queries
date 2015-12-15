@@ -197,7 +197,7 @@
             }
         }
 
-        var regex = /,?([^,\n]*?)\[[\s\t]*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]([^\n\s\{]*?)/mgi;
+        var regex = /,?([^,\n]*?)\[[\s\t]*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]([^\n\s\{]*)/mgi;
         var ieReg = /,?([^,\n]*?)\[*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]([^\n\s\{]*?)([.|\#]\w*[^,\n\t\s])/mgi;
 
         /**
@@ -209,7 +209,7 @@
             css = css.replace(/'/g, '"');
             while (null !== (match = regex.exec(css))) {
                 if (5 < match.length) {
-                    smatch = match[1] || match[5] || smatch;
+                    smatch = match[1] + match[5];
                     queueQuery(smatch, match[2], match[3], match[4]);
                 }
             }
