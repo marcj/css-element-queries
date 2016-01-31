@@ -5,6 +5,13 @@
  */
 ;
 (function() {
+
+    var ResizeSensor = window.ResizeSensor;
+
+    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+        ResizeSensor = require('./ResizeSensor');
+    }
+
     /**
      *
      * @type {Function}
@@ -350,11 +357,16 @@
         else window.onload = callback;
     };
 
-    if (window.addEventListener) {
-        window.addEventListener('load', ElementQueries.init, false);
-    } else {
-        window.attachEvent('onload', ElementQueries.init);
-    }
-    domLoaded(ElementQueries.init);
+    ElementQueries.listen = function() {
+        domLoaded(ElementQueries.init);
+    };
 
+    // make available to common module loader
+    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+        module.exports = ElementQueries;
+    }
+    else {
+        window.ElementQueries = ElementQueries;
+        ElementQueries.listen();
+    }
 })();

@@ -61,6 +61,22 @@ Include the javascript files at the bottom and you're good to go. No custom java
 <script src="src/ElementQueries.js"></script>
 ```
 
+## Module Loader
+
+If you're using a module loader you need to trigger the event listening or initialization yourself:
+
+```javascript
+var EQ = require('node_modules/css-element-queries/ElementQueries');
+
+ //attaches to DOMLoadContent
+EQ.listen();
+
+//or if you want to trigger it yourself.
+// Parse all available CSS and attach ResizeSensor to those elements which have rules attached
+// (make sure this is called after 'load' event, because CSS files are not ready when domReady is fired.
+EQ.init();
+```
+
 Issues
 ------
 

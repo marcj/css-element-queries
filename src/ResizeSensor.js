@@ -14,7 +14,7 @@
      *
      * @constructor
      */
-    this.ResizeSensor = function(element, callback) {
+    var ResizeSensor = function(element, callback) {
         /**
          *
          * @constructor
@@ -120,7 +120,7 @@
                   changed();
               }
               reset();
-            }
+            };
 
             addEvent(expand, 'scroll', onScroll);
             addEvent(shrink, 'scroll', onScroll);
@@ -155,12 +155,20 @@
         };
     };
 
-    this.ResizeSensor.detach = function(element) {
+    ResizeSensor.detach = function(element) {
         if (element.resizeSensor) {
             element.removeChild(element.resizeSensor);
             delete element.resizeSensor;
             delete element.resizedAttached;
         }
     };
+
+    // make available to common module loader
+    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+        module.exports = ResizeSensor;
+    }
+    else {
+        window.ResizeSensor = ResizeSensor;
+    }
 
 })();
