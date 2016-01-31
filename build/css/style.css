@@ -111,18 +111,6 @@ p.seperator {
 .examplesResizerDemos h2 {
   font-size: 20px; }
 
-.resizerDemo-handler {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 9px;
-  padding: 0 1px;
-  background-color: gray;
-  cursor: ew-resize;
-  line-height: 5px;
-  font-size: 14px; }
-
 .resizerDemo-info {
   position: absolute;
   right: 10px;
@@ -142,13 +130,25 @@ p.seperator {
   margin-right: auto;
   font-family: monospace; }
 
+.resizerDemo-handler {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  padding: 0 1px;
+  background-color: gray;
+  cursor: ew-resize;
+  line-height: 5px;
+  font-size: 14px; }
+
 .resizerDemo-handler:before {
   content: '• • •';
   color: white;
   width: 10px;
   position: absolute;
   top: 50%;
-  left: 0;
+  left: 5px;
   font-weight: 300;
   line-height: 6px;
   font-size: 11px;
