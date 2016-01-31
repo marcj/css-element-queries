@@ -1,0 +1,323 @@
+.examplesResizerDemos,
+.examplesResizerDemosXY {
+    background-color: white;
+    width: 550px;
+    margin: 15px;
+    padding: 15px 0;
+    position: relative;
+    border-left: 1px dashed silver;
+    border-bottom: 1px dashed silver;
+}
+
+.examplesResizerDemosXY {
+    height: 150px;
+}
+
+.resizerDemo-handler {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    padding: 0 1px;
+    background-color: gray;
+    cursor: ew-resize;
+    line-height: 5px;
+    font-size: 14px;
+}
+
+.resizerDemo-handler:before {
+    content: '• • •';
+    color: white;
+    width: 5px;
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+}
+
+.breaker {
+    clear: both;
+}
+
+
+
+.widget-name h2 {
+    font-size: 12px;
+}
+
+.widget-name[min-width~="400px"] h2 {
+    font-size: 18px;
+}
+
+.widget-name[min-width~="600px"] h2 {
+    padding: 55px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.widget-name[min-width~="700px"] h2 {
+    font-size: 34px;
+    color: red;
+}
+
+
+.example-1 {
+    max-width: 400px;
+    border: 1px solid silver;
+    background-color: #eee;
+    margin: auto;
+    padding: 50px;
+    text-align: center;
+    min-width: 120px;
+    transition:all .2s ease;
+}
+
+.example-1[max-width~="400px"] {
+    padding: 5px;
+}
+
+.example-1[max-width~="200px"] {
+    text-align: left;
+    font-size: 12px;
+}
+
+.example-2 {
+    border: 1px solid silver;
+    margin: 25px;
+    background-color: #eee;
+}
+
+.example-2-first,
+.example-2-second {
+    background-color: black;
+    color: white;
+    padding: 2px;
+    width: 45%;
+    margin: 5px;
+    float: left;
+}
+
+.example-2-second {
+    float: right;
+}
+
+.example-2-box {
+    background-color: gray;
+    color: white;
+    margin: 5px;
+    padding: 2px;
+}
+
+.example-2[max-width~="300px"] .example-2-first,
+.example-2[max-width~="300px"] .example-2-second {
+    float: none;
+    background-color: #4186ff;
+    width: auto;
+}
+
+.example-2[max-width~="350px"] .example-2-box {
+    background-color: #ba9196;
+}
+
+.example-2[max-width~="300px"] .example-2-box {
+    background-color: #ba6377;
+}
+
+.example-2[max-width~="200px"] .example-2-box {
+    background-color: #ba4349;
+}
+
+.example-2[max-width~="100px"] .example-2-box {
+    background-color: #ba000d;
+}
+
+.example-3,
+.example-4 {
+    border: 1px solid silver;
+    margin: 25px;
+    background-color: #eee;
+}
+
+#example-5 {
+    overflow: visible;
+    position: relative;
+    z-index: 150;
+    text-align: center;
+}
+
+#example-3-box,
+#example-4-box {
+    background-color: gray;
+    color: white;
+    margin: auto;
+    width: 50%;
+    padding: 50px;
+}
+
+.example-3-box-start,
+.example-4-box-start {
+    animation-duration: 3s;
+    -moz-animation-duration: 3s;
+    -webkit-animation-duration: 3s;
+    -moz-animation-name: anim;
+    animation-name: anim;
+    -webkit-animation-name: anim;
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
+}
+
+.example-4-box-start {
+    -moz-animation-name: animHeight;
+    animation-name: animHeight;
+    -webkit-animation-name: animHeight;
+}
+
+#example-3-log,
+#example-4-log {
+    background-color: white;
+    padding: 2px;
+    margin: 5px;
+}
+
+@keyframes anim {
+    0% {
+        padding: 50px;
+        width: 50%;
+        background-color: gray;
+    }
+
+    50% {
+        padding: 10px;
+        width: 40%;
+        background-color: #806522;
+    }
+
+    100% {
+        padding: 50px;
+        width: 50%;
+        background-color: gray;
+    }
+}
+
+@-webkit-keyframes anim {
+    0% {
+        padding: 50px;
+        width: 50%;
+        background-color: gray;
+    }
+
+    50% {
+        padding: 10px;
+        width: 40%;
+        background-color: #806522;
+    }
+
+    100% {
+        padding: 50px;
+        width: 50%;
+        background-color: gray;
+    }
+}
+
+@-moz-keyframes anim {
+    0% {
+        padding: 50px;
+        width: 50%;
+        background-color: gray;
+    }
+
+    50% {
+        padding: 10px;
+        width: 40%;
+        background-color: #806522;
+    }
+
+    100% {
+        padding: 50px;
+        width: 50%;
+        background-color: gray;
+    }
+}
+
+@keyframes animHeight {
+    0% {
+        padding: 50px;
+        height: 50%;
+        background-color: gray;
+    }
+
+    50% {
+        padding: 10px;
+        height: 40%;
+        background-color: #806522;
+    }
+
+    100% {
+        padding: 50px;
+        height: 50%;
+        background-color: gray;
+    }
+}
+
+@-webkit-keyframes animHeight {
+    0% {
+        padding: 50px;
+        height: 50%;
+        background-color: gray;
+    }
+
+    50% {
+        padding: 10px;
+        height: 40%;
+        background-color: #806522;
+    }
+
+    100% {
+        padding: 50px;
+        height: 50%;
+        background-color: gray;
+    }
+}
+
+@-moz-keyframes animHeight {
+    0% {
+        padding: 50px;
+        height: 50%;
+        background-color: gray;
+    }
+
+    50% {
+        padding: 10px;
+        height: 40%;
+        background-color: #806522;
+    }
+
+    100% {
+        padding: 50px;
+        height: 50%;
+        background-color: gray;
+    }
+}
+
+.dynamicElement {
+    margin: 50px;
+    width: 50px;
+
+    -moz-animation-name: animHeight;
+    animation-name: animHeight;
+    -webkit-animation-name: animHeight;
+
+    animation-duration: 3s;
+    -moz-animation-duration: 3s;
+    -webkit-animation-duration: 3s;
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
+
+    display: inline-block;
+    border: 1px solid #eee;
+    background-color: #f9f9f9;
+}
+
+.dynamic {
+    margin: 15px;
+}
