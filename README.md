@@ -1,5 +1,5 @@
-CSS Element Queries
-===================
+# CSS Element Queries
+
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/marcj/css-element-queries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
@@ -15,43 +15,53 @@ Features:
  - no interval/timeout detection. Truly event-based through integrated ResizeSensor class.
  - no CSS modifications. Valid CSS Syntax
  - all CSS selectors available. Uses regular attribute selector. No need to write rules in HTML.
- - supports and tested in webkit, gecko and IE(7/8/9/10/11).
+ - supports and tested in webkit, gecko and IE(7/8/9/10/11)
  - `min-width`, `min-height`, `max-width` and `max-height` are supported so far
  - works with any layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3 transitions, fluid layout changes (also percent changes), pseudo classes (:hover etc.), window resizes and more
  - no Javascript-Framework dependency (works with jQuery, Mootools, etc.)
+ - Works beautiful for responsive images without FOUC
 
 More demos and information: http://marcj.github.io/css-element-queries/
 
-Example
--------
+## Examples
+
+### Element Query
 
 ```css
-.widget-name {
-    padding: 25px;
+.widget-name h2 {
+    font-size: 12px;
 }
-.widget-name[max-width="200px"] {
-    padding: 0;
+
+.widget-name[min-width~="400px"] h2 {
+    font-size: 18px;
 }
-.widget-name[min-width="500px"] {
+
+.widget-name[min-width~="900px"] h2 {
     padding: 55px;
+    text-align: center;
+    font-size: 24px;
 }
 
-/* responsive images */
-.responsive-image img {
-    width: 100%;
+.widget-name[min-width~="700px"] h2 {
+    font-size: 34px;
+    color: red;
 }
+```
 
-.responsive-image[max-width^='400px'] img {
-    content: url(demo/image-400px.jpg);
-}
+```html
+<div class="widget-name">
+   <h2>Element responsiveness FTW!</h2>
+</div>
+```
 
-.responsive-image[max-width^='1000px'] img {
-    content: url(demo/image-1000px.jpg);
-}
+### Responsive image
 
-.responsive-image[min-width='1000px'] img {
-    content: url(demo/image-full.jpg);
-}
+```html
+    <div data-responsive-image>
+        <img data-src="http://placehold.it/350x150"/>
+        <img min-width="350" data-src="http://placehold.it/700x300"/>
+        <img min-width="700" data-src="http://placehold.it/1400x600"/>
+    </div>
 ```
 
 Include the javascript files at the bottom and you're good to go. No custom javascript calls needed.
@@ -60,6 +70,13 @@ Include the javascript files at the bottom and you're good to go. No custom java
 <script src="src/ResizeSensor.js"></script>
 <script src="src/ElementQueries.js"></script>
 ```
+
+## See it in action:
+
+Here live http://marcj.github.io/css-element-queries/.
+
+![Demo](http://marcj.github.io/css-element-queries/images/css-element-queries-demo.gif)
+
 
 ## Module Loader
 
@@ -77,13 +94,12 @@ EQ.listen();
 EQ.init();
 ```
 
-Issues
-------
+## Issues
 
  - So far does not work on `img` and other elements that can't contain other elements. Wrapping with a `div` works fine though (See demo).
  - Adds additional hidden elements into selected target element and forces target element to be relative or absolute.
 
 
-License
--------
-MIT license. Copyright [Marc J. Schmidt](http://marcjschmidt.de/).
+## License
+
+MIT license. Copyright [Marc J. Schmidt](https://twitter.com/MarcJSchmidt).
