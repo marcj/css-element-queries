@@ -29,6 +29,9 @@ html, body {
 .wrapper h1:first-child {
   margin-top: 0; }
 
+footer {
+  padding: 25px 0; }
+
 h1 {
   font-weight: 300;
   padding-bottom: 25px; }
