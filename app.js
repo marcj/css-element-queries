@@ -1,44 +1,107 @@
 var EQ = require('./css-element-queries/src/ElementQueries');
 var ResizeSensor = require('./css-element-queries/src/ResizeSensor');
+var Hammer = require('hammerjs/hammer');
+
+require('codemirror/mode/xml/xml');
+require('codemirror/mode/javascript/javascript');
+require('codemirror/mode/css/css');
+require('codemirror/mode/htmlmixed/htmlmixed');
+window.jQuery = window.$ = require('jQuery');
+
+var CodeMirror = require('codemirror/lib/codemirror');
+
+$(window).load(function () {
+    console.log('ready');
+
+    $("textarea.html").each(function(idx, textarea) {
+        CodeMirror.fromTextArea(textarea, {
+            lineNumbers: true,
+            mode: "htmlmixed"
+        });
+    });
+
+    $("textarea.css").each(function(idx, textarea) {
+        CodeMirror.fromTextArea(textarea, {
+            lineNumbers: true,
+            mode: "css"
+        });
+    });
+
+    $("textarea.javascript").each(function(idx, textarea) {
+        CodeMirror.fromTextArea(textarea, {
+            lineNumbers: true,
+            mode: "javascript"
+        });
+    });
+});
 
 EQ.listen();
 
-var ResizerDemo = new Class({
-    y: null,
-    initialize: function(container) {
-        this.container = container;
-        this.setupLayout();
-    },
+//var ResizerDemo = new Class({
+//    y: null,
+//    initialize: function(container) {
+//        this.container = container;
+//        this.setupLayout();
+//    },
+//
+//    setupLayout: function(){
+//        this.handler = new Element('div', {
+//            'class': 'resizerDemo-handler'
+//        }).inject(this.container);
+//
+//        var info = new Element('div', {
+//            'class': 'resizerDemo-info'
+//        }).inject(this.container);
+//
+//        this.container.makeResizable({
+//            snap: 0,
+//            handle: this.handler,
+//            onDrag: function(e) {
+//                info.set('text', e.clientWidth + 'px x ' + e.clientHeight + 'px');
+//            },
+//            modifiers: {
+//                'x': 'width',
+//                'y': this.y
+//            }
+//        });
+//    }
+//});
+//
+//var ResizeDemoXY = new Class({
+//    Extends: ResizerDemo,
+//    y: 'height'
+//});
 
-    setupLayout: function(){
-        this.handler = new Element('div', {
-            'class': 'resizerDemo-handler'
-        }).inject(this.container);
+function ResizerDemo(element) {
+    element = $(element);
+    var handler = $('<div class="resizerDemo-handler"></div>');
+    var info = $('<div class="resizerDemo-info"></div>');
 
-        this.container.makeResizable({
-            snap: 0,
-            handle: this.handler,
-            modifiers: {
-                'x': 'width',
-                'y': this.y
-            }
-        });
-    }
-});
+    element.append(handler);
+    element.append(info);
 
-var ResizeDemoXY = new Class({
-    Extends: ResizerDemo,
-    y: 'height'
-});
+    var hammer = new Hammer(handler[0], {recognizers: [
+        [Hammer.Pan, { threshold: 0}]
+    ]});
 
-window.addEvent('domready', function(){
-    $$('.examplesResizerDemos').each(function(resizer){
-        new ResizerDemo(resizer);
+    var startWidth;
+    element.on('mousedown', function(e){
+        e.preventDefault();
     });
-    $$('.examplesResizerDemosXY').each(function(resizer){
-        new ResizeDemoXY(resizer);
+    hammer.on('panstart', function(e) {
+        startWidth = element[0].clientWidth;
     });
 
+    hammer.on('panmove', function(e) {
+        element[0].style.width = (startWidth + e.deltaX) + 'px';
+        info.html(element[0].clientWidth + 'px x ' + element[0].clientHeight + 'px');
+    })
+}
+
+$( document ).ready(function(){
+    $('.examplesResizerDemos').each(function(idx, element){
+        new ResizerDemo(element);
+    });
 
     perfTest();
     example3();
@@ -47,42 +110,39 @@ window.addEvent('domready', function(){
 });
 
 function perfTest(){
-    var container = $('dynamicContainer');
-    var dynamicCount = $('dynamicCount');
-    var dynamicCounter = $('dynamicCounter');
+    var container = $('#dynamicContainer');
+    var dynamicCount = $('#dynamicCount');
+    var dynamicCounter = $('#dynamicCounter');
 
     window.detachDynamic = function() {
-        container.getChildren().each(function(element) {
+        container.children().each(function(idx, element) {
             ResizeSensor.detach(element);
         });
     };
 
     window.removeDynamic = function() {
-        container.empty();
+        container.html('');
     };
 
     window.addDynamic = function() {
-        container.empty();
-        var i = 0, to = dynamicCount.value, div, counter = 0;
+        container.html('');
+        var i = 0, to = dynamicCount.val(), div, counter = 0;
         for (; i < to; i++) {
-            div = new Element('div', {
-                'class': 'dynamicElement',
-                text: '#' + i
-            }).inject(container);
+            div = $('<div class="dynamicElement">#'+i+'</div>');
+            container.append(div);
 
             new ResizeSensor(div, function(){
                 counter++;
-                dynamicCounter.set('text', counter + ' changes.');
+                dynamicCounter.html(counter + ' changes.');
             });
         }
     }
 }
 
 function example3(){
-
-    var logger = document.id('example-3-log');
-    var box = document.id('example-3-box');
-    document.id('startStop3').addEvent('click', function(){
+    var logger = $('#example-3-log');
+    var box = $('#example-3-box');
+    $('#startStop3').on('click', function(){
         if (box.hasClass('example-3-box-start')) {
             box.removeClass('example-3-box-start');
         } else {
@@ -90,15 +150,15 @@ function example3(){
         }
     });
     new ResizeSensor(box, function(el){
-        logger.set('html', 'Changed to ' + box.getSize().x+'px width.');
+        logger.html('Changed to ' + box[0].clientWidth+'px width.');
     });
 
 }
 
 function example4(){
-    var logger = document.id('example-4-log');
-    var box = document.id('example-4-box');
-    document.id('startStop4').addEvent('click', function(){
+    var logger = $('#example-4-log');
+    var box = $('#example-4-box');
+    $('#startStop4').on('click', function(){
         if (box.hasClass('example-4-box-start')) {
             box.removeClass('example-4-box-start');
         } else {
@@ -106,14 +166,14 @@ function example4(){
         }
     });
     new ResizeSensor(box, function(){
-        logger.set('html', 'Changed to ' + box.getSize().y+'px height.');
+        logger.html('Changed to ' + box[0].clientWidth+'px height.');
     });
 }
 
 function example5(){
-    var box = document.id('example-5');
+    var box = $('#example-5');
     var changed = 0;
-    new ResizeSensor(box.getParent(), function(){
-        box.innerHTML = (++changed) + ' changes. ' + box.getParent().getSize().x+'px/'+box.getParent().getSize().y+'px';
+    new ResizeSensor(box.parent(), function(){
+        box[0].innerHTML = (++changed) + ' changes. ' + box.parent()[0].clientWidth+'px/'+box.parent()[0].clientHeight+'px';
     });
 }

@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
     <title>Css-element-queries by marcj</title>
+    <link rel="stylesheet" type="text/css" href="build/css/codemirror.css">
+    <link rel="stylesheet" type="text/css" href="build/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="build/css/style.css">
 
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/mootools/1.5.0/mootools-core-full-nocompat.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/mootools-more/1.5.0/mootools-more-yui-compressed.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <script src="./build/js/app.js"></script>
+    <script src="./build/js/bootstrap.min.js"></script>
 
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -21,117 +23,361 @@
 
 <div class="wrapper">
 
-    <h1>CSS-Element-Queries - Element responsiveness</h1>
+    <h1>CSS-Element-Queries
+        <div class="sub">Element responsiveness for a modern web</div>
+    </h1>
 
     <div class="text">
-        A proof-of-concept event-based CSS element dimension query with valid CSS selector syntax.
+        <p>An event-based CSS element dimension query library with valid CSS selector syntax to change styles and allow
+            responsive images based on element's dimensions and not window's viewport.</p>
 
-        This means:
+        <p>It's exactly what we need when it comes to responsive <a href="https://www.polymer-project.org">Web
+            Components</a>.</p>
 
-        <ul>
-            <li>High-speed.</li>
-            <li>No interval/timeout detection. It's truly event-based.</li>
-            <li>No CSS modifications. Valid CSS Syntax.</li>
-            <li>All CSS selectors available. It uses the normal attribute selector.</li>
-            <li>Support and tested in webkit, gecko and internet explorer(7/8/9/10/11).</li>
-            <li>min-width, min-height, max-width and max-height are yet supported.</li>
-            <li>It works for actual all layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3
-                transitions, fluid layout changes (parent changes too), pseudo classes (:hover etc), window resizes,
-                etc.
-            </li>
-            <li>No Javascript-Framework dependency, so works with jQuery, Mootools, etc.</li>
-        </ul>
+        <div class="download-buttons">
+            <div class="btn-group">
+                <div class="pull-left" style="padding-top: 7px;">
+                    <iframe class="github-likes" src="https://ghbtns.com/github-btn.html?user=marcj&amp;repo=css-element-queries&amp;type=star&amp;count=true"
+                            frameborder="0" scrolling="0" width="110px" height="20px"></iframe>
+                </div>
+            </div>
+                    <a href="https://github.com/marcj/css-element-queries" class="btn btn-primary"><i class="fa fa-github"></i> View On GitHub</a>
+                    <a href="https://twitter.com/MarcJSchmidt" class="btn btn-primary"><i class="fa fa-twitter"></i> Powered by @MarcJSchmidt</a>
+        </div>
+
+        <p class="seperator"></p>
     </div>
 
+    <h2>Installation</h2>
+
+    <h3>Download</h3>
+
+    <div class="download-buttons">
+        <span class="pull-left">Current Version: 0.3.1</span>
+
+        <div class="btn-group" role="group">
+            <a href="https://github.com/marcj/css-element-queries/zipball/master" class="btn btn-primary"><i class="fa fa-cloud-download"></i> ZIP</a>
+            <a href="https://github.com/marcj/css-element-queries/tarball/master" class="btn btn-default"><i class="fa fa-file-archive-o"></i> TAR</a>
+        </div>
+    </div>
+
+    Download the zip file with the buttons on the right side and include both files at the head section of your page.
+    ElementQueries start automatically to listen to <a href="https://developer.mozilla.org/en/docs/Web/API/GlobalEventHandlers/onload">window.load event</a> and parses
+    all available css files to attach the ResizeSensor and start the magic.
+
+
+    <div class="code html code-full">
+        <textarea class="html">
+<script src="css-element-queries/src/ResizeSensor.js"></script>
+<script src="css-element-queries/src/ElementQueries.js"></script></textarea>
+    </div>
+
+    <h3>NPM</h3>
+    <div class="bash">
+        npm install css-element-queries --save
+    </div>
+
+    <div class="code javascript code-full">
+        <textarea class="javascript">
+var ElementQueries = require('css-element-queries/src/ElementQueries');
+
+// attaches to DOMLoadContent
+EQ.listen();
+
+// or if you want to trigger it yourself:
+// 'init' parses all available CSS and attach ResizeSensor to those elements which
+// have rules attached (make sure this is called after 'load' event, because
+// CSS files are not ready when domReady is fired.
+// Use this function if you have dynamically created HTMLElements
+// (through ajax calls or something)
+EQ.init();</textarea>
+    </div>
+
+
+    <p class="seperator"></p>
+    <h3>Highlights</h3>
+    <p>&nbsp;</p>
+
+    <ul>
+        <li>High-speed.</li>
+        <li>No interval/timeout detection like in most resize sensor out there. It's truly event-based.</li>
+        <li>No CSS modifications. Valid CSS Syntax.</li>
+        <li>All CSS selectors available. It uses the normal attribute selector.</li>
+        <li>Support and tested in webkit, gecko and internet explorer(7/8/9/10/11).</li>
+        <li>min-width, min-height, max-width and max-height are yet supported.</li>
+        <li>It works for all layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3
+            transitions, fluid layout changes (parent changes too), pseudo classes (:hover etc), window resizes,
+            etc.
+        </li>
+        <li>No Javascript-Framework dependency, so works with jQuery, Mootools, etc.</li>
+    </ul>
+
+    <p class="seperator"></p>
+    <h2>Examples
+        <div class="sub">
+            Drag the gray line at the right to see it in action.
+        </div>
+    </h2>
     <div class="demos">
-        Drag the gray line at the right to see it in action.
         <div class="examples">
-            <div class="examplesResizerDemos">
-                <div class="example-readme">
-                    <div class="widget-name">
-                        <h2>Element responsiveness FTW!</h2>
+            <div class="example">
+                <h2>Responsive Text</h2>
+                <div class="examplesResizerDemos">
+                    <div class="example-readme">
+                        <div class="widget-name">
+                            <h2>Element responsiveness FTW!</h2>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="examplesResizerDemos">
-                <div class="example-responsive-image">
-                    <div data-responsive-image>
-                        <img data-src="http://placehold.it/350x150"/>
-                        <img min-width="350" data-src="http://placehold.it/700x300"/>
-                        <img min-width="700" data-src="http://placehold.it/1400x600"/>
-                    </div>
+                <div class="code html">
+                    <textarea class="html"><div class="widget-name">
+    <h2>Element responsiveness FTW!</h2>
+</div></textarea>
+                </div>
+                <div class="code css">
+                    <textarea class="css">
+.widget-name h2 {
+    font-size: 12px;
+}
 
-                    The image above has a default of 700px. Shrink or expend the container too see responsive image
-                    working.
-                    Thanks <a href="http://placehold.it/">@placehold.it</a>
+.widget-name[min-width~="400px"] h2 {
+    font-size: 18px;
+}
+
+.widget-name[min-width~="600px"] h2 {
+    padding: 55px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.widget-name[min-width~="700px"] h2 {
+    font-size: 34px;
+    color: red;
+}</textarea>
                 </div>
+                <div class="breaker"></div>
             </div>
-            <div class="examplesResizerDemos">
-                <div class="example-1">
-                    <h2>Demo 1</h2>
-                    This is content from the first responsive demo without media queries. It uses the element queries
-                    provided by this library.
-                </div>
-            </div>
-            <div class="examplesResizerDemos">
-                <div class="example-2">
-                    <h2>Demo 2</h2>
-                    <div class="example-2-box">
-                        Box
-                    </div>
-                    <div class="example-2-first">
-                        First 1/2 box
-                    </div>
-                    <div class="example-2-second">
-                        Second 1/2 box
-                    </div>
-                    <div class="breaker"></div>
-                </div>
-            </div>
-            <div class="examplesResizerDemos">
-                <div class="example-3">
-                    <h2>Demo 3 - width
-                        <button id="startStop3">Start/Stop</button>
-                    </h2>
-                    <div id="example-3-box">
-                        This box is animated through css transitions.
-                        We attached a resize-listener to this box. See below.
-                    </div>
-                    <div id="example-3-log">
-                        No changes.
+            <div class="example">
+                <h2>Responsive Image</h2>
+                <div class="examplesResizerDemos">
+                    <div class="example-responsive-image">
+                        <div data-responsive-image>
+                            <img data-src="http://placehold.it/350x150"/>
+                            <img min-width="350" data-src="http://placehold.it/700x300"/>
+                            <img min-width="700" data-src="http://placehold.it/1400x600"/>
+                        </div>
+
+                        The image above has a default of 700px. Shrink or expend the container too see responsive image
+                        working.
+                        Thanks <a href="http://placehold.it/">@placehold.it</a>
                     </div>
                 </div>
+                <div class="code html code-full">
+                    <textarea class="html"><div data-responsive-image>
+    <img data-src="http://placehold.it/350x150"/>
+    <img min-width="350" data-src="http://placehold.it/700x300"/>
+    <img min-width="700" data-src="http://placehold.it/1400x600"/>
+</div></textarea>
+                </div>
+                <div class="breaker"></div>
             </div>
-            <div class="examplesResizerDemos">
-                <div class="example-4">
-                    <h2>Demo 4 - height
-                        <button id="startStop4">Start/Stop</button>
-                    </h2>
-                    <div id="example-4-box">
-                        This box is animated through css transitions.
-                        We attached a resize-listener to this box. See below.
+            <div class="example">
+                <h2>Responsive Widget</h2>
+                <div class="examplesResizerDemos">
+                    <div class="example-1">
+                        <h2>Demo 1</h2>
+                        This is content from the first responsive demo without media queries. It uses the element
+                        queries
+                        provided by this library.
                     </div>
-                    <div id="example-4-log">
-                        No changes.
+                </div>
+
+                <div class="code html">
+                    <textarea class="html">
+<div class="example-1">
+    <h2>Demo 1</h2>
+    This is content from the first responsive demo without media queries. It uses the element
+    queries
+    provided by this library.
+</div>
+</textarea>
+                </div>
+                <div class="code css">
+                    <textarea class="css">
+.example-1 {
+    max-width: 500px;
+    border: 1px solid silver;
+    background-color: #eee;
+    margin: auto;
+    padding: 5px;
+    text-align: center;
+    min-width: 120px;
+    transition:all .2s ease;
+}
+
+.example-1[min-width~="400px"] {
+    padding: 80px;
+}
+
+.example-1[min-width~="200px"] {
+    text-align: left;
+    font-size: 12px;
+}
+</textarea>
+                    </div>
+                <div class="breaker"></div>
+            </div>
+
+            <div class="example">
+                <h2>Responsive Layout</h2>
+                <div class="examplesResizerDemos">
+                    <div class="example-2">
+                        <h2>Demo 2</h2>
+                        <div class="example-2-box">
+                            Box
+                        </div>
+                        <div class="example-2-first">
+                            First 1/2 box
+                        </div>
+                        <div class="example-2-second">
+                            Second 1/2 box
+                        </div>
+                        <div class="breaker"></div>
+                    </div>
+                </div>
+                <div class="code html">
+                    <textarea class="html">
+<div class="example-2">
+    <h2>Demo 2</h2>
+    <div class="example-2-box">
+        Box
+    </div>
+    <div class="example-2-first">
+        First 1/2 box
+    </div>
+    <div class="example-2-second">
+        Second 1/2 box
+    </div>
+    <div class="breaker"></div>
+</div>
+});</textarea>
+                </div>
+                <div class="code css">
+                    <textarea class="css">
+.example-2-first,
+.example-2-second {
+    background-color: black;
+    color: white;
+    padding: 2px;
+    width: 50%;
+    float: left;
+    border: 5px solid #eee;
+}
+
+.example-2-second {
+    float: right;
+}
+
+.example-2-box {
+    color: white;
+    margin: 5px;
+    padding: 2px;
+}
+
+.example-2[max-width~="300px"] .example-2-first,
+.example-2[max-width~="300px"] .example-2-second {
+    float: none;
+    background-color: #4186ff;
+    width: auto;
+}
+
+.example-2 .example-2-box {
+    background-color: #ba000d;
+}
+
+.example-2[min-width~="200px"] .example-2-box {
+    background-color: #ba6377;
+}
+
+.example-2[min-width~="300px"] .example-2-box {
+    background-color: #ba9196;
+}
+
+.example-2[min-width~="400px"] .example-2-box {
+    background-color: gray;
+}</textarea>
+                </div>
+                <div class="breaker"></div>
+            </div>
+            <div class="example">
+                <h2>Responsive Animation</h2>
+                <div class="examplesResizerDemos">
+                    <div class="example-3">
+                        <h2>Demo 3 - width
+                            <button class="btn btn-default" id="startStop3">Start/Stop</button>
+                        </h2>
+                        <div id="example-3-box">
+                            This box is animated through css transitions.
+                            We attached a resize-listener to this box. See below.
+                        </div>
+                        <div id="example-3-log">
+                            No changes.
+                        </div>
+                    </div>
+                </div>
+                <div class="examplesResizerDemos">
+                    <div class="example-4">
+                        <h2>Demo 4 - height
+                            <button class="btn btn-default" id="startStop4">Start/Stop</button>
+                        </h2>
+                        <div id="example-4-box">
+                            This box is animated through css transitions.
+                            We attached a resize-listener to this box. See below.
+                        </div>
+                        <div id="example-4-log">
+                            No changes.
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div style="height: 200px">
-                <div class="examplesResizerDemosXY">
-                    <div id="example-5">
-                        0 changes
+            <div class="example">
+                <h2>ResizeSensor Demo</h2>
+                <div style="height: 80px">
+                    <div class="examplesResizerDemos">
+                        <div id="example-5">
+                            0 changes
+                        </div>
+                    </div>
+                </div>
+                <div class="example-desc">
+                    CSS-Element-Queries comes with a Javascript ResizeSensor class you can use in Javascript directly.
+                    <div class="code html code-full">
+                    <textarea class="javascript">
+var element = document.getElementById('myElement');
+new ResizeSensor(element, function() {
+    console.log('Changed to ' + element.clientWidth);
+});</textarea>
                     </div>
                 </div>
             </div>
-            <div class="dynamic">
-                Performance Test:
-                <input type="text" value="10" id="dynamicCount"/>
-                <button onclick="addDynamic()">Add</button>
-                <button onclick="detachDynamic()">Detach Listener</button>
-                <button onclick="removeDynamic()">Remove DOM</button>
-                <div id="dynamicCounter"></div>
-                <div id="dynamicContainer"></div>
+
+            <div class="example">
+                <h2>Performance Demo</h2>
+                <div class="dynamic">
+                    <div class="input-group">
+                        <span class="input-group-addon">Performance Test:</span>
+                        <input type="text" class="form-control" value="10" id="dynamicCount"/>
+
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" onclick="addDynamic()">Add</button>
+                            <button class="btn btn-default" onclick="detachDynamic()">Detach Listener</button>
+                            <button class="btn btn-default" onclick="removeDynamic()">Remove DOM</button>
+                        </span>
+                    </div>
+                    <div id="dynamicCounter"></div>
+                    <div id="dynamicContainer"></div>
+                </div>
             </div>
         </div>
     </div>

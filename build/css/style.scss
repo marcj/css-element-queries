@@ -1,8 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,300);
 
-
 html, body {
-    background-color: #f9f9f9;
+    background-color: white;
     padding: 0;
     margin: 0;
     text-align: center;
@@ -10,52 +9,21 @@ html, body {
     text-rendering: geometricPrecision;
     font-family: 'Lato', sans-serif;
     font-weight: 400;
-    font-size: 18px;
-    line-height: 26px;
-    color: #444;
 }
 
 .wrapper {
-    background-color: #ffffff;
-    max-width: 1000px;
+    max-width: 800px;
     margin: auto;
     text-align: left;
-    padding: 30px 20px;
-    box-shadow: 0px 0px 10px #c8cac5;
-}
-
-.download-buttons {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    text-align: right;
+    padding: 10px;
 }
 
 .wrapper h1:first-child {
     margin-top: 0;
 }
 
-h1 {
+h1, h2, h3 {
     font-weight: 300;
-    padding-bottom: 25px;
-}
-
-h1, h2 {
-    .sub {
-        padding-top: 10px;
-        font-size: 22px;
-        color: #888;
-    }
-}
-
-h2 {
-    padding-bottom: 20px;
-    font-weight: 300;
-}
-
-p.seperator {
-    padding-top: 30px;
-    border-bottom: 1px solid #e6e6e6;
-    margin-bottom: 30px;
 }
 
 .text-panel {
@@ -78,61 +46,20 @@ p.seperator {
     }
 }
 
-.code {
-    width: 50%;
-    float: left;
-    text-align: left;
-    margin: auto;
-    font-size: 13px;
-    line-height: 15px;
-    position: relative;
-    margin-top: 20px;
-    padding: 0 25px;
-    margin-bottom: 15px;
-
-    .CodeMirror {
-        border: 1px solid #e8e8e8;
-        border-radius: 5px;
-        height: auto;
-    }
-}
-
-.code-full {
-    float: none;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0;
-}
-
-.example-desc {
-    text-align: center;
-}
-
-.example {
-    text-align: center;
-    margin: 100px auto;
-
-    padding-bottom: 100px;
-    border-bottom: 1px solid #e6e6e6;
-}
-
 .examplesResizerDemos,
 .examplesResizerDemosXY {
-    background-color: #dae3e8;
+    background-color: #f8f8f8;
     width: 550px;
-    margin: 15px auto;
+    margin: 15px;
     padding: 15px 0;
-    border-radius: 5px;
     position: relative;
+    border-left: 1px dashed silver;
+    border-bottom: 1px dashed silver;
+    border-top: 1px dashed silver;
 }
 
 .examplesResizerDemosXY {
     height: 150px;
-}
-
-.examplesResizerDemos h2 {
-    font-size: 20px;
 }
 
 .resizerDemo-handler {
@@ -140,7 +67,7 @@ p.seperator {
     right: 0;
     top: 0;
     bottom: 0;
-    width: 9px;
+    width: 5px;
     padding: 0 1px;
     background-color: gray;
     cursor: ew-resize;
@@ -148,34 +75,12 @@ p.seperator {
     font-size: 14px;
 }
 
-.resizerDemo-info {
-    position: absolute;
-    right: 10px;
-    top: 0px;
-    color: #333;
-    font-size: 14px;
-    font-family: monospace;
-}
-
-.bash {
-    border-radius: 3px;
-    border: 1px solid #eee;
-    margin: 15px;
-    padding: 5px;
-    font-size: 14px;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    font-family: monospace;
-}
-
 .resizerDemo-handler:before {
     content: '• • •';
     color: white;
-    width: 10px;
+    width: 5px;
     position: absolute;
     top: 50%;
-    left: 0;
     font-weight: 300;
     line-height: 6px;
     font-size: 11px;
@@ -209,27 +114,28 @@ p.seperator {
 
 
 .example-1 {
-    max-width: 500px;
+    max-width: 400px;
     border: 1px solid silver;
     background-color: #eee;
     margin: auto;
-    padding: 5px;
+    padding: 50px;
     text-align: center;
     min-width: 120px;
     transition:all .2s ease;
 }
 
-.example-1[min-width~="400px"] {
-    padding: 80px;
+.example-1[max-width~="400px"] {
+    padding: 5px;
 }
 
-.example-1[min-width~="200px"] {
+.example-1[max-width~="200px"] {
     text-align: left;
     font-size: 12px;
 }
 
 .example-2 {
     border: 1px solid silver;
+    margin: 25px;
     background-color: #eee;
 }
 
@@ -238,9 +144,9 @@ p.seperator {
     background-color: black;
     color: white;
     padding: 2px;
-    width: 50%;
+    width: 45%;
+    margin: 5px;
     float: left;
-    border: 5px solid #eee;
 }
 
 .example-2-second {
@@ -248,6 +154,7 @@ p.seperator {
 }
 
 .example-2-box {
+    background-color: gray;
     color: white;
     margin: 5px;
     padding: 2px;
@@ -260,20 +167,20 @@ p.seperator {
     width: auto;
 }
 
-.example-2 .example-2-box {
-    background-color: #ba000d;
-}
-
-.example-2[min-width~="200px"] .example-2-box {
-    background-color: #ba6377;
-}
-
-.example-2[min-width~="300px"] .example-2-box {
+.example-2[max-width~="350px"] .example-2-box {
     background-color: #ba9196;
 }
 
-.example-2[min-width~="400px"] .example-2-box {
-    background-color: gray;
+.example-2[max-width~="300px"] .example-2-box {
+    background-color: #ba6377;
+}
+
+.example-2[max-width~="200px"] .example-2-box {
+    background-color: #ba4349;
+}
+
+.example-2[max-width~="100px"] .example-2-box {
+    background-color: #ba000d;
 }
 
 .example-3,
@@ -286,6 +193,7 @@ p.seperator {
 #example-5 {
     overflow: visible;
     position: relative;
+    z-index: 150;
     text-align: center;
 }
 
@@ -464,12 +372,4 @@ p.seperator {
 
 .dynamic {
     margin: 15px;
-    text-align: center;
-
-    .input-group {
-        width: 500px;
-        margin: auto;
-    }
-
-
 }
