@@ -706,21 +706,24 @@ $(window).load(function () {
     $("textarea.html").each(function(idx, textarea) {
         CodeMirror.fromTextArea(textarea, {
             lineNumbers: true,
-            mode: "htmlmixed"
+            mode: "htmlmixed",
+            readOnly: true
         });
     });
 
     $("textarea.css").each(function(idx, textarea) {
         CodeMirror.fromTextArea(textarea, {
             lineNumbers: true,
-            mode: "css"
+            mode: "css",
+            readOnly: true
         });
     });
 
     $("textarea.javascript").each(function(idx, textarea) {
         CodeMirror.fromTextArea(textarea, {
             lineNumbers: true,
-            mode: "javascript"
+            mode: "javascript",
+            readOnly: true
         });
     });
 });
@@ -867,7 +870,7 @@ function example5(){
         box[0].innerHTML = (++changed) + ' changes. ' + box.parent()[0].clientWidth+'px/'+box.parent()[0].clientHeight+'px';
     });
 }
-}).call(this,require("g5I+bs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_e11769b6.js","/")
+}).call(this,require("g5I+bs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_be55e83e.js","/")
 },{"./css-element-queries/src/ElementQueries":1,"./css-element-queries/src/ResizeSensor":2,"buffer":5,"codemirror/lib/codemirror":6,"codemirror/mode/css/css":7,"codemirror/mode/htmlmixed/htmlmixed":8,"codemirror/mode/javascript/javascript":9,"codemirror/mode/xml/xml":10,"g5I+bs":14,"hammerjs/hammer":11,"jQuery":13}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';

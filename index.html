@@ -82,7 +82,7 @@
 var ElementQueries = require('css-element-queries/src/ElementQueries');
 
 // attaches to DOMLoadContent
-EQ.listen();
+ElementQueries.listen();
 
 // or if you want to trigger it yourself:
 // 'init' parses all available CSS and attach ResizeSensor to those elements which
@@ -90,7 +90,7 @@ EQ.listen();
 // CSS files are not ready when domReady is fired.
 // Use this function if you have dynamically created HTMLElements
 // (through ajax calls or something)
-EQ.init();</textarea>
+ElementQueries.init();</textarea>
     </div>
 
 

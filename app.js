@@ -16,21 +16,24 @@ $(window).load(function () {
     $("textarea.html").each(function(idx, textarea) {
         CodeMirror.fromTextArea(textarea, {
             lineNumbers: true,
-            mode: "htmlmixed"
+            mode: "htmlmixed",
+            readOnly: true
         });
     });
 
     $("textarea.css").each(function(idx, textarea) {
         CodeMirror.fromTextArea(textarea, {
             lineNumbers: true,
-            mode: "css"
+            mode: "css",
+            readOnly: true
         });
     });
 
     $("textarea.javascript").each(function(idx, textarea) {
         CodeMirror.fromTextArea(textarea, {
             lineNumbers: true,
-            mode: "javascript"
+            mode: "javascript",
+            readOnly: true
         });
     });
 });
