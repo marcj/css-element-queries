@@ -228,7 +228,7 @@
             for (var i in element.children) {
                 if(!element.children.hasOwnProperty(i)) continue;
 
-                if (element.children[i].tagName.toLowerCase() === 'img') {
+                if (element.children[i].tagName && element.children[i].tagName.toLowerCase() === 'img') {
                     children.push(element.children[i]);
 
                     var minWidth = element.children[i].getAttribute('min-width') || element.children[i].getAttribute('data-min-width');
@@ -297,6 +297,9 @@
                         children[imageToDisplay].style.display = 'block';
                         lastActiveImage = imageToDisplay;
                     }
+                } else {
+                    //make sure for initial check call the .src is set correctly
+                    children[imageToDisplay].src = sources[imageToDisplay];
                 }
             }
 
@@ -466,14 +469,14 @@
     var domLoaded = function (callback) {
         /* Internet Explorer */
         /*@cc_on
-        @if (@_win32 || @_win64)
-            document.write('<script id="ieScriptLoad" defer src="//:"><\/script>');
-            document.getElementById('ieScriptLoad').onreadystatechange = function() {
-                if (this.readyState == 'complete') {
-                    callback();
-                }
-            };
-        @end @*/
+         @if (@_win32 || @_win64)
+         document.write('<script id="ieScriptLoad" defer src="//:"><\/script>');
+         document.getElementById('ieScriptLoad').onreadystatechange = function() {
+         if (this.readyState == 'complete') {
+         callback();
+         }
+         };
+         @end @*/
         /* Mozilla, Chrome, Opera */
         if (document.addEventListener) {
             document.addEventListener('DOMContentLoaded', callback, false);
