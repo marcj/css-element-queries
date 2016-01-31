@@ -40,41 +40,6 @@ $(window).load(function () {
 
 EQ.listen();
 
-//var ResizerDemo = new Class({
-//    y: null,
-//    initialize: function(container) {
-//        this.container = container;
-//        this.setupLayout();
-//    },
-//
-//    setupLayout: function(){
-//        this.handler = new Element('div', {
-//            'class': 'resizerDemo-handler'
-//        }).inject(this.container);
-//
-//        var info = new Element('div', {
-//            'class': 'resizerDemo-info'
-//        }).inject(this.container);
-//
-//        this.container.makeResizable({
-//            snap: 0,
-//            handle: this.handler,
-//            onDrag: function(e) {
-//                info.set('text', e.clientWidth + 'px x ' + e.clientHeight + 'px');
-//            },
-//            modifiers: {
-//                'x': 'width',
-//                'y': this.y
-//            }
-//        });
-//    }
-//});
-//
-//var ResizeDemoXY = new Class({
-//    Extends: ResizerDemo,
-//    y: 'height'
-//});
-
 function ResizerDemo(element) {
     element = $(element);
     var handler = $('<div class="resizerDemo-handler"></div>');
@@ -83,7 +48,7 @@ function ResizerDemo(element) {
     element.append(handler);
     element.append(info);
 
-    var hammer = new Hammer(handler[0], {recognizers: [
+    var hammer = new Hammer(element[0], {recognizers: [
         [Hammer.Pan, { threshold: 0}]
     ]});
 
