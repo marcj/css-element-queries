@@ -36,7 +36,7 @@ More demos and information: http://marcj.github.io/css-element-queries/
     font-size: 18px;
 }
 
-.widget-name[min-width~="900px"] h2 {
+.widget-name[min-width~="600px"] h2 {
     padding: 55px;
     text-align: center;
     font-size: 24px;
