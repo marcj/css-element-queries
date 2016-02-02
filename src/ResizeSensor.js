@@ -6,6 +6,9 @@
 ;
 (function() {
 
+    var isFrameBasedUpdate = 'requestAnimationFrame' in window;
+    var isIE = navigator.userAgent.match(/Trident/);
+
     /**
      * Class for dimension change detection.
      *
@@ -48,6 +51,8 @@
             }
         }
 
+        var elementType = Object.prototype.toString.call(element);
+
         /**
          *
          * @param {HTMLElement} element
@@ -57,76 +62,77 @@
             if (!element.resizedAttached) {
                 element.resizedAttached = new EventQueue();
                 element.resizedAttached.add(resized);
+
             } else if (element.resizedAttached) {
                 element.resizedAttached.add(resized);
                 return;
             }
 
-            element.resizeSensor = document.createElement('div');
-            element.resizeSensor.className = 'resize-sensor';
-            var style = 'position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;';
-            var styleChild = 'position: absolute; left: 0; top: 0; transition: 0s;';
+            if (document.attachEvent) {
+                //IE
+                var checker = function() {
+                    if (!element.resizedAttached) {
+                        element.detachEvent('onresize', checker);
+                        return;
+                    }
+                    element.resizedAttached.call();
+                };
+                element.attachEvent('onresize', checker);
 
-            element.resizeSensor.style.cssText = style;
-            element.resizeSensor.innerHTML =
-                '<div class="resize-sensor-expand" style="' + style + '">' +
-                    '<div style="' + styleChild + '"></div>' +
-                '</div>' +
-                '<div class="resize-sensor-shrink" style="' + style + '">' +
-                    '<div style="' + styleChild + ' width: 200%; height: 200%"></div>' +
-                '</div>';
-            element.appendChild(element.resizeSensor);
+                return;
+            }
 
-            if (!{fixed: 1, absolute: 1}[getComputedStyle(element, 'position')]) {
+
+            var resizeSensor = document.createElement('object');
+            resizeSensor.className = 'resize-sensor';
+            resizeSensor.style =
+                'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%;' +
+                'transition: 0s; overflow: hidden; pointer-events: none; z-index: -1;';
+
+            if (getComputedStyle(element, 'position') == 'static') {
                 element.style.position = 'relative';
             }
 
-            var expand = element.resizeSensor.childNodes[0];
-            var expandChild = expand.childNodes[0];
-            var shrink = element.resizeSensor.childNodes[1];
-            var shrinkChild = shrink.childNodes[0];
+            element.resizeSensor = resizeSensor;
 
-            var lastWidth, lastHeight;
-
-            var reset = function() {
-                expandChild.style.width = expand.offsetWidth + 10 + 'px';
-                expandChild.style.height = expand.offsetHeight + 10 + 'px';
-                expand.scrollLeft = expand.scrollWidth;
-                expand.scrollTop = expand.scrollHeight;
-                shrink.scrollLeft = shrink.scrollWidth;
-                shrink.scrollTop = shrink.scrollHeight;
-                lastWidth = element.offsetWidth;
-                lastHeight = element.offsetHeight;
-            };
-
-            reset();
-
+            var dirty = false;
             var changed = function() {
-                if (element.resizedAttached) {
-                    element.resizedAttached.call();
-                }
-            };
-
-            var addEvent = function(el, name, cb) {
-                if (el.attachEvent) {
-                    el.attachEvent('on' + name, cb);
+                if (isFrameBasedUpdate) {
+                    dirty = true;
                 } else {
-                    el.addEventListener(name, cb);
+                    if (element.resizedAttached) {
+                        element.resizedAttached.call();
+                    }
                 }
             };
 
-            var onScroll = function() {
-              if (element.offsetWidth != lastWidth || element.offsetHeight != lastHeight) {
-                  changed();
-              }
-              reset();
+            if (isFrameBasedUpdate) {
+                function dirtyChecking() {
+                    if (dirty) {
+                        dirty = false;
+                    }
+
+                    if (element.resizedAttached) {
+                        element.resizedAttached.call();
+                    }
+
+                    window.requestAnimationFrame(dirtyChecking);
+                }
+
+                window.requestAnimationFrame(dirtyChecking);
+            }
+
+            resizeSensor.onload = function() {
+                //this.contentDocument.defaultView.addEventListener('resize', changed);
             };
 
-            addEvent(expand, 'scroll', onScroll);
-            addEvent(shrink, 'scroll', onScroll);
-        }
+            resizeSensor.type = 'text/html';
+            if (isIE) element.appendChild(resizeSensor);
 
-        var elementType = Object.prototype.toString.call(element);
+            resizeSensor.data = 'about:blank';
+            if (!isIE) element.appendChild(resizeSensor);
+
+        }
         var isCollectionTyped = ('[object Array]' === elementType
             || ('[object NodeList]' === elementType)
             || ('[object HTMLCollection]' === elementType)
