@@ -6,6 +6,13 @@
 ;
 (function() {
 
+    var requestAnimationFrame = window.requestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        function (fn) {
+            return window.setTimeout(fn, 20);
+        };
+
     /**
      * Class for dimension change detection.
      *
@@ -77,34 +84,51 @@
                 '</div>';
             element.appendChild(element.resizeSensor);
 
-            if (!{fixed: 1, absolute: 1}[getComputedStyle(element, 'position')]) {
+            if (getComputedStyle(element, 'position') == 'static') {
                 element.style.position = 'relative';
             }
 
             var expand = element.resizeSensor.childNodes[0];
             var expandChild = expand.childNodes[0];
             var shrink = element.resizeSensor.childNodes[1];
-            var shrinkChild = shrink.childNodes[0];
-
-            var lastWidth, lastHeight;
 
             var reset = function() {
-                expandChild.style.width = expand.offsetWidth + 10 + 'px';
-                expandChild.style.height = expand.offsetHeight + 10 + 'px';
-                expand.scrollLeft = expand.scrollWidth;
-                expand.scrollTop = expand.scrollHeight;
-                shrink.scrollLeft = shrink.scrollWidth;
-                shrink.scrollTop = shrink.scrollHeight;
-                lastWidth = element.offsetWidth;
-                lastHeight = element.offsetHeight;
+                expandChild.style.width  = 100000 + 'px';
+                expandChild.style.height = 100000 + 'px';
+
+                expand.scrollLeft = 100000;
+                expand.scrollTop = 100000;
+
+                shrink.scrollLeft = 100000;
+                shrink.scrollTop = 100000;
             };
 
             reset();
+            var dirty = false;
 
-            var changed = function() {
-                if (element.resizedAttached) {
+            var dirtyChecking = function() {
+                if (!element.resizedAttached) return;
+
+                if (dirty) {
                     element.resizedAttached.call();
+                    dirty = false;
                 }
+
+                requestAnimationFrame(dirtyChecking);
+            };
+
+            requestAnimationFrame(dirtyChecking);
+            var lastWidth, lastHeight;
+            var cachedWidth, cachedHeight; //useful to not query offsetWidth twice
+
+            var onScroll = function() {
+              if ((cachedWidth = element.offsetWidth) != lastWidth || (cachedHeight = element.offsetHeight) != lastHeight) {
+                  dirty = true;
+
+                  lastWidth = cachedWidth;
+                  lastHeight = cachedHeight;
+              }
+              reset();
             };
 
             var addEvent = function(el, name, cb) {
@@ -113,13 +137,6 @@
                 } else {
                     el.addEventListener(name, cb);
                 }
-            };
-
-            var onScroll = function() {
-              if (element.offsetWidth != lastWidth || element.offsetHeight != lastHeight) {
-                  changed();
-              }
-              reset();
             };
 
             addEvent(expand, 'scroll', onScroll);
