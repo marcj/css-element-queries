@@ -10,6 +10,7 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "codemirror": "^5.11.0",
+    "gulp": "^3.9.0",
     "gulp-browserify": "^0.5.1",
     "gulp-concat": "^2.6.0",
     "gulp-markdown": "^1.2.0",

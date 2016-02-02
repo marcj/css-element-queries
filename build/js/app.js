@@ -471,14 +471,14 @@
     var domLoaded = function (callback) {
         /* Internet Explorer */
         /*@cc_on
-        @if (@_win32 || @_win64)
-            document.write('<script id="ieScriptLoad" defer src="//:"><\/script>');
-            document.getElementById('ieScriptLoad').onreadystatechange = function() {
-                if (this.readyState == 'complete') {
-                    callback();
-                }
-            };
-        @end @*/
+         @if (@_win32 || @_win64)
+         document.write('<script id="ieScriptLoad" defer src="//:"><\/script>');
+         document.getElementById('ieScriptLoad').onreadystatechange = function() {
+         if (this.readyState == 'complete') {
+         callback();
+         }
+         };
+         @end @*/
         /* Mozilla, Chrome, Opera */
         if (document.addEventListener) {
             document.addEventListener('DOMContentLoaded', callback, false);
@@ -509,7 +509,6 @@
         ElementQueries.listen();
     }
 })();
-
 }).call(this,require("g5I+bs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/css-element-queries/src/ElementQueries.js","/css-element-queries/src")
 },{"./ResizeSensor":2,"buffer":5,"g5I+bs":14}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
@@ -520,6 +519,13 @@
  */
 ;
 (function() {
+
+    var requestAnimationFrame = window.requestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        function (fn) {
+            return window.setTimeout(fn, 20);
+        };
 
     /**
      * Class for dimension change detection.
@@ -599,28 +605,46 @@
             var expand = element.resizeSensor.childNodes[0];
             var expandChild = expand.childNodes[0];
             var shrink = element.resizeSensor.childNodes[1];
-            var shrinkChild = shrink.childNodes[0];
-
-            var lastWidth, lastHeight;
 
             var reset = function() {
-                expandChild.style.width = expand.offsetWidth + 10 + 'px';
-                expandChild.style.height = expand.offsetHeight + 10 + 'px';
-                expand.scrollLeft = expand.scrollWidth;
-                expand.scrollTop = expand.scrollHeight;
-                shrink.scrollLeft = shrink.scrollWidth;
-                shrink.scrollTop = shrink.scrollHeight;
-                lastWidth = element.offsetWidth;
-                lastHeight = element.offsetHeight;
+                expandChild.style.width  = 100000 + 'px';
+                expandChild.style.height = 100000 + 'px';
+
+                expand.scrollLeft = 100000;
+                expand.scrollTop = 100000;
+
+                shrink.scrollLeft = 100000;
+                shrink.scrollTop = 100000;
             };
 
             reset();
+            var dirty = false;
 
-            var changed = function() {
-                if (element.resizedAttached) {
+            var dirtyChecking = function() {
+                if (!element.resizedAttached) return;
+
+                if (dirty) {
                     element.resizedAttached.call();
+                    dirty = false;
                 }
+
+                requestAnimationFrame(dirtyChecking);
             };
+
+            requestAnimationFrame(dirtyChecking);
+            var lastWidth, lastHeight;
+            var cachedWidth, cachedHeight; //useful to not query offsetWidth twice
+
+            var onScroll = function() {
+              if ((cachedWidth = element.offsetWidth) != lastWidth || (cachedHeight = element.offsetHeight) != lastHeight) {
+                  dirty = true;
+
+                  lastWidth = cachedWidth;
+                  lastHeight = cachedHeight;
+              }
+              reset();
+            };
+
 
             var addEvent = function(el, name, cb) {
                 if (el.attachEvent) {
@@ -628,13 +652,6 @@
                 } else {
                     el.addEventListener(name, cb);
                 }
-            };
-
-            var onScroll = function() {
-              if (element.offsetWidth != lastWidth || element.offsetHeight != lastHeight) {
-                  changed();
-              }
-              reset();
             };
 
             addEvent(expand, 'scroll', onScroll);
@@ -838,7 +855,7 @@ function example5(){
         box[0].innerHTML = (++changed) + ' changes. ' + box.parent()[0].clientWidth+'px/'+box.parent()[0].clientHeight+'px';
     });
 }
-}).call(this,require("g5I+bs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_cb029744.js","/")
+}).call(this,require("g5I+bs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_fa898b42.js","/")
 },{"./css-element-queries/src/ElementQueries":1,"./css-element-queries/src/ResizeSensor":2,"buffer":5,"codemirror/lib/codemirror":6,"codemirror/mode/css/css":7,"codemirror/mode/htmlmixed/htmlmixed":8,"codemirror/mode/javascript/javascript":9,"codemirror/mode/xml/xml":10,"g5I+bs":14,"hammerjs/hammer":11,"jQuery":13}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
