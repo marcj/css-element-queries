@@ -72,7 +72,7 @@
             element.resizeSensor = document.createElement('area');
             element.resizeSensor.className = 'resize-sensor';
             var style = 'display: block; position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;';
-            var styleChild = 'position: absolute; left: 0; top: 0; transition: 0s;';
+            var styleChild = 'position: absolute; left: 0; top: 0;';
 
             element.resizeSensor.style.cssText = style;
             element.resizeSensor.innerHTML =
