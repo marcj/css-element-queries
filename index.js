@@ -1,2 +1,4 @@
-require('./src/ResizeSensor');
-require('./src/ElementQueries');
+module.exports = {
+    ResizeSensor: require('./src/ResizeSensor'),
+    ElementQueries: require('./src/ElementQueries')
+};
