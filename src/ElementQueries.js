@@ -17,7 +17,7 @@
      * @type {Function}
      * @constructor
      */
-    var ElementQueries = this.ElementQueries = function() {
+    var ElementQueries = function() {
 
         var trackingActive = false;
         var elements = [];
