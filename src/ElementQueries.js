@@ -31,7 +31,7 @@
             if (!element) {
                 element = document.documentElement;
             }
-            var fontSize = getComputedStyle(element, 'fontSize');
+            var fontSize = window.getComputedStyle(element, null).fontSize;
             return parseFloat(fontSize) || 16;
         }
 
@@ -44,7 +44,8 @@
          * @returns {*}
          */
         function convertToPx(element, value) {
-            var units = value.replace(/[0-9]*/, '');
+            var numbers = value.split(/\d/);
+            var units = numbers[numbers.length-1];
             value = parseFloat(value);
             switch (units) {
                 case "px":
