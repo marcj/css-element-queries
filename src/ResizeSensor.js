@@ -17,6 +17,30 @@
         };
 
     /**
+     * Iterate over each of the provided element(s).
+     *
+     * @param {HTMLElement|HTMLElement[]} elements
+     * @param {Function}                  callback
+     */
+    function forEachElement(elements, callback){
+        var elementsType = Object.prototype.toString.call(elements);
+        var isCollectionTyped = ('[object Array]' === elementsType
+            || ('[object NodeList]' === elementsType)
+            || ('[object HTMLCollection]' === elementsType)
+            || ('undefined' !== typeof jQuery && elements instanceof jQuery) //jquery
+            || ('undefined' !== typeof Elements && elements instanceof Elements) //mootools
+        );
+        var i = 0, j = elements.length;
+        if (isCollectionTyped) {
+            for (; i < j; i++) {
+                callback(elements[i]);
+            }
+        } else {
+            callback(elements);
+        }
+    }
+
+    /**
      * Class for dimension change detection.
      *
      * @param {Element|Element[]|Elements|jQuery} element
@@ -158,45 +182,27 @@
             addEvent(shrink, 'scroll', onScroll);
         }
 
-        var elementType = Object.prototype.toString.call(element);
-        var isCollectionTyped = ('[object Array]' === elementType
-            || ('[object NodeList]' === elementType)
-            || ('[object HTMLCollection]' === elementType)
-            || ('undefined' !== typeof jQuery && element instanceof jQuery) //jquery
-            || ('undefined' !== typeof Elements && element instanceof Elements) //mootools
-        );
-
-        if (isCollectionTyped) {
-            var i = 0, j = element.length;
-            for (; i < j; i++) {
-                attachResizeEvent(element[i], callback);
-            }
-        } else {
-            attachResizeEvent(element, callback);
-        }
+        forEachElement(element, function(elem){
+            attachResizeEvent(elem, callback);
+        });
 
         this.detach = function(ev) {
-            if (isCollectionTyped) {
-                var i = 0, j = element.length;
-                for (; i < j; i++) {
-                    ResizeSensor.detach(element[i], ev);
-                }
-            } else {
-                ResizeSensor.detach(element, ev);
-            }
+            ResizeSensor.detach(element, ev);
         };
     };
 
     ResizeSensor.detach = function(element, ev) {
-        if(typeof ev == "function"){
-            element.resizedAttached.remove(ev);
-            if(element.resizedAttached.length()) return;
-        }
-        if (element.resizeSensor) {
-            element.removeChild(element.resizeSensor);
-            delete element.resizeSensor;
-            delete element.resizedAttached;
-        }
+        forEachElement(element, function(elem){
+            if(elem.resizedAttached && typeof ev == "function"){
+                elem.resizedAttached.remove(ev);
+                if(elem.resizedAttached.length()) return;
+            }
+            if (elem.resizeSensor) {
+                elem.removeChild(elem.resizeSensor);
+                delete elem.resizeSensor;
+                delete elem.resizedAttached;
+            }
+        });
     };
 
     // make available to common module loader
