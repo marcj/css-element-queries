@@ -30,17 +30,29 @@
          * @constructor
          */
         function EventQueue() {
-            this.q = [];
+            var q = [];
             this.add = function(ev) {
-                this.q.push(ev);
+                q.push(ev);
             };
 
             var i, j;
             this.call = function() {
-                for (i = 0, j = this.q.length; i < j; i++) {
-                    this.q[i].call();
+                for (i = 0, j = q.length; i < j; i++) {
+                    q[i].call();
                 }
             };
+
+            this.remove = function(ev) {
+                var newQueue = [];
+                for(i = 0, j = q.length; i < j; i++) {
+                    if(q[i] !== ev) newQueue.push(q[i]);
+                }
+                q = newQueue;
+            }
+
+            this.length = function() {
+                return q.length;
+            }
         }
 
         /**
@@ -163,19 +175,23 @@
             attachResizeEvent(element, callback);
         }
 
-        this.detach = function() {
+        this.detach = function(ev) {
             if (isCollectionTyped) {
                 var i = 0, j = element.length;
                 for (; i < j; i++) {
-                    ResizeSensor.detach(element[i]);
+                    ResizeSensor.detach(element[i], ev);
                 }
             } else {
-                ResizeSensor.detach(element);
+                ResizeSensor.detach(element, ev);
             }
         };
     };
 
-    ResizeSensor.detach = function(element) {
+    ResizeSensor.detach = function(element, ev) {
+        if(typeof ev == "function"){
+            element.resizedAttached.remove(ev);
+            if(element.resizedAttached.length()) return;
+        }
         if (element.resizeSensor) {
             element.removeChild(element.resizeSensor);
             delete element.resizeSensor;
