@@ -4,7 +4,15 @@
  * https://github.com/marcj/css-element-queries/blob/master/LICENSE.
  */
 ;
-(function() {
+(function (root, factory) {
+    if (typeof define === "function" && define.amd) {
+        define(factory);
+    } else if (typeof exports === "object") {
+        module.exports = factory();
+    } else {
+        root.ResizeSensor = factory();
+    }
+}(this, function () {
 
     // Only used for the dirty checking, so the event callback count is limted to max 1 call per fps per sensor.
     // In combination with the event based resize sensor this saves cpu time, because the sensor is too fast and
@@ -205,12 +213,6 @@
         });
     };
 
-    // make available to common module loader
-    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-        module.exports = ResizeSensor;
-    }
-    else {
-        window.ResizeSensor = ResizeSensor;
-    }
+    return ResizeSensor;
 
-})();
+}));
