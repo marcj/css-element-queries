@@ -48,6 +48,11 @@ More demos and information: http://marcj.github.io/css-element-queries/
 }
 ```
 
+As you can see we use the `~=` [attribute selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors).
+Since this css-element-queries polyfill adds new element attributes on the DOM element
+(`<div class="widget-name" min-width="400px 700px"></div>`) depending on your actual CSS,
+you should always use this attribute selector (especially if you have several element query rules on the same element).
+
 ```html
 <div class="widget-name">
    <h2>Element responsiveness FTW!</h2>
