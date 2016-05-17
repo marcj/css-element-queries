@@ -98,7 +98,7 @@ EQ.init();
 
  - So far does not work on `img` and other elements that can't contain other elements. Wrapping with a `div` works fine though (See demo).
  - Adds additional hidden elements into selected target element and forces target element to be relative or absolute.
-
+ - Local stylesheets do not work (using `file://` protocol).
 
 ## License
 
