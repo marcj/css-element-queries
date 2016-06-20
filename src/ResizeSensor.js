@@ -206,7 +206,9 @@
                 if(elem.resizedAttached.length()) return;
             }
             if (elem.resizeSensor) {
-                elem.removeChild(elem.resizeSensor);
+                if (elem.contains(elem.resizeSensor)) {
+                    elem.removeChild(elem.resizeSensor);
+                }
                 delete elem.resizeSensor;
                 delete elem.resizedAttached;
             }
