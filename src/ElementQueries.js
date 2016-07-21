@@ -350,6 +350,11 @@
             if (!rules) {
                 return;
             }
+            if(typeof rules[0] !== 'undefined' && rules[0].constructor.name === "CSSImportRule"){
+                var  importRules = rules[0].styleSheet.rules
+                return readRules(importRules)
+
+            }
             if ('string' === typeof rules) {
                 rules = rules.toLowerCase();
                 if (-1 !== rules.indexOf('min-width') || -1 !== rules.indexOf('max-width')) {
