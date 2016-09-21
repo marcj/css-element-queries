@@ -6,13 +6,20 @@
 ;
 (function (root, factory) {
     if (typeof define === "function" && define.amd) {
-        define(['./ResizeSensor.js'], factory);
+        define(['./ResizeSensor.js', 'jquery'], function (ResizeSensor, jQuery) {
+            return factory(root, ResizeSensor, jQuery);
+        });
     } else if (typeof exports === "object") {
-        module.exports = factory(require('./ResizeSensor.js'));
+        module.exports = factory(
+            root,
+            require('./ResizeSensor.js'),
+            require('jquery')
+        );
     } else {
-        root.ElementQueries = factory(root.ResizeSensor);
+        root.ElementQueries = factory(root, root.ResizeSensor, jQuery);
     }
-}(this, function (ResizeSensor) {
+}(this, function (root, ResizeSensor, jQuery) {
+    var previousElementQueries = root.ElementQueries;
 
     /**
      *
@@ -501,13 +508,9 @@
         domLoaded(ElementQueries.init);
     };
 
-    // make available to common module loader
-    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-        module.exports = ElementQueries;
-    }
-    else {
-        window.ElementQueries = ElementQueries;
-        ElementQueries.listen();
+    ElementQueries.noConflict = function () {
+       root.ElementQueries = previousElementQueries;
+       return this;
     }
 
     return ElementQueries;

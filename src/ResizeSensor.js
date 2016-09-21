@@ -6,13 +6,16 @@
 ;
 (function (root, factory) {
     if (typeof define === "function" && define.amd) {
-        define(factory);
+        define(['jquery'], function (jQuery) {
+            return factory(root, jQuery);
+        });
     } else if (typeof exports === "object") {
-        module.exports = factory();
+       module.exports = factory(root, require('jquery'));
     } else {
-        root.ResizeSensor = factory();
+        root.ResizeSensor = factory(root, jQuery);
     }
-}(this, function () {
+}(this, function (root, jQuery) {
+    var previousResizeSensor = root.ResizeSensor;
 
     // Only used for the dirty checking, so the event callback count is limted to max 1 call per fps per sensor.
     // In combination with the event based resize sensor this saves cpu time, because the sensor is too fast and
@@ -213,6 +216,11 @@
                 delete elem.resizedAttached;
             }
         });
+    };
+
+    ResizeSensor.noConflict = function () {
+        root.ResizeSensor = previousResizeSensor;
+        return this;
     };
 
     return ResizeSensor;
