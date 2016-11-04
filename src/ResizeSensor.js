@@ -138,30 +138,19 @@
             var expand = element.resizeSensor.childNodes[0];
             var expandChild = expand.childNodes[0];
             var shrink = element.resizeSensor.childNodes[1];
-            var dirty, lastWidth, lastHeight;
+            var dirty, rafId, lastWidth, lastHeight, newWidth, newHeight;
 
             var updateSize = function() {
-                var newWidth = element.offsetWidth;
-                var newHeight = element.offsetHeight;
-
                 dirty = false;
-
-                // The size may stay the same if the element changed size more than once during one frame.
-                if (newWidth == lastWidth && newHeight == lastHeight) {
-                    return false;
-                }
-
                 lastWidth = newWidth;
                 lastHeight = newHeight;
-
-                return true;
             };
 
             updateSize();
 
             var reset = function() {
-                expandChild.style.width = 100000 + 'px';
-                expandChild.style.height = 100000 + 'px';
+                expandChild.style.width = '100000px';
+                expandChild.style.height = '100000px';
 
                 expand.scrollLeft = 100000;
                 expand.scrollTop = 100000;
@@ -173,24 +162,26 @@
             reset();
 
             var onResized = function() {
-                // To prevent layout thrashing: first read from DOM ...
-                var updated = updateSize();
+                rafId = 0;
 
                 if (!element.resizedAttached) return;
 
-                /// ... then update.
-                if (updated) {
+                if (dirty) {
+                    updateSize();
                     element.resizedAttached.call();
                 }
-
-                reset();
             };
 
             var onScroll = function() {
-              if (!dirty && (element.offsetWidth != lastWidth || element.offsetHeight != lastHeight)) {
-                  dirty = true;
-                  requestAnimationFrame(onResized);
-              }
+                newWidth = element.offsetWidth;
+                newHeight = element.offsetHeight;
+                dirty = newWidth != lastWidth || newHeight != lastHeight;
+
+                if (dirty && !rafId) {
+                    rafId = requestAnimationFrame(onResized);
+                }
+
+                reset();
             };
 
             var addEvent = function(el, name, cb) {
