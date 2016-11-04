@@ -138,9 +138,18 @@
             var expand = element.resizeSensor.childNodes[0];
             var expandChild = expand.childNodes[0];
             var shrink = element.resizeSensor.childNodes[1];
+            var dirty, lastWidth, lastHeight;
+
+            var updateSize = function() {
+                dirty = false;
+                lastWidth = element.offsetWidth;
+                lastHeight = element.offsetHeight;
+            };
+
+            updateSize();
 
             var reset = function() {
-                expandChild.style.width  = 100000 + 'px';
+                expandChild.style.width = 100000 + 'px';
                 expandChild.style.height = 100000 + 'px';
 
                 expand.scrollLeft = 100000;
@@ -151,31 +160,23 @@
             };
 
             reset();
-            var dirty = false;
 
-            var dirtyChecking = function() {
+            var onResized = function() {
+                // To prevent layout thrashing: first read from DOM ...
+                updateSize();
+
                 if (!element.resizedAttached) return;
 
-                if (dirty) {
-                    element.resizedAttached.call();
-                    dirty = false;
-                }
-
-                requestAnimationFrame(dirtyChecking);
+                /// ... then update
+                element.resizedAttached.call();
+                reset();
             };
 
-            requestAnimationFrame(dirtyChecking);
-            var lastWidth, lastHeight;
-            var cachedWidth, cachedHeight; //useful to not query offsetWidth twice
-
             var onScroll = function() {
-              if ((cachedWidth = element.offsetWidth) != lastWidth || (cachedHeight = element.offsetHeight) != lastHeight) {
+              if (!dirty && (element.offsetWidth != lastWidth || element.offsetHeight != lastHeight)) {
                   dirty = true;
-
-                  lastWidth = cachedWidth;
-                  lastHeight = cachedHeight;
+                  requestAnimationFrame(onResized);
               }
-              reset();
             };
 
             var addEvent = function(el, name, cb) {
