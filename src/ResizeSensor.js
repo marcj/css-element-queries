@@ -141,9 +141,20 @@
             var dirty, lastWidth, lastHeight;
 
             var updateSize = function() {
+                var newWidth = element.offsetWidth;
+                var newHeight = element.offsetHeight;
+
                 dirty = false;
-                lastWidth = element.offsetWidth;
-                lastHeight = element.offsetHeight;
+
+                // The size may stay the same if the element changed size more than once during one frame.
+                if (newWidth == lastWidth && newHeight == lastHeight) {
+                    return false;
+                }
+
+                lastWidth = newWidth;
+                lastHeight = newHeight;
+
+                return true;
             };
 
             updateSize();
@@ -163,11 +174,9 @@
 
             var onResized = function() {
                 // To prevent layout thrashing: first read from DOM ...
-                updateSize();
+                if (!updateSize() || !element.resizedAttached) return;
 
-                if (!element.resizedAttached) return;
-
-                /// ... then update
+                /// ... then update.
                 element.resizedAttached.call();
                 reset();
             };
