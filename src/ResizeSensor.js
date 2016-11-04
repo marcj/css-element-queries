@@ -174,10 +174,15 @@
 
             var onResized = function() {
                 // To prevent layout thrashing: first read from DOM ...
-                if (!updateSize() || !element.resizedAttached) return;
+                var updated = updateSize();
+
+                if (!element.resizedAttached) return;
 
                 /// ... then update.
-                element.resizedAttached.call();
+                if (updated) {
+                    element.resizedAttached.call();
+                }
+
                 reset();
             };
 
