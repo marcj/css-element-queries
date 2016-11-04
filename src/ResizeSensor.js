@@ -142,12 +142,6 @@
             var lastWidth = element.offsetWidth;
             var lastHeight = element.offsetHeight;
 
-            var updateSize = function() {
-                dirty = false;
-                lastWidth = newWidth;
-                lastHeight = newHeight;
-            };
-
             var reset = function() {
                 expandChild.style.width = '100000px';
                 expandChild.style.height = '100000px';
@@ -164,10 +158,12 @@
             var onResized = function() {
                 rafId = 0;
 
-                if (!element.resizedAttached) return;
+                if (!dirty) return;
 
-                if (dirty) {
-                    updateSize();
+                lastWidth = newWidth;
+                lastHeight = newHeight;
+
+                if (element.resizedAttached) {
                     element.resizedAttached.call();
                 }
             };
