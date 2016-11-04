@@ -138,15 +138,15 @@
             var expand = element.resizeSensor.childNodes[0];
             var expandChild = expand.childNodes[0];
             var shrink = element.resizeSensor.childNodes[1];
-            var dirty, rafId, lastWidth, lastHeight, newWidth, newHeight;
+            var dirty, rafId, newWidth, newHeight;
+            var lastWidth = element.offsetWidth;
+            var lastHeight = element.offsetHeight;
 
             var updateSize = function() {
                 dirty = false;
                 lastWidth = newWidth;
                 lastHeight = newHeight;
             };
-
-            updateSize();
 
             var reset = function() {
                 expandChild.style.width = '100000px';
