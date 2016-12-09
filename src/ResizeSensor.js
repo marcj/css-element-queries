@@ -35,6 +35,7 @@
         var isCollectionTyped = ('[object Array]' === elementsType
             || ('[object NodeList]' === elementsType)
             || ('[object HTMLCollection]' === elementsType)
+            || ('[object Object]' === elementsType)
             || ('undefined' !== typeof jQuery && elements instanceof jQuery) //jquery
             || ('undefined' !== typeof Elements && elements instanceof Elements) //mootools
         );
