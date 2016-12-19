@@ -143,10 +143,13 @@
             var expand = element.resizeSensor.childNodes[0];
             var expandChild = expand.childNodes[0];
             var shrink = element.resizeSensor.childNodes[1];
+            var dirty, rafId, newWidth, newHeight;
+            var lastWidth = element.offsetWidth;
+            var lastHeight = element.offsetHeight;
 
             var reset = function() {
-                expandChild.style.width  = 100000 + 'px';
-                expandChild.style.height = 100000 + 'px';
+                expandChild.style.width = '100000px';
+                expandChild.style.height = '100000px';
 
                 expand.scrollLeft = 100000;
                 expand.scrollTop = 100000;
@@ -156,31 +159,30 @@
             };
 
             reset();
-            var dirty = false;
 
-            var dirtyChecking = function() {
-                if (!element.resizedAttached) return;
+            var onResized = function() {
+                rafId = 0;
 
-                if (dirty) {
+                if (!dirty) return;
+
+                lastWidth = newWidth;
+                lastHeight = newHeight;
+
+                if (element.resizedAttached) {
                     element.resizedAttached.call();
-                    dirty = false;
                 }
-
-                requestAnimationFrame(dirtyChecking);
             };
 
-            requestAnimationFrame(dirtyChecking);
-            var lastWidth, lastHeight;
-            var cachedWidth, cachedHeight; //useful to not query offsetWidth twice
-
             var onScroll = function() {
-              if ((cachedWidth = element.offsetWidth) != lastWidth || (cachedHeight = element.offsetHeight) != lastHeight) {
-                  dirty = true;
+                newWidth = element.offsetWidth;
+                newHeight = element.offsetHeight;
+                dirty = newWidth != lastWidth || newHeight != lastHeight;
 
-                  lastWidth = cachedWidth;
-                  lastHeight = cachedHeight;
-              }
-              reset();
+                if (dirty && !rafId) {
+                    rafId = requestAnimationFrame(onResized);
+                }
+
+                reset();
             };
 
             var addEvent = function(el, name, cb) {
