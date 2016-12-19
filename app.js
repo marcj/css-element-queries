@@ -1,5 +1,5 @@
-var EQ = require('./css-element-queries/src/ElementQueries');
-var ResizeSensor = require('./css-element-queries/src/ResizeSensor');
+var EQ = require('./../css-element-queries-source/src/ElementQueries');
+var ResizeSensor = require('./../css-element-queries-source/src/ResizeSensor');
 var Hammer = require('hammerjs/hammer');
 
 require('codemirror/mode/xml/xml');
@@ -134,7 +134,7 @@ function example4(){
         }
     });
     new ResizeSensor(box, function(){
-        logger.html('Changed to ' + box[0].clientWidth+'px height.');
+        logger.html('Changed to ' + box[0].clientHeight+'px height.');
     });
 }
 
