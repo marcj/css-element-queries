@@ -100,11 +100,12 @@
         function getComputedStyle(element, prop) {
             if (element.currentStyle) {
                 return element.currentStyle[prop];
-            } else if (window.getComputedStyle) {
-                return window.getComputedStyle(element, null).getPropertyValue(prop);
-            } else {
-                return element.style[prop];
             }
+            if (window.getComputedStyle) {
+                return window.getComputedStyle(element, null).getPropertyValue(prop);
+            }
+
+            return element.style[prop];
         }
 
         /**
@@ -113,13 +114,13 @@
          * @param {Function}    resized
          */
         function attachResizeEvent(element, resized) {
-            if (!element.resizedAttached) {
-                element.resizedAttached = new EventQueue();
-                element.resizedAttached.add(resized);
-            } else if (element.resizedAttached) {
+            if (element.resizedAttached) {
                 element.resizedAttached.add(resized);
                 return;
             }
+
+            element.resizedAttached = new EventQueue();
+            element.resizedAttached.add(resized);
 
             element.resizeSensor = document.createElement('div');
             element.resizeSensor.className = 'resize-sensor';
