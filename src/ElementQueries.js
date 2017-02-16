@@ -12,7 +12,7 @@
     } else {
         root.ElementQueries = factory(root.ResizeSensor);
     }
-}(this, function (ResizeSensor) {
+}(typeof window !== 'undefined' ? window : this, function (ResizeSensor) {
 
     /**
      *
