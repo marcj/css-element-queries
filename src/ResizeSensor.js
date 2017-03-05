@@ -85,7 +85,7 @@
                     if(q[i] !== ev) newQueue.push(q[i]);
                 }
                 q = newQueue;
-            }
+            };
 
             this.length = function() {
                 return q.length;
@@ -101,7 +101,7 @@
             if (element.currentStyle) {
                 return element.currentStyle[prop];
             }
-            if (window.getComputedStyle) {
+            if (window.getComputedStyle && window.getComputedStyle(element, null)) {
                 return window.getComputedStyle(element, null).getPropertyValue(prop);
             }
 
