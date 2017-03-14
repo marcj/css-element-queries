@@ -6,13 +6,16 @@
 ;
 (function (root, factory) {
     if (typeof define === "function" && define.amd) {
-        define(factory);
+        define(['jquery'], function (jQuery) {
+            return factory(root, jQuery);
+        });
     } else if (typeof exports === "object") {
-        module.exports = factory();
+       module.exports = factory(root, require('jquery'));
     } else {
-        root.ResizeSensor = factory();
+        root.ResizeSensor = factory(root, jQuery);
     }
-}(this, function () {
+}(this, function (root, jQuery) {
+    var previousResizeSensor = root.ResizeSensor;
 
     // Make sure it does not throw in a SSR (Server Side Rendering) situation
     if (typeof window === "undefined") {
@@ -221,6 +224,11 @@
                 delete elem.resizedAttached;
             }
         });
+    };
+
+    ResizeSensor.noConflict = function () {
+        root.ResizeSensor = previousResizeSensor;
+        return this;
     };
 
     return ResizeSensor;
