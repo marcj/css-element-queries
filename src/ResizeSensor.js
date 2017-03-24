@@ -58,10 +58,12 @@
      *
      * @param {Element|Element[]|Elements|jQuery} element
      * @param {Function} callback
+     * @param {Boolean} respectHeight
+     * @param {Boolean} respectWidth
      *
      * @constructor
      */
-    var ResizeSensor = function(element, callback) {
+    var ResizeSensor = function(element, callback, respectHeight, respectWidth) {
         /**
          *
          * @constructor
@@ -113,7 +115,7 @@
          * @param {HTMLElement} element
          * @param {Function}    resized
          */
-        function attachResizeEvent(element, resized) {
+        function attachResizeEvent(element, resized, respectHeight, respectWidth) {
             if (element.resizedAttached) {
                 element.resizedAttached.add(resized);
                 return;
@@ -177,7 +179,8 @@
             var onScroll = function() {
                 newWidth = element.offsetWidth;
                 newHeight = element.offsetHeight;
-                dirty = newWidth != lastWidth || newHeight != lastHeight;
+                dirty = (respectWidth ? newWidth != lastWidth : false)
+                  || (respectHeight ? newHeight != lastHeight : false);
 
                 if (dirty && !rafId) {
                     rafId = requestAnimationFrame(onResized);
@@ -199,7 +202,12 @@
         }
 
         forEachElement(element, function(elem){
-            attachResizeEvent(elem, callback);
+          attachResizeEvent(
+            elem,
+            callback,
+            respectHeight === undefined ? true : respectHeight,
+            respectWidth === undefined ? true : respectWidth
+          );
         });
 
         this.detach = function(ev) {
