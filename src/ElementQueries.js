@@ -11,6 +11,7 @@
         module.exports = factory(require('./ResizeSensor.js'));
     } else {
         root.ElementQueries = factory(root.ResizeSensor);
+        root.ElementQueries.listen();
     }
 }(this, function (ResizeSensor) {
 
@@ -500,15 +501,6 @@
     ElementQueries.listen = function() {
         domLoaded(ElementQueries.init);
     };
-
-    // make available to common module loader
-    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-        module.exports = ElementQueries;
-    }
-    else {
-        window.ElementQueries = ElementQueries;
-        ElementQueries.listen();
-    }
 
     return ElementQueries;
 
