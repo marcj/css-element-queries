@@ -105,12 +105,10 @@
             }
             
             if (window.getComputedStyle) {
-                try {
-                    computedElementStyle = window.getComputedStyle(element, null);
-                    if (computedElementStyle) {
-                        return computedElementStyle.getPropertyValue(prop);
-                    }
-                } catch(e) {}
+                computedElementStyle = window.getComputedStyle(element, null);
+                if (computedElementStyle) {
+                    return computedElementStyle.getPropertyValue(prop);
+                }
             }
 
             return element.style[prop];
