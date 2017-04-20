@@ -330,8 +330,8 @@
          * @param {String} css
          */
         function extractQuery(css) {
-            var match;
-            var smatch;
+            var match, smatch, attrs, attrMatch;
+            
             css = css.replace(/'/g, '"');
             while (null !== (match = regex.exec(css))) {
                 smatch = match[1] + match[3];
