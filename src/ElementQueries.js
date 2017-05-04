@@ -415,7 +415,7 @@
         };
 
         this.detach = function() {
-            if (!this.withTracking) {
+            if (!trackingActive) {
                 throw 'withTracking is not enabled. We can not detach elements since we don not store it.' +
                 'Use ElementQueries.withTracking = true; before domready or call ElementQueryes.update(true).';
             }
