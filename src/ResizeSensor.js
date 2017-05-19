@@ -93,22 +93,6 @@
         }
 
         /**
-         * @param {HTMLElement} element
-         * @param {String}      prop
-         * @returns {String|Number}
-         */
-        function getComputedStyle(element, prop) {
-            if (element.currentStyle) {
-                return element.currentStyle[prop];
-            }
-            if (window.getComputedStyle) {
-                return window.getComputedStyle(element, null).getPropertyValue(prop);
-            }
-
-            return element.style[prop];
-        }
-
-        /**
          *
          * @param {HTMLElement} element
          * @param {Function}    resized
@@ -138,7 +122,7 @@
                 '</div>';
             element.appendChild(element.resizeSensor);
 
-            if (getComputedStyle(element, 'position') == 'static') {
+            if (element.resizeSensor.offsetParent !== element) {
                 element.style.position = 'relative';
             }
 
