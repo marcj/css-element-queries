@@ -177,7 +177,25 @@
             if (typeof(allQueries[mode]) == 'undefined') allQueries[mode] = {};
             if (typeof(allQueries[mode][property]) == 'undefined') allQueries[mode][property] = {};
             if (typeof(allQueries[mode][property][value]) == 'undefined') allQueries[mode][property][value] = selector;
-            else allQueries[mode][property][value] += ','+selector;
+            else if (typeof selector === 'string') {
+                // To build a regex from the selector we need to escape it first. The following function
+                // is given on MDN: https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
+                var escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+                // MATCHES full selector at the beginning, at the end, or somewhere inside the string.
+                // DOES NOT MATCH if it acts as a subselector or super selector.
+                var hasSelectorRegex = new RegExp(
+                    '(^' + escapedSelector + ',)|' +
+                    '(,' + escapedSelector + ',)|' +
+                    '(,' + escapedSelector + '$)|' +
+                    '(^' + escapedSelector + '$)'
+                );
+
+                // Add the selector only if it is not already present
+                if (!hasSelectorRegex.test(allQueries[mode][property][value])) {
+                    allQueries[mode][property][value] += ','+selector;
+                }
+            }
         }
 
         function getQuery() {
