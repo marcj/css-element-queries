@@ -13,7 +13,7 @@
         root.ElementQueries = factory(root.ResizeSensor);
         root.ElementQueries.listen();
     }
-}(this, function (ResizeSensor) {
+}(typeof window !== 'undefined' ? window : this, function (ResizeSensor) {
 
     /**
      *
