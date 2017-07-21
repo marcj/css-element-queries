@@ -77,6 +77,8 @@
             }
         }
 
+        var attributes = ['min-width', 'min-height', 'max-width', 'max-height'];
+
         /**
          *
          * @param {HTMLElement} element
@@ -95,7 +97,6 @@
                 this.options[idx] = option;
             };
 
-            var attributes = ['min-width', 'min-height', 'max-width', 'max-height'];
 
             /**
              * Extracts the computed width/height and sets to min/max- attribute.
@@ -353,23 +354,34 @@
             }
             if ('string' === typeof rules) {
                 rules = rules.toLowerCase();
-                if (-1 !== rules.indexOf('min-width') || -1 !== rules.indexOf('max-width')) {
+                if (isElementQuery(rules)) {
                     extractQuery(rules);
                 }
             } else {
-                for (var i = 0, j = rules.length; i < j; i++) {
-                    if (1 === rules[i].type) {
-                        selector = rules[i].selectorText || rules[i].cssText;
-                        if (-1 !== selector.indexOf('min-height') || -1 !== selector.indexOf('max-height')) {
-                            extractQuery(selector);
-                        }else if(-1 !== selector.indexOf('min-width') || -1 !== selector.indexOf('max-width')) {
-                            extractQuery(selector);
-                        }
-                    } else if (4 === rules[i].type) {
-                        readRules(rules[i].cssRules || rules[i].rules);
+                for (var i = 0, j = rules.length, r; i < j; i++) {
+                    r = rules[i];
+                    switch (r.type) {
+                      case 1:   // CSSRule.STYLE_RULE
+                          selector = r.selectorText || r.cssText;
+                          if (isElementQuery(selector)) {
+                              extractQuery(selector);
+                          }
+                          break;
+                      case 3:   // CSSRule.IMPORT_RULE
+                          r = r.styleSheet;  // then continue to next case statement
+                      case 4:   // CSSRule.MEDIA_RULE
+                          readRules(r.cssRules || r.rules);
+                          break;
                     }
                 }
             }
+        }
+
+
+        function isElementQuery(s) {
+          for (var i in attributes) {
+            if (-1 !== s.indexOf(attributes[i])) return true;
+          }
         }
 
         var defaultCssInjected = false;
