@@ -28,6 +28,18 @@
             return window.setTimeout(fn, 20);
         };
 
+    // Passive events for better scroll performance
+    // https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+    var passiveEvents = false;
+    try {
+        var opts = Object.defineProperty({}, 'passive', {
+            get: function () {
+                passiveEvents = { passive: true };
+            }
+        });
+        window.addEventListener('test', null, opts);
+    } catch (e) {}
+
     /**
      * Iterate over each of the provided element(s).
      *
@@ -171,16 +183,16 @@
                 reset();
             };
 
-            var addEvent = function(el, name, cb) {
+            var addPassiveEvent = function(el, name, cb) {
                 if (el.attachEvent) {
                     el.attachEvent('on' + name, cb);
                 } else {
-                    el.addEventListener(name, cb);
+                    el.addEventListener(name, cb, passiveEvents);
                 }
             };
 
-            addEvent(expand, 'scroll', onScroll);
-            addEvent(shrink, 'scroll', onScroll);
+            addPassiveEvent(expand, 'scroll', onScroll);
+            addPassiveEvent(shrink, 'scroll', onScroll);
         }
 
         forEachElement(element, function(elem){
