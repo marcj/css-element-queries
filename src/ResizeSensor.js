@@ -12,7 +12,7 @@
     } else {
         root.ResizeSensor = factory();
     }
-}(this, function () {
+}(typeof window !== 'undefined' ? window : this, function () {
 
     // Make sure it does not throw in a SSR (Server Side Rendering) situation
     if (typeof window === "undefined") {
@@ -120,6 +120,7 @@
          * @param {Function}    resized
          */
         function attachResizeEvent(element, resized) {
+            if (!element) return;
             if (element.resizedAttached) {
                 element.resizedAttached.add(resized);
                 return;
@@ -143,7 +144,7 @@
                 '</div>';
             element.appendChild(element.resizeSensor);
 
-            if (getComputedStyle(element, 'position') == 'static') {
+            if (element.resizeSensor.offsetParent !== element) {
                 element.style.position = 'relative';
             }
 
@@ -215,6 +216,7 @@
 
     ResizeSensor.detach = function(element, ev) {
         forEachElement(element, function(elem){
+            if (!elem) return
             if(elem.resizedAttached && typeof ev == "function"){
                 elem.resizedAttached.remove(ev);
                 if(elem.resizedAttached.length()) return;
