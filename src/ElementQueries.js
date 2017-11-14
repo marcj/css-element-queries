@@ -180,9 +180,9 @@
             else allQueries[mode][property][value] += ','+selector;
         }
 
-        function getQuery() {
+        function getQuery(container) {
             var query;
-            if (document.querySelectorAll) query = document.querySelectorAll.bind(document);
+            if (document.querySelectorAll) query = (container) ? container.querySelectorAll.bind(container) : document.querySelectorAll.bind(document);
             if (!query && 'undefined' !== typeof $$) query = $$;
             if (!query && 'undefined' !== typeof jQuery) query = jQuery;
 
@@ -196,14 +196,14 @@
         /**
          * Start the magic. Go through all collected rules (readRules()) and attach the resize-listener.
          */
-        function findElementQueriesElements() {
-            var query = getQuery();
+        function findElementQueriesElements(container) {
+            var query = getQuery(container);
 
             for (var mode in allQueries) if (allQueries.hasOwnProperty(mode)) {
 
                 for (var property in allQueries[mode]) if (allQueries[mode].hasOwnProperty(property)) {
                     for (var value in allQueries[mode][property]) if (allQueries[mode][property].hasOwnProperty(value)) {
-                        var elements = query(allQueries[mode][property][value]);
+                        var elements = query(allQueries[mode][property][value], container);
                         for (var i = 0, j = elements.length; i < j; i++) {
                             setupElement(elements[i], {
                                 mode: mode,
@@ -408,6 +408,15 @@
         };
 
         /**
+         * Go through all collected rules (readRules()) and attach the resize-listener.
+         *
+         * @param {HTMLElement} container only elements of the container are considered (document.body if not set)
+         */
+        this.findElementQueriesElements = function(container) {
+            findElementQueriesElements(container);
+        };
+
+        /**
          *
          * @param {Boolean} withTracking allows and requires you to use detach, since we store internally all used elements
          *                               (no garbage collection possible if you don not call .detach() first)
@@ -498,6 +507,10 @@
         }
         /* Other web browsers */
         else window.onload = callback;
+    };
+
+    ElementQueries.findElementQueriesElements = function(container) {
+        ElementQueries.instance.findElementQueriesElements(container);
     };
 
     ElementQueries.listen = function() {
