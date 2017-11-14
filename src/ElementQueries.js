@@ -389,7 +389,7 @@
                 try {
                     readRules(document.styleSheets[i].cssRules || document.styleSheets[i].rules || document.styleSheets[i].cssText);
                 } catch(e) {
-                    if (e.name !== 'SecurityError') {
+                    if (e.name !== 'SecurityError' && e.name !== 'InvalidAccessError') {
                         throw e;
                     }
                 }
