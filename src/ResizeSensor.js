@@ -85,11 +85,33 @@
                     if(q[i] !== ev) newQueue.push(q[i]);
                 }
                 q = newQueue;
-            }
+            };
 
             this.length = function() {
                 return q.length;
             }
+        }
+
+        /**
+         * @param {HTMLElement} element
+         * @param {String}      prop
+         * @returns {String|Number}
+         */
+        function getComputedStyle(element, prop) {
+            var computedElementStyle;
+            
+            if (element.currentStyle) {
+                return element.currentStyle[prop];
+            }
+            
+            if (window.getComputedStyle) {
+                computedElementStyle = window.getComputedStyle(element, null);
+                if (computedElementStyle) {
+                    return computedElementStyle.getPropertyValue(prop);
+                }
+            }
+
+            return element.style[prop];
         }
 
         /**
