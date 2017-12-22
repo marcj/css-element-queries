@@ -39,6 +39,26 @@
         }
 
         /**
+        * Get element size
+        * @param {HTMLElement} element
+        * @returns {Object} {width, height}
+        */
+        function getElementSize(element) {
+            if (!element.getBoundingClientRect) {
+                return {
+                    width: element.offsetWidth,
+                    height: element.offsetHeight
+                }
+            }
+
+            var rect = element.getBoundingClientRect();
+            return {
+                width: Math.round(rect.width),
+                height: Math.round(rect.height)
+            }
+        }
+
+        /**
          *
          * @copyright https://github.com/Mr0grog/element-query/blob/master/LICENSE
          *
@@ -85,7 +105,7 @@
         function SetupInformation(element) {
             this.element = element;
             this.options = {};
-            var key, option, width = 0, height = 0, value, actualValue, attrValues, attrValue, attrName;
+            var key, option, elementSize, value, actualValue, attrValues, attrValue, attrName;
 
             /**
              * @param {Object} option {mode: 'min|max', property: 'width|height', value: '123px'}
@@ -102,8 +122,7 @@
              */
             this.call = function() {
                 // extract current dimensions
-                width = this.element.offsetWidth;
-                height = this.element.offsetHeight;
+                elementSize = getElementSize(this.element);
 
                 attrValues = {};
 
@@ -115,7 +134,7 @@
 
                     value = convertToPx(this.element, option.value);
 
-                    actualValue = option.property == 'width' ? width : height;
+                    actualValue = option.property == 'width' ? elementSize.width : elementSize.height;
                     attrName = option.mode + '-' + option.property;
                     attrValue = '';
 

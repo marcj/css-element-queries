@@ -54,6 +54,26 @@
     }
 
     /**
+    * Get element size
+    * @param {HTMLElement} element
+    * @returns {Object} {width, height}
+    */
+    function getElementSize(element) {
+        if (!element.getBoundingClientRect) {
+            return {
+                width: element.offsetWidth,
+                height: element.offsetHeight
+            }
+        }
+
+        var rect = element.getBoundingClientRect();
+        return {
+            width: Math.round(rect.width),
+            height: Math.round(rect.height)
+        }
+    }
+
+    /**
      * Class for dimension change detection.
      *
      * @param {Element|Element[]|Elements|jQuery} element
@@ -131,8 +151,9 @@
             var expandChild = expand.childNodes[0];
             var shrink = element.resizeSensor.childNodes[1];
             var dirty, rafId, newWidth, newHeight;
-            var lastWidth = element.offsetWidth;
-            var lastHeight = element.offsetHeight;
+            var size = getElementSize(element);
+            var lastWidth = size.width;
+            var lastHeight = size.height;
 
             var reset = function() {
                 expandChild.style.width = '100000px';
@@ -161,8 +182,9 @@
             };
 
             var onScroll = function() {
-                newWidth = element.offsetWidth;
-                newHeight = element.offsetHeight;
+                var size = getElementSize(element);
+                var newWidth = size.width;
+                var newHeight = size.height;
                 dirty = newWidth != lastWidth || newHeight != lastHeight;
 
                 if (dirty && !rafId) {
@@ -195,7 +217,7 @@
 
     ResizeSensor.detach = function(element, ev) {
         forEachElement(element, function(elem){
-            if (!elem) return
+            if (!elem) return;
             if(elem.resizedAttached && typeof ev == "function"){
                 elem.resizedAttached.remove(ev);
                 if(elem.resizedAttached.length()) return;
