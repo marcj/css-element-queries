@@ -166,8 +166,6 @@
                 shrink.scrollTop = 100000;
             };
 
-            reset();
-
             var onResized = function() {
                 rafId = 0;
 
@@ -204,6 +202,9 @@
 
             addEvent(expand, 'scroll', onScroll);
             addEvent(shrink, 'scroll', onScroll);
+            
+			// Fix for custom Elements
+			requestAnimationFrame(reset);
         }
 
         forEachElement(element, function(elem){
