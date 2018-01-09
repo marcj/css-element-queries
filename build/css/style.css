@@ -1,5 +1,10 @@
 @charset "UTF-8";
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,300);
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
 html, body {
   background-color: #f9f9f9;
   padding: 0;

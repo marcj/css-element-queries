@@ -1,5 +1,5 @@
-var EQ = require('./../css-element-queries-source/src/ElementQueries');
-var ResizeSensor = require('./../css-element-queries-source/src/ResizeSensor');
+var EQ = require('./css-element-queries/src/ElementQueries');
+var ResizeSensor = require('./css-element-queries/src/ResizeSensor');
 var Hammer = require('hammerjs/hammer');
 
 require('codemirror/mode/xml/xml');
@@ -36,9 +36,10 @@ $(window).load(function () {
             readOnly: true
         });
     });
+
+    EQ.init();
 });
 
-EQ.listen();
 
 function ResizerDemo(element) {
     element = $(element);

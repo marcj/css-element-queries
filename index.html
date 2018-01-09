@@ -41,8 +41,8 @@
                             frameborder="0" scrolling="0" width="110px" height="20px"></iframe>
                 </div>
             </div>
-                    <a href="https://github.com/marcj/css-element-queries" class="btn btn-primary"><i class="fa fa-github"></i> View On GitHub</a>
-                    <a href="https://twitter.com/MarcJSchmidt" class="btn btn-primary"><i class="fa fa-twitter"></i> Powered by @MarcJSchmidt</a>
+            <a href="https://github.com/marcj/css-element-queries" class="btn btn-primary"><i class="fa fa-github"></i> View On GitHub</a>
+            <a href="https://twitter.com/MarcJSchmidt" class="btn btn-primary"><i class="fa fa-twitter"></i> Powered by @MarcJSchmidt</a>
         </div>
 
         <p class="seperator"></p>
@@ -56,8 +56,7 @@
         <span class="pull-left">Current Version: 1.0.0</span>
 
         <div class="btn-group" role="group">
-            <a href="https://github.com/marcj/css-element-queries/zipball/master" class="btn btn-primary"><i class="fa fa-cloud-download"></i> ZIP</a>
-            <a href="https://github.com/marcj/css-element-queries/tarball/master" class="btn btn-default"><i class="fa fa-file-archive-o"></i> TAR</a>
+            <a href="https://github.com/marcj/css-element-queries/releases/tag/1.0.0" class="btn btn-primary"><i class="fa fa-cloud-download"></i> Download</a>
         </div>
     </div>
 
@@ -88,8 +87,6 @@ ElementQueries.listen();
 // 'init' parses all available CSS and attach ResizeSensor to those elements which
 // have rules attached (make sure this is called after 'load' event, because
 // CSS files are not ready when domReady is fired.
-// Use this function if you have dynamically created HTMLElements
-// (through ajax calls or something)
 ElementQueries.init();</textarea>
     </div>
 
@@ -101,10 +98,11 @@ ElementQueries.init();</textarea>
     <ul>
         <li>High-speed.</li>
         <li>No interval/timeout detection like in most resize sensor out there. It's truly event-based.</li>
+        <li>Automatically discovers new DOM elements. No need to call javascript manually.</li>
         <li>No CSS modifications. Valid CSS Syntax.</li>
         <li>All CSS selectors available. It uses the normal attribute selector.</li>
-        <li>Support and tested in webkit, gecko and internet explorer(7/8/9/10/11).</li>
-        <li>min-width, min-height, max-width and max-height are yet supported.</li>
+        <li>Support for Chrome, Firefox, Safari and Internet Explorer (10 and up).</li>
+        <li>min-width, min-height, max-width and max-height supported.</li>
         <li>It works for all layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3
             transitions, fluid layout changes (parent changes too), pseudo classes (:hover etc), window resizes,
             etc.
@@ -224,7 +222,7 @@ ElementQueries.init();</textarea>
     font-size: 12px;
 }
 </textarea>
-                    </div>
+                </div>
                 <div class="breaker"></div>
             </div>
 
@@ -383,21 +381,26 @@ new ResizeSensor(element, function() {
     </div>
 </div>
 <footer>
-    <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a>.
-        Copyright by
-        <a href="http://marcjschmidt.de">Marc J. Schmidt</a>
-        | <a href="https://github.com/marcj">@marcj</a>
-        | <a href="https://twitter.com/MarcJSchmidt">@MarcJSchmidt</a>
-    </small></p>
+    <p>
+        <small>Hosted on <a href="https://pages.github.com">GitHub Pages</a>.
+            Copyright by
+            <a href="http://marcjschmidt.de">Marc J. Schmidt</a>
+            | <a href="https://github.com/marcj">@marcj</a>
+            | <a href="https://twitter.com/MarcJSchmidt">@MarcJSchmidt</a>
+        </small>
+    </p>
 </footer>
 <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-44935629-1']);
     _gaq.push(['_trackPageview']);
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    (function () {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
     })();
 </script>
 </body>

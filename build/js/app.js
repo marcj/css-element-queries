@@ -837,9 +837,10 @@ $(window).load(function () {
             readOnly: true
         });
     });
+
+    EQ.init();
 });
 
-EQ.listen();
 
 function ResizerDemo(element) {
     element = $(element);
@@ -935,7 +936,7 @@ function example4(){
         }
     });
     new ResizeSensor(box, function(){
-        logger.html('Changed to ' + box[0].clientWidth+'px height.');
+        logger.html('Changed to ' + box[0].clientHeight+'px height.');
     });
 }
 
@@ -946,7 +947,7 @@ function example5(){
         box[0].innerHTML = (++changed) + ' changes. ' + box.parent()[0].clientWidth+'px/'+box.parent()[0].clientHeight+'px';
     });
 }
-}).call(this,require("lYpoI2"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_9151ed5a.js","/")
+}).call(this,require("lYpoI2"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_49e9681a.js","/")
 },{"./css-element-queries/src/ElementQueries":1,"./css-element-queries/src/ResizeSensor":2,"buffer":10,"codemirror/lib/codemirror":4,"codemirror/mode/css/css":5,"codemirror/mode/htmlmixed/htmlmixed":6,"codemirror/mode/javascript/javascript":7,"codemirror/mode/xml/xml":8,"hammerjs/hammer":13,"jQuery":14,"lYpoI2":12}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
