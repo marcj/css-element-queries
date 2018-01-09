@@ -1,0 +1,396 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=750px, initial-scale=0.5, user-scalable=yes">
+
+    <title>Css-element-queries Demo</title>
+
+    <link rel="stylesheet" href="./demo.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <script src="../src/ResizeSensor.js"></script>
+    <script src="../src/ElementQueries.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <script src="./demo.js"></script>
+
+    <style type="text/css">
+        .widget-name h2 {
+            font-size: 12px;
+        }
+
+        /*.widget-name {*/
+            /*animation-name: element-queries;*/
+            /*animation-duration: 0.1s;*/
+            /*!*animation-fill-mode: forwards;*!*/
+        /*}*/
+
+        /*@-webkit-keyframes element-queries {*/
+            /*0% {*/
+                /*border: 1px solid blue;*/
+            /*}*/
+
+            /*100% {*/
+                /*border: 1px solid red;*/
+            /*}*/
+        /*}*/
+
+        .widget-name[min-width~="400px"] h2 {
+            font-size: 18px;
+            animation: 1s element ;
+        }
+
+        .widget-name[min-width~="600px"] h2 {
+            padding: 55px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .widget-name[min-width~="700px"] h2 {
+            font-size: 34px;
+            color: red;
+        }
+
+        .example-1 {
+            max-width: 500px;
+            border: 1px solid silver;
+            background-color: #eee;
+            margin: auto;
+            padding: 5px;
+            text-align: center;
+            min-width: 120px;
+            transition:all .2s ease;
+        }
+
+        .example-1[min-width~="400px"] {
+            padding: 80px;
+        }
+
+        .example-1[min-width~="200px"] {
+            text-align: left;
+            font-size: 12px;
+        }
+
+
+        .example-2[max-width~="300px"] .example-2-first,
+        .example-2[max-width~="300px"] .example-2-second {
+            float: none;
+            background-color: #4186ff;
+            width: auto;
+        }
+
+        .example-2 .example-2-box {
+            background-color: #ba000d;
+        }
+
+        .example-2[min-width~="200px"] .example-2-box {
+            background-color: #ba6377;
+        }
+
+        .example-2[min-width~="300px"] .example-2-box {
+            background-color: #ba9196;
+        }
+
+        .example-2[min-width~="400px"] .example-2-box {
+            background-color: gray;
+        }
+    </style>
+
+    <script type="text/javascript">
+        angular.module('app', [])
+    </script>
+</head>
+<body ng-app="app">
+
+<div class="wrapper">
+    <p class="seperator"></p>
+    <h2>Examples
+        <div class="sub">
+            Drag the gray line at the right to see it in action.
+        </div>
+    </h2>
+    <div class="demos">
+        <div class="examples">
+            <div class="example">
+                <h2>Responsive Text</h2>
+                <div class="examplesResizerDemos">
+                    <div class="example-readme">
+                        <div class="widget-name">
+                            <h2>Element responsiveness FTW!</h2>
+                        </div>
+                        <div class="widget-name" style="display: none;" ng-style="{display: $root.widget1Visible ? 'block' : 'none'}">
+                            <h2>Element started display: none</h2>
+                        </div>
+                        <button type="button" ng-if="!$root.widget1Visible" ng-click="$root.widget1Visible=1;">Show hidden element</button>
+                        <button type="button" ng-if="$root.widget1Visible" ng-click="$root.widget1Visible=false">Hide hidden element</button>
+
+                        <div class="widget-name" ng-if="$root.widget2Visible">
+                            <h2>Element detachable</h2>
+                        </div>
+                        <button type="button" ng-if="!$root.widget2Visible" ng-click="$root.widget2Visible=1;">Attach element</button>
+                        <button type="button" ng-if="$root.widget2Visible" ng-click="$root.widget2Visible=false">Detach element</button>
+
+                        <div class="widget-name" ng-repeat="id in $root.elements track by $index">
+                            <h2>Dynamic element {{id}}</h2>
+                        </div>
+
+                        <button type="button" ng-click="$root.elements=$root.elements||[];$root.elements.push($root.elements.length)">Add new element</button>
+                    </div>
+                </div>
+                <div class="code html">
+                    <textarea class="html"><div class="widget-name">
+    <h2>Element responsiveness FTW!</h2>
+</div></textarea>
+                </div>
+                <div class="code css">
+                    <textarea class="css">
+.widget-name h2 {
+    font-size: 12px;
+}
+
+.widget-name[min-width~="400px"] h2 {
+    font-size: 18px;
+}
+
+.widget-name[min-width~="600px"] h2 {
+    padding: 55px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.widget-name[min-width~="700px"] h2 {
+    font-size: 34px;
+    color: red;
+}</textarea>
+                </div>
+                <div class="breaker"></div>
+            </div>
+            <div class="example">
+                <h2>Responsive Image</h2>
+                <div class="examplesResizerDemos">
+                    <div class="example-responsive-image">
+                        <div data-responsive-image>
+                            <img data-src="http://placehold.it/350x150"/>
+                            <img min-width="350" data-src="http://placehold.it/700x300"/>
+                            <img min-width="700" data-src="http://placehold.it/1400x600"/>
+                        </div>
+
+                        The image above has a default of 700px. Shrink or expend the container too see responsive image
+                        working.
+                        Thanks <a href="http://placehold.it/">@placehold.it</a>
+                    </div>
+                </div>
+                <div class="code html code-full">
+                    <textarea class="html"><div data-responsive-image>
+    <img data-src="http://placehold.it/350x150"/>
+    <img min-width="350" data-src="http://placehold.it/700x300"/>
+    <img min-width="700" data-src="http://placehold.it/1400x600"/>
+</div></textarea>
+                </div>
+                <div class="breaker"></div>
+            </div>
+            <div class="example">
+                <h2>Responsive Widget</h2>
+                <div class="examplesResizerDemos">
+                    <div class="example-1">
+                        <h2>Demo 1</h2>
+                        This is content from the first responsive demo without media queries. It uses the element
+                        queries
+                        provided by this library.
+                    </div>
+                </div>
+
+                <div class="code html">
+                    <textarea class="html">
+<div class="example-1">
+    <h2>Demo 1</h2>
+    This is content from the first responsive demo without media queries. It uses the element
+    queries
+    provided by this library.
+</div>
+</textarea>
+                </div>
+                <div class="code css">
+                    <textarea class="css">
+.example-1 {
+    max-width: 500px;
+    border: 1px solid silver;
+    background-color: #eee;
+    margin: auto;
+    padding: 5px;
+    text-align: center;
+    min-width: 120px;
+    transition:all .2s ease;
+}
+
+.example-1[min-width~="400px"] {
+    padding: 80px;
+}
+
+.example-1[min-width~="200px"] {
+    text-align: left;
+    font-size: 12px;
+}
+</textarea>
+                </div>
+                <div class="breaker"></div>
+            </div>
+
+            <div class="example">
+                <h2>Responsive Layout</h2>
+                <div class="examplesResizerDemos">
+                    <div class="example-2">
+                        <h2>Demo 2</h2>
+                        <div class="example-2-box">
+                            Box
+                        </div>
+                        <div class="example-2-first">
+                            First 1/2 box
+                        </div>
+                        <div class="example-2-second">
+                            Second 1/2 box
+                        </div>
+                        <div class="breaker"></div>
+                    </div>
+                </div>
+                <div class="code html">
+                    <textarea class="html">
+<div class="example-2">
+    <h2>Demo 2</h2>
+    <div class="example-2-box">
+        Box
+    </div>
+    <div class="example-2-first">
+        First 1/2 box
+    </div>
+    <div class="example-2-second">
+        Second 1/2 box
+    </div>
+    <div class="breaker"></div>
+</div>
+});</textarea>
+                </div>
+                <div class="code css">
+                    <textarea class="css">
+.example-2-first,
+.example-2-second {
+    background-color: black;
+    color: white;
+    padding: 2px;
+    width: 50%;
+    float: left;
+    border: 5px solid #eee;
+}
+
+.example-2-second {
+    float: right;
+}
+
+.example-2-box {
+    color: white;
+    margin: 5px;
+    padding: 2px;
+}
+
+.example-2[max-width~="300px"] .example-2-first,
+.example-2[max-width~="300px"] .example-2-second {
+    float: none;
+    background-color: #4186ff;
+    width: auto;
+}
+
+.example-2 .example-2-box {
+    background-color: #ba000d;
+}
+
+.example-2[min-width~="200px"] .example-2-box {
+    background-color: #ba6377;
+}
+
+.example-2[min-width~="300px"] .example-2-box {
+    background-color: #ba9196;
+}
+
+.example-2[min-width~="400px"] .example-2-box {
+    background-color: gray;
+}</textarea>
+                </div>
+                <div class="breaker"></div>
+            </div>
+            <div class="example">
+                <h2>Responsive Animation</h2>
+                <div class="examplesResizerDemos">
+                    <div class="example-3">
+                        <h2>Demo 3 - width
+                            <button class="btn btn-default" id="startStop3">Start/Stop</button>
+                        </h2>
+                        <div id="example-3-box">
+                            This box is animated through css transitions.
+                            We attached a resize-listener to this box. See below.
+                        </div>
+                        <div id="example-3-log">
+                            No changes.
+                        </div>
+                    </div>
+                </div>
+                <div class="examplesResizerDemos">
+                    <div class="example-4">
+                        <h2>Demo 4 - height
+                            <button class="btn btn-default" id="startStop4">Start/Stop</button>
+                        </h2>
+                        <div id="example-4-box">
+                            This box is animated through css transitions.
+                            We attached a resize-listener to this box. See below.
+                        </div>
+                        <div id="example-4-log">
+                            No changes.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h2>ResizeSensor Demo</h2>
+                <div style="height: 80px">
+                    <div class="examplesResizerDemos">
+                        <div id="example-5">
+                            0 changes
+                        </div>
+                    </div>
+                </div>
+                <div class="example-desc">
+                    CSS-Element-Queries comes with a Javascript ResizeSensor class you can use in Javascript directly.
+                    <div class="code html code-full">
+                    <textarea class="javascript">
+var element = document.getElementById('myElement');
+new ResizeSensor(element, function() {
+    console.log('Changed to ' + element.clientWidth);
+});</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h2>Performance Demo</h2>
+                <div class="dynamic">
+                    <div class="input-group">
+                        <span class="input-group-addon">Performance Test:</span>
+                        <input type="text" class="form-control" value="10" id="dynamicCount"/>
+
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" onclick="addDynamic()">Add</button>
+                            <button class="btn btn-default" onclick="detachDynamic()">Detach Listener</button>
+                            <button class="btn btn-default" onclick="removeDynamic()">Remove DOM</button>
+                        </span>
+                    </div>
+                    <div id="dynamicCounter"></div>
+                    <div id="dynamicContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>

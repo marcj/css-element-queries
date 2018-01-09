@@ -13,9 +13,10 @@ Features:
 
  - no performance issues since it listens only on size changes of elements that have element query rules defined through css. Other element query polifills only listen on `window.onresize` which causes performance issues and allows only to detect changes via window.resize event and not inside layout changes like css3 animation, :hover, DOM changes etc.
  - no interval/timeout detection. Truly event-based through integrated ResizeSensor class.
+ - automatically discovers new DOM elements. No need to call javascript manually.
  - no CSS modifications. Valid CSS Syntax
- - all CSS selectors available. Uses regular attribute selector. No need to write rules in HTML.
- - supports and tested in webkit, gecko and IE(7/8/9/10/11)
+ - all CSS selectors available. Uses regular attribute selector. No need to write rules in HTML/JS.
+ - supports and tested in webkit, gecko and IE(10+)
  - `min-width`, `min-height`, `max-width` and `max-height` are supported so far
  - works with any layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3 transitions, fluid layout changes (also percent changes), pseudo classes (:hover etc.), window resizes and more
  - no Javascript-Framework dependency (works with jQuery, Mootools, etc.)
@@ -50,7 +51,7 @@ More demos and information: http://marcj.github.io/css-element-queries/
 
 As you can see we use the `~=` [attribute selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors).
 Since this css-element-queries polyfill adds new element attributes on the DOM element
-(`<div class="widget-name" min-width="400px 700px"></div>`) depending on your actual CSS,
+(`<div class="widget-name" min-width="400px 700px"></div>`) depending on your actual CSS and element's dimension,
 you should always use this attribute selector (especially if you have several element query rules on the same element).
 
 ```html
@@ -104,6 +105,7 @@ ElementQueries.init();
  - So far does not work on `img` and other elements that can't contain other elements. Wrapping with a `div` works fine though (See demo).
  - Adds additional hidden elements into selected target element and forces target element to be relative or absolute.
  - Local stylesheets do not work (using `file://` protocol).
+ - If you have rules on an element that has a css animation, also add `element-queries`. E.g. `.widget-name { animation: 2sec my-animation, 1s element-queries;}`. We use this to detect new added DOM elements automatically.
 
 ## License
 
