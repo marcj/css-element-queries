@@ -144,7 +144,7 @@
                 '</div>';
             element.appendChild(element.resizeSensor);
 
-            var position = window.getComputedStyle(element).getPropertyPriority('position');
+            var position = window.getComputedStyle(element).getPropertyValue('position');
             if ('absolute' !== position && 'relative' !== position && 'fixed' !== position) {
                 element.style.position = 'relative';
             }
