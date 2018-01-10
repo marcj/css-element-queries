@@ -157,23 +157,47 @@
             var size = getElementSize(element);
             var lastWidth = size.width;
             var lastHeight = size.height;
-
-
+            var initialHiddenCheck = true, resetRAF_id;
+            
+            
+            var resetExpandShrink_ = function () {
+		        expandChild.style.width = '100000px';
+		        expandChild.style.height = '100000px';
+		
+		        expand.scrollLeft = 100000;
+		        expand.scrollTop = 100000;
+		
+		        shrink.scrollLeft = 100000;
+		        shrink.scrollTop = 100000;
+	        };
             var reset = function() {
-                expandChild.style.width = '100000px';
-                expandChild.style.height = '100000px';
+            	// Check if element is hidden
+            	if (initialHiddenCheck){
+            		if (!expand.scrollTop && !expand.scrollLeft) {
 
-                expand.scrollLeft = 100000;
-                expand.scrollTop = 100000;
+            			// reset
+			            resetExpandShrink_();
 
-                shrink.scrollLeft = 100000;
-                shrink.scrollTop = 100000;
+			            // Check in next frame
+			            if (!resetRAF_id){
+			            	resetRAF_id = requestAnimationFrame(function(){
+					            resetRAF_id = 0;
+					            
+			            		reset();
+				            });
+			            }
+            			
+			            return;
+		            }
+		            // Stop checking
+		            else{
+			            initialHiddenCheck = false;
+		            }
+	            }
+
+	            resetExpandShrink_();
             };
             element.resizeSensor.resetSensor = reset;
-
-	        var dirtyCheckHidden = function() {
-		        expand.scrollLeft === 0 && reset();
-	        };
 
             var onResized = function() {
                 rafId = 0;
@@ -189,8 +213,6 @@
             };
 
             var onScroll = function() {
-	            clearInterval(dirtyCheckHidden.timeOut);
-            	
                 size = getElementSize(element);
                 dirty = size.width !== lastWidth || size.height !== lastHeight;
 
@@ -214,9 +236,6 @@
             
             // Fix for custom Elements
             requestAnimationFrame(reset);
-
-	        // Fix for initial hidden element, dirtyCheck will stop once scroll event fired once.
-	        dirtyCheckHidden.timeOut = setInterval(dirtyCheckHidden, 20);
         }
 
         forEachElement(element, function(elem){
