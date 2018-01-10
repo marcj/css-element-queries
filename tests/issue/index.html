@@ -18,7 +18,7 @@
 			
 			background-color: #806522;
 			
-			animation: backForth 5s infinite;
+			animation: backForth 4s infinite;
 		}
 		.test>span{
 			margin: auto;
@@ -40,12 +40,12 @@
 </head>
 <body>
 	
-	<div class="parent" style="display: none;">
+	<div class="parent">
 		<div class="test">
 			<span></span>
 		</div>
 	</div>
-	<div class="parent">
+	<div class="parent" style="display: none;">
 		<div class="test">
 			<span></span>
 		</div>
@@ -61,7 +61,7 @@
 		
 		
 		var domTests = document.querySelectorAll('.test'),
-			domParent = domTests[0].parentElement;
+			domParent = domTests[1].parentElement;
 		
 		/**
 		 * On element resize, display width percentage elem / elemParent
@@ -77,10 +77,10 @@
 			new ResizeSensor(domTests[i], onResizeTest.bind(null, domTests[i]));
 		}
 		
-		// Display first element after 1sec
-		setTimeout(function () {
-			domParent.style.display = 'block';
-		}, 1000);
+		// Display first element after 2sec, switch between visible and hidden after that
+		setInterval(function () {
+			domParent.style.display = domParent.style.display === 'block' ? 'none' : 'block';
+		}, 2000);
 	</script>
 </body>
 </html>
