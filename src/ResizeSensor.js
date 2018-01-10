@@ -218,8 +218,8 @@
             addEvent(expand, 'scroll', onScroll);
             addEvent(shrink, 'scroll', onScroll);
             
-			// Fix for custom Elements
-			requestAnimationFrame(reset);
+            // Fix for custom Elements
+            requestAnimationFrame(reset);
         }
 
         forEachElement(element, function(elem){

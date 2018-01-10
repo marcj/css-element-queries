@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Test initial hidden state</title>
+	
+	<script src="../../src/ResizeSensor.js"></script>
+	
+	<style>
+		.parent{
+			margin-bottom: 10px;
+		}
+		.test{
+			display: flex;
+			
+			width: 50%;
+			height: 50px;
+			
+			background-color: #806522;
+			
+			animation: backForth 5s infinite;
+		}
+		.test>span{
+			margin: auto;
+		}
+		
+		@keyframes backForth {
+			0% {
+				width: 0;
+			}
+			50% {
+				width: 100%;
+			}
+			100% {
+				width: 0;
+			}
+		}
+		
+	</style>
+</head>
+<body>
+	
+	<div class="parent" style="display: none;">
+		<div class="test">
+			<span></span>
+		</div>
+	</div>
+	<div class="parent">
+		<div class="test">
+			<span></span>
+		</div>
+	</div>
+	
+	
+	<script>
+		/**
+		 * Test ResizeSensor for an element that is Hidden,
+		 * either by a CSS property on himself or a parent,
+		 * at the time the Sensor is added.
+		 */
+		
+		
+		var domTests = document.querySelectorAll('.test'),
+			domParent = domTests[0].parentElement;
+		
+		/**
+		 * On element resize, display width percentage elem / elemParent
+		 * 
+		 * @param {HTMLElement} domTest
+		 */
+		function onResizeTest(domTest){
+			domTest.firstElementChild.innerHTML = ''+ (100 * domTest.clientWidth / domTest.parentElement.clientWidth).toFixed(0) +'%';
+		}
+		
+		// Create all ResizeSensors
+		for (var i = 0; i < domTests.length; i++){
+			new ResizeSensor(domTests[i], onResizeTest.bind(null, domTests[i]));
+		}
+		
+		// Display first element after 1sec
+		setTimeout(function () {
+			domParent.style.display = 'block';
+		}, 1000);
+	</script>
+</body>
+</html>
