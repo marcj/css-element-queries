@@ -158,14 +158,6 @@
             var lastHeight = size.height;
 
             var reset = function() {
-                //set display to block, necessary otherwise hidden elements won't ever work
-                var invisible = element.offsetWidth === 0 && element.offsetHeight === 0;
-
-                if (invisible) {
-                    var saveDisplay = element.style.display;
-                    element.style.display = 'block';
-                }
-
                 expandChild.style.width = '100000px';
                 expandChild.style.height = '100000px';
 
@@ -174,12 +166,12 @@
 
                 shrink.scrollLeft = 100000;
                 shrink.scrollTop = 100000;
-
-                if (invisible) {
-                    element.style.display = saveDisplay;
-                }
             };
             element.resizeSensor.resetSensor = reset;
+
+	        var dirtyCheckHidden = function() {
+		        expand.scrollLeft === 0 && reset();
+	        };
 
             var onResized = function() {
                 rafId = 0;
@@ -195,10 +187,12 @@
             };
 
             var onScroll = function() {
+	            clearInterval(dirtyCheckHidden.timeOut);
+            	
                 var size = getElementSize(element);
                 var newWidth = size.width;
                 var newHeight = size.height;
-                dirty = newWidth != lastWidth || newHeight != lastHeight;
+                dirty = newWidth !== lastWidth || newHeight !== lastHeight;
 
                 if (dirty && !rafId) {
                     rafId = requestAnimationFrame(onResized);
@@ -220,6 +214,9 @@
             
             // Fix for custom Elements
             requestAnimationFrame(reset);
+
+	        // Fix for initial hidden element, dirtyCheck will stop once scroll event fired once.
+	        dirtyCheckHidden.timeOut = setInterval(dirtyCheckHidden, 20);
         }
 
         forEachElement(element, function(elem){
