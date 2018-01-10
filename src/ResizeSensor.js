@@ -152,10 +152,12 @@
             var expand = element.resizeSensor.childNodes[0];
             var expandChild = expand.childNodes[0];
             var shrink = element.resizeSensor.childNodes[1];
-            var dirty, rafId, newWidth, newHeight;
+
+            var dirty, rafId;
             var size = getElementSize(element);
             var lastWidth = size.width;
             var lastHeight = size.height;
+
 
             var reset = function() {
                 expandChild.style.width = '100000px';
@@ -178,8 +180,8 @@
 
                 if (!dirty) return;
 
-                lastWidth = newWidth;
-                lastHeight = newHeight;
+                lastWidth = size.width;
+                lastHeight = size.height;
 
                 if (element.resizedAttached) {
                     element.resizedAttached.call();
@@ -189,10 +191,8 @@
             var onScroll = function() {
 	            clearInterval(dirtyCheckHidden.timeOut);
             	
-                var size = getElementSize(element);
-                var newWidth = size.width;
-                var newHeight = size.height;
-                dirty = newWidth !== lastWidth || newHeight !== lastHeight;
+                size = getElementSize(element);
+                dirty = size.width !== lastWidth || size.height !== lastHeight;
 
                 if (dirty && !rafId) {
                     rafId = requestAnimationFrame(onResized);
