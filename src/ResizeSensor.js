@@ -94,9 +94,9 @@
             };
 
             var i, j;
-            this.call = function() {
+            this.call = function(sizeInfo) {
                 for (i = 0, j = q.length; i < j; i++) {
-                    q[i].call();
+                    q[i].call(this, sizeInfo);
                 }
             };
 
@@ -190,7 +190,11 @@
                 lastHeight = newHeight;
 
                 if (element.resizedAttached) {
-                    element.resizedAttached.call();
+                    element.resizedAttached.call(
+                    {
+                        width: lastWidth,
+                        height: lastHeight
+                    });
                 }
             };
 
