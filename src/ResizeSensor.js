@@ -83,6 +83,9 @@
      * @constructor
      */
     var ResizeSensor = function(element, callback) {
+       
+        var observer;
+       
         /**
          *
          * @constructor
@@ -241,13 +244,38 @@
             // Fix for custom Elements
             requestAnimationFrame(reset);
         }
-
-        forEachElement(element, function(elem){
-            attachResizeEvent(elem, callback);
-        });
+         
+        if (typeof ResizeObserver != "undefined") {
+            observer = new ResizeObserver(function(entries){
+                for (var entry of entries) {
+                    callback.call(
+                        this,
+                        {
+                            width: entry.contentRect.width,
+                            height: entry.contentRect.height
+                        }
+                   );
+                }
+            });
+            if (element !== undefined) {
+                forEachElement(element, function(elem){
+                   observer.observe(elem);
+                });
+            }
+        }
+        else {
+            forEachElement(element, function(elem){
+                attachResizeEvent(elem, callback);
+            });
+        }
 
         this.detach = function(ev) {
-            ResizeSensor.detach(element, ev);
+            if (typeof ResizeObserver != "undefined") {
+               observer.unobserve(element);
+            }
+            else{
+                ResizeSensor.detach(element, ev);
+            }
         };
 
         this.reset = function() {
