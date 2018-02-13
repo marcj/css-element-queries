@@ -384,7 +384,9 @@
                     } else if (4 === rules[i].type) {
                         readRules(rules[i].cssRules || rules[i].rules);
                     } else if (3 === rules[i].type) {
-                        readRules(rules[i].styleSheet.cssRules);
+                        if(rules[i].styleSheet.hasOwnProperty("cssRules")) {
+                            readRules(rules[i].styleSheet.cssRules);
+                        }
                     }
                 }
             }
