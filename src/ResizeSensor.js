@@ -94,9 +94,9 @@
             };
 
             var i, j;
-            this.call = function() {
+            this.call = function(sizeInfo) {
                 for (i = 0, j = q.length; i < j; i++) {
-                    q[i].call();
+                    q[i].call(this, sizeInfo);
                 }
             };
 
@@ -152,32 +152,50 @@
             var expand = element.resizeSensor.childNodes[0];
             var expandChild = expand.childNodes[0];
             var shrink = element.resizeSensor.childNodes[1];
-            var dirty, rafId, newWidth, newHeight;
+
+            var dirty, rafId;
             var size = getElementSize(element);
             var lastWidth = size.width;
             var lastHeight = size.height;
-
+            var initialHiddenCheck = true, resetRAF_id;
+            
+            
+            var resetExpandShrink_ = function () {
+		        expandChild.style.width = '100000px';
+		        expandChild.style.height = '100000px';
+		
+		        expand.scrollLeft = 100000;
+		        expand.scrollTop = 100000;
+		
+		        shrink.scrollLeft = 100000;
+		        shrink.scrollTop = 100000;
+	        };
             var reset = function() {
-                //set display to block, necessary otherwise hidden elements won't ever work
-                var invisible = element.offsetWidth === 0 && element.offsetHeight === 0;
+            	// Check if element is hidden
+            	if (initialHiddenCheck){
+            		if (!expand.scrollTop && !expand.scrollLeft) {
 
-                if (invisible) {
-                    var saveDisplay = element.style.display;
-                    element.style.display = 'block';
-                }
+            			// reset
+			            resetExpandShrink_();
 
-                expandChild.style.width = '100000px';
-                expandChild.style.height = '100000px';
+			            // Check in next frame
+			            if (!resetRAF_id){
+			            	resetRAF_id = requestAnimationFrame(function(){
+					            resetRAF_id = 0;
+					            
+			            		reset();
+				            });
+			            }
+            			
+			            return;
+		            }
+		            // Stop checking
+		            else{
+			            initialHiddenCheck = false;
+		            }
+	            }
 
-                expand.scrollLeft = 100000;
-                expand.scrollTop = 100000;
-
-                shrink.scrollLeft = 100000;
-                shrink.scrollTop = 100000;
-
-                if (invisible) {
-                    element.style.display = saveDisplay;
-                }
+	            resetExpandShrink_();
             };
             element.resizeSensor.resetSensor = reset;
 
@@ -186,19 +204,21 @@
 
                 if (!dirty) return;
 
-                lastWidth = newWidth;
-                lastHeight = newHeight;
+                lastWidth = size.width;
+                lastHeight = size.height;
 
                 if (element.resizedAttached) {
-                    element.resizedAttached.call();
+                    element.resizedAttached.call(
+                    {
+                        width: lastWidth,
+                        height: lastHeight
+                    });
                 }
             };
 
             var onScroll = function() {
-                var size = getElementSize(element);
-                var newWidth = size.width;
-                var newHeight = size.height;
-                dirty = newWidth != lastWidth || newHeight != lastHeight;
+                size = getElementSize(element);
+                dirty = size.width !== lastWidth || size.height !== lastHeight;
 
                 if (dirty && !rafId) {
                     rafId = requestAnimationFrame(onResized);
@@ -218,8 +238,8 @@
             addEvent(expand, 'scroll', onScroll);
             addEvent(shrink, 'scroll', onScroll);
             
-			// Fix for custom Elements
-			requestAnimationFrame(reset);
+            // Fix for custom Elements
+            requestAnimationFrame(reset);
         }
 
         forEachElement(element, function(elem){
