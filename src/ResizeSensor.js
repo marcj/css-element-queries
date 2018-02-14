@@ -83,9 +83,9 @@
      * @constructor
      */
     var ResizeSensor = function(element, callback) {
-
+       
         var observer;
-
+       
         /**
          *
          * @constructor
@@ -161,44 +161,44 @@
             var lastWidth = size.width;
             var lastHeight = size.height;
             var initialHiddenCheck = true, resetRAF_id;
-
-
+            
+            
             var resetExpandShrink_ = function () {
-              expandChild.style.width = '100000px';
-              expandChild.style.height = '100000px';
-
-              expand.scrollLeft = 100000;
-              expand.scrollTop = 100000;
-
-              shrink.scrollLeft = 100000;
-              shrink.scrollTop = 100000;
-           };
+		        expandChild.style.width = '100000px';
+		        expandChild.style.height = '100000px';
+		
+		        expand.scrollLeft = 100000;
+		        expand.scrollTop = 100000;
+		
+		        shrink.scrollLeft = 100000;
+		        shrink.scrollTop = 100000;
+	        };
             var reset = function() {
-               // Check if element is hidden
-               if (initialHiddenCheck){
-                  if (!expand.scrollTop && !expand.scrollLeft) {
+            	// Check if element is hidden
+            	if (initialHiddenCheck){
+            		if (!expand.scrollTop && !expand.scrollLeft) {
 
-                     // reset
-                     resetExpandShrink_();
+            			// reset
+			            resetExpandShrink_();
 
-                     // Check in next frame
-                     if (!resetRAF_id){
-                        resetRAF_id = requestAnimationFrame(function(){
-                           resetRAF_id = 0;
+			            // Check in next frame
+			            if (!resetRAF_id){
+			            	resetRAF_id = requestAnimationFrame(function(){
+					            resetRAF_id = 0;
+					            
+			            		reset();
+				            });
+			            }
+            			
+			            return;
+		            }
+		            // Stop checking
+		            else{
+			            initialHiddenCheck = false;
+		            }
+	            }
 
-                           reset();
-                        });
-                     }
-
-                     return;
-                  }
-                  // Stop checking
-                  else{
-                     initialHiddenCheck = false;
-                  }
-               }
-
-               resetExpandShrink_();
+	            resetExpandShrink_();
             };
             element.resizeSensor.resetSensor = reset;
 
@@ -240,11 +240,11 @@
 
             addEvent(expand, 'scroll', onScroll);
             addEvent(shrink, 'scroll', onScroll);
-
+            
             // Fix for custom Elements
             requestAnimationFrame(reset);
         }
-
+         
         if (typeof ResizeObserver != "undefined") {
             observer = new ResizeObserver(function(element){
                 forEachElement(element, function (elem) {
