@@ -224,7 +224,7 @@
         function findElementQueriesElements(container) {
             var query = getQuery(container);
 
-            for (var selector in allQueries) if (allQueries.hasOwnProperty(mode)) {
+            for (var selector in allQueries) if (allQueries.hasOwnProperty(selector)) {
                 // find all elements based on the extract query selector from the element query rule
                 var elements = query(selector, container);
 
@@ -447,7 +447,6 @@
                 }
             }
 
-            // findElementQueriesElements();
             findResponsiveImages();
         };
 
