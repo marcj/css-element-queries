@@ -1,5 +1,5 @@
-var EQ = require('./css-element-queries/src/ElementQueries');
-var ResizeSensor = require('./css-element-queries/src/ResizeSensor');
+var EQ = require('css-element-queries').ElementQueries;
+var ResizeSensor = require('css-element-queries').ResizeSensor;
 var Hammer = require('hammerjs/hammer');
 
 require('codemirror/mode/xml/xml');
