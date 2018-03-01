@@ -163,7 +163,7 @@
             var initialHiddenCheck = true, resetRAF_id;
             
             
-            var resetExpandShrink_ = function () {
+            var resetExpandShrink = function () {
                 expandChild.style.width = '100000px';
                 expandChild.style.height = '100000px';
         
@@ -173,13 +173,14 @@
                 shrink.scrollLeft = 100000;
                 shrink.scrollTop = 100000;
             };
+
             var reset = function() {
                 // Check if element is hidden
-                if (initialHiddenCheck){
+                if (initialHiddenCheck) {
                     if (!expand.scrollTop && !expand.scrollLeft) {
 
                         // reset
-                        resetExpandShrink_();
+                        resetExpandShrink();
 
                         // Check in next frame
                         if (!resetRAF_id){
@@ -191,14 +192,13 @@
                         }
                         
                         return;
-                    }
-                    // Stop checking
-                    else{
+                    } else {
+                        // Stop checking
                         initialHiddenCheck = false;
                     }
                 }
 
-                resetExpandShrink_();
+                resetExpandShrink();
             };
             element.resizeSensor.resetSensor = reset;
 
@@ -211,11 +211,7 @@
                 lastHeight = size.height;
 
                 if (element.resizedAttached) {
-                    element.resizedAttached.call(
-                    {
-                        width: lastWidth,
-                        height: lastHeight
-                    });
+                    element.resizedAttached.call(size);
                 }
             };
 
@@ -245,7 +241,7 @@
             requestAnimationFrame(reset);
         }
          
-        if (typeof ResizeObserver != "undefined") {
+        if (typeof ResizeObserver !== "undefined") {
             observer = new ResizeObserver(function(element){
                 forEachElement(element, function (elem) {
                     callback.call(
@@ -273,7 +269,7 @@
             if (typeof ResizeObserver != "undefined") {
                observer.unobserve(element);
             }
-            else{
+            else {
                 ResizeSensor.detach(element, ev);
             }
         };
