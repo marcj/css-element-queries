@@ -83,9 +83,13 @@
      * @constructor
      */
     var ResizeSensor = function(element, callback) {
-       
+
+        if (element === undefined || element === null) {
+            return;
+        }
+
         var observer;
-       
+
         /**
          *
          * @constructor
@@ -253,18 +257,15 @@
                    );
                 });
             });
-            if (element !== undefined) {
-                forEachElement(element, function(elem){
-                   observer.observe(elem);
-                });
-            }
+
+            forEachElement(element, function(elem){
+                observer.observe(elem);
+            });
         }
         else {
-            if (element !== undefined) {
-                forEachElement(element, function(elem){
-                    attachResizeEvent(elem, callback);
-                });
-            }
+            forEachElement(element, function(elem){
+                attachResizeEvent(elem, callback);
+            });
         }
 
         this.detach = function(ev) {
