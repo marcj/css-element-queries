@@ -260,13 +260,15 @@
             }
         }
         else {
-            forEachElement(element, function(elem){
-                attachResizeEvent(elem, callback);
-            });
+            if (element !== undefined) {
+                forEachElement(element, function(elem){
+                    attachResizeEvent(elem, callback);
+                });
+            }
         }
 
         this.detach = function(ev) {
-            if (typeof ResizeObserver != "undefined") {
+            if (typeof ResizeObserver !== "undefined") {
                observer.unobserve(element);
             }
             else {
