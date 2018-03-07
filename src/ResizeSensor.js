@@ -269,7 +269,7 @@
 
         this.detach = function(ev) {
             if (typeof ResizeObserver !== "undefined") {
-               observer.unobserve(element);
+                observer.unobserve(element);
             }
             else {
                 ResizeSensor.detach(element, ev);
