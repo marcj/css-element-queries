@@ -138,13 +138,20 @@
             var styleChild = 'position: absolute; left: 0; top: 0; transition: 0s;';
 
             element.resizeSensor.style.cssText = style;
-            element.resizeSensor.innerHTML =
-                '<div class="resize-sensor-expand" style="' + style + '">' +
-                    '<div style="' + styleChild + '"></div>' +
-                '</div>' +
-                '<div class="resize-sensor-shrink" style="' + style + '">' +
-                    '<div style="' + styleChild + ' width: 200%; height: 200%"></div>' +
-                '</div>';
+            var expandDiv = document.createElement('div');
+            expandDiv.className = "resize-sensor-expand"
+            expandDiv.style.cssText = style;
+            var expandChildDiv = document.createElement('div');
+            expandChildDiv.style.cssText = styleChild;
+            expandDiv.appendChild(expandChildDiv);
+            var shrinkDiv = document.createElement('div');
+            shrinkDiv.className = "resize-sensor-shrink"
+            shrinkDiv.style.cssText = style;
+            var shrinkChildDiv = document.createElement('div');
+            shrinkChildDiv.style.cssText = styleChild + ' width: 200%; height: 200%';
+            shrinkDiv.appendChild(shrinkChildDiv);
+            element.resizeSensor.appendChild(expandDiv);
+            element.resizeSensor.appendChild(shrinkDiv);
             element.appendChild(element.resizeSensor);
 
             var computedStyle = window.getComputedStyle(element);
