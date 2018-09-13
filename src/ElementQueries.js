@@ -409,9 +409,11 @@
 
             document.body.addEventListener(animationStart, function (e) {
                 var element = e.target;
-                var styles = window.getComputedStyle(element, null);
+                var styles = element && window.getComputedStyle(element, null);
+                var animationName = styles && styles.getPropertyValue('animation-name');
+                var requiresSetup = animationName && (-1 !== animationName.indexOf('element-queries'));
 
-                if (-1 !== styles.getPropertyValue('animation-name').indexOf('element-queries')) {
+                if (requiresSetup) {
                     element.elementQueriesSensor = new ResizeSensor(element, function () {
                         if (element.elementQueriesSetupInformation) {
                             element.elementQueriesSetupInformation.call();
