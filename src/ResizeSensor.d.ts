@@ -3,4 +3,4 @@ declare class ResizeSensor {
     detach(callback: Function): void;
 }
 
-export = ResizeSensor;
+export default ResizeSensor;
