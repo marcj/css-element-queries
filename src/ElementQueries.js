@@ -324,7 +324,7 @@
                 }
             }
 
-            element.resizeSensor = new ResizeSensor(element, check);
+            element.resizeSensorInstance = new ResizeSensor(element, check);
             check();
         }
 
@@ -482,11 +482,11 @@
             delete element.elementQueriesSetupInformation;
             delete element.elementQueriesSensor;
 
-        } else if (element.resizeSensor) {
+        } else if (element.resizeSensorInstance) {
             //responsive image
 
-            element.resizeSensor.detach();
-            delete element.resizeSensor;
+            element.resizeSensorInstance.detach();
+            delete element.resizeSensorInstance;
         }
     };
 

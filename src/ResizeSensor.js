@@ -83,9 +83,6 @@
      * @constructor
      */
     var ResizeSensor = function(element, callback) {
-
-        var observer;
-
         /**
          *
          * @constructor
@@ -156,15 +153,21 @@
             var expand = element.resizeSensor.childNodes[0];
             var expandChild = expand.childNodes[0];
             var shrink = element.resizeSensor.childNodes[1];
-
-            var dirty, rafId;
+            var dirty, rafId, newWidth, newHeight;
             var size = getElementSize(element);
             var lastWidth = size.width;
             var lastHeight = size.height;
             var initialHiddenCheck = true, resetRAF_id;
 
+            var reset = function() {
+                //set display to block, necessary otherwise hidden elements won't ever work
+                var invisible = element.offsetWidth === 0 && element.offsetHeight === 0;
 
-            var resetExpandShrink = function () {
+                if (invisible) {
+                    var saveDisplay = element.style.display;
+                    element.style.display = 'block';
+                }
+
                 expandChild.style.width = '100000px';
                 expandChild.style.height = '100000px';
 
@@ -173,33 +176,10 @@
 
                 shrink.scrollLeft = 100000;
                 shrink.scrollTop = 100000;
-            };
 
-            var reset = function() {
-                // Check if element is hidden
-                if (initialHiddenCheck) {
-                    if (!expand.scrollTop && !expand.scrollLeft) {
-
-                        // reset
-                        resetExpandShrink();
-
-                        // Check in next frame
-                        if (!resetRAF_id){
-                            resetRAF_id = requestAnimationFrame(function(){
-                                resetRAF_id = 0;
-
-                                reset();
-                            });
-                        }
-
-                        return;
-                    } else {
-                        // Stop checking
-                        initialHiddenCheck = false;
-                    }
+                if (invisible) {
+                    element.style.display = saveDisplay;
                 }
-
-                resetExpandShrink();
             };
             element.resizeSensor.resetSensor = reset;
 
@@ -208,8 +188,8 @@
 
                 if (!dirty) return;
 
-                lastWidth = size.width;
-                lastHeight = size.height;
+                lastWidth = newWidth;
+                lastHeight = newHeight;
 
                 if (element.resizedAttached) {
                     element.resizedAttached.call(size);
@@ -217,8 +197,10 @@
             };
 
             var onScroll = function() {
-                size = getElementSize(element);
-                dirty = size.width !== lastWidth || size.height !== lastHeight;
+                var size = getElementSize(element);
+                var newWidth = size.width;
+                var newHeight = size.height;
+                dirty = newWidth !== lastWidth || newHeight !== lastHeight;
 
                 if (dirty && !rafId) {
                     rafId = requestAnimationFrame(onResized);
@@ -242,39 +224,12 @@
             requestAnimationFrame(reset);
         }
 
-        if (typeof ResizeObserver !== "undefined") {
-            observer = new ResizeObserver(function(element){
-                forEachElement(element, function (elem) {
-                    callback.call(
-                        this,
-                        {
-                            width: elem.contentRect.width,
-                            height: elem.contentRect.height
-                        }
-                   );
-                });
-            });
-            if (element !== undefined) {
-                forEachElement(element, function(elem){
-                   observer.observe(elem);
-                });
-            }
-        }
-        else {
-            forEachElement(element, function(elem){
-                attachResizeEvent(elem, callback);
-            });
-        }
+        forEachElement(element, function(elem){
+            attachResizeEvent(elem, callback);
+        });
 
         this.detach = function(ev) {
-            if (typeof ResizeObserver != "undefined") {
-                forEachElement(element, function(elem){
-                    observer.unobserve(elem);
-                });
-            }
-            else {
-                ResizeSensor.detach(element, ev);
-            }
+            ResizeSensor.detach(element, ev);
         };
 
         this.reset = function() {
