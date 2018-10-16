@@ -1,0 +1,48 @@
+
+<head>
+    <style type="text/css">
+        #test {
+            border: 1px solid red;
+            padding: 20px;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        #wrap {
+            border: 1px solid green;
+            padding: 20px;
+            text-align: center;
+            font-size: 30px;
+        }
+    </style>
+
+    <script src="../src/ResizeSensor.js"></script>
+</head>
+<body>
+    <div id="wrap" style="display: none">
+        <div id="test"><span id="title"></span></div>
+    </div>
+
+    <script type="application/javascript">
+
+        var test = document.getElementById("test");
+        var title = document.getElementById("title");
+
+        //we start hidden, and make it visible later on
+        new ResizeSensor(test, function(size) {
+            console.log('Triggered', size);
+            title.innerHTML = size.width + "px X " + size.height + "px";
+        });
+
+        setTimeout(function() {
+            console.log('This should trigger a resize sensor event');
+            document.getElementById("wrap").style.display = "block";
+        }, 2000);
+
+        setTimeout(function() {
+            console.log('Another trigger');
+            document.getElementById("wrap").style.maxWidth = "500px";
+        }, 4000);
+
+    </script>
+</body>
