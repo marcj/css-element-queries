@@ -131,7 +131,8 @@
             element.resizeSensor = document.createElement('div');
             element.resizeSensor.dir = 'ltr';
             element.resizeSensor.className = 'resize-sensor';
-            var style = 'position: absolute; left: -10px; top: -10px; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden; max-width: 100%';
+            var style = 'pointer-events: none; position: absolute; left: 0px; top: 0px; right: 0; bottom: 0; ' +
+                'overflow: hidden; z-index: -1; visibility: hidden; max-width: 100%;';
             var styleChild = 'position: absolute; left: 0; top: 0; transition: 0s;';
 
             element.resizeSensor.style.cssText = style;
@@ -161,14 +162,17 @@
             var lastAnimationFrame = 0;
 
             var resetExpandShrink = function () {
-                expandChild.style.width = '100000px';
-                expandChild.style.height = '100000px';
+                var width = element.offsetWidth;
+                var height = element.offsetHeight;
 
-                expand.scrollLeft = 100000;
-                expand.scrollTop = 100000;
+                expandChild.style.width = (width + 10) + 'px';
+                expandChild.style.height = (height + 10) + 'px';
 
-                shrink.scrollLeft = 100000;
-                shrink.scrollTop = 100000;
+                expand.scrollLeft = width + 10;
+                expand.scrollTop = height + 10;
+
+                shrink.scrollLeft = width + 10;
+                shrink.scrollTop = height + 10;
             };
 
             var reset = function() {
@@ -248,7 +252,7 @@
         };
     };
 
-    ResizeSensor.reset = function(element, ev) {
+    ResizeSensor.reset = function(element) {
         forEachElement(element, function(elem){
             elem.resizeSensor.resetSensor();
         });
@@ -270,6 +274,27 @@
             }
         });
     };
+
+    if (typeof MutationObserver !== "undefined") {
+        var observer = new MutationObserver(function (mutations) {
+            for (var i in mutations) {
+                var items = mutations[i].addedNodes;
+                for (var j = 0; j < items.length; j++) {
+                    if (items[j].resizeSensor) {
+                        ResizeSensor.reset(items[j]);
+                    }
+                }
+
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+            });
+        });
+    }
 
     return ResizeSensor;
 

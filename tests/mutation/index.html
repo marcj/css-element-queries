@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        body {
+            background-color: #fafafa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .container {
+            margin: 15px;
+            padding: 15px;
+            border: 1px solid silver;
+            border-radius: 3px;
+            min-height: 250px;
+            background-color: rgba(255, 255, 255, 0.86);
+        }
+
+        .container.drag-hover {
+            border: 1px solid red;
+            background-color: rgba(255, 125, 15, 0.18);
+        }
+
+        @keyframes wrapple {
+            0%, 100% {
+                width: 150px;
+                height: 150px;
+            }
+
+            50% {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        .drag {
+            border: 1px solid silver;
+            border-radius: 5px;
+            margin: 15px;
+            width: 150px;
+            height: 150px;
+            background-color: #d1ffff;
+            animation-name: wrapple;
+            animation-duration: 4s;
+            animation-iteration-count: infinite;
+
+            display: inline-flex;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .drag::after {
+            font-size: 12px;
+            content: attr(data-label);
+        }
+    </style>
+
+    <script src="../../src/ResizeSensor.js"></script>
+</head>
+<body>
+<div id="container1" class="container">
+    <div class="drag" draggable="true"></div>
+    <div class="drag"></div>
+</div>
+
+<div id="container2" class="container">
+    <div class="drag"></div>
+    <div class="drag"></div>
+</div>
+
+<script type="application/javascript" src="./app.js"></script>
+</body>
