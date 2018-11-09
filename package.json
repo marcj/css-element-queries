@@ -1,6 +1,6 @@
 {
   "name": "css-element-queries",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "CSS-Element-Queries Polyfill. Proof-of-concept for high-speed element dimension/media queries in valid css.",
   "main": "index.js",
   "directories": {
