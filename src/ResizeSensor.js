@@ -278,13 +278,14 @@
     if (typeof MutationObserver !== "undefined") {
         var observer = new MutationObserver(function (mutations) {
             for (var i in mutations) {
-                var items = mutations[i].addedNodes;
-                for (var j = 0; j < items.length; j++) {
-                    if (items[j].resizeSensor) {
-                        ResizeSensor.reset(items[j]);
+                if (mutations.hasOwnProperty(i)) {
+                    var items = mutations[i].addedNodes;
+                    for (var j = 0; j < items.length; j++) {
+                        if (items[j].resizeSensor) {
+                            ResizeSensor.reset(items[j]);
+                        }
                     }
                 }
-
             }
         });
 
