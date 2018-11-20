@@ -188,6 +188,7 @@
          * @param {String} value
          */
         function queueQuery(selector, mode, property, value) {
+            selector = selector.split(' ').slice(-1)[0]
             if (typeof(allQueries[selector]) === 'undefined') {
                 allQueries[selector] = [];
                 // add animation to trigger animationstart event, so we know exactly when a element appears in the DOM
