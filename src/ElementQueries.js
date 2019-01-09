@@ -238,7 +238,7 @@
          * Sometimes, moving an element in the DOM breaks things (issue #171). This method provides a way
          * to reset all elements and resume working.
          */
-        function reset() {
+        function reset(container) {
             var query = getQuery(container);
 
             for (var selector in allQueries) if (allQueries.hasOwnProperty(selector)) {
@@ -499,8 +499,8 @@
         ElementQueries.instance.update();
     };
 
-    ElementQueries.reset = function () {
-        ElementQueries.instance.reset();
+    ElementQueries.reset = function (container) {
+        ElementQueries.instance.reset(container);
     };
 
     /**
