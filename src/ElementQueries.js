@@ -235,6 +235,25 @@
         }
 
         /**
+         * Sometimes, moving an element in the DOM breaks things (issue #171). This method provides a way
+         * to reset all elements and resume working.
+         */
+        function reset() {
+            var query = getQuery(container);
+
+            for (var selector in allQueries) if (allQueries.hasOwnProperty(selector)) {
+                // find all elements based on the extract query selector from the element query rule
+                var elements = query(selector, container);
+
+                for (var i = 0, j = elements.length; i < j; i++) {
+                    if (elements[i].elementQueriesSensor) {
+                        elements[i].elementQueriesSensor.reset();
+                    }
+                }
+            }
+        }
+
+        /**
          *
          * @param {HTMLElement} element
          */
@@ -463,6 +482,14 @@
             findElementQueriesElements(container);
         };
 
+        /**
+         * Go through all collected rules (readRules()) and call reset ResizeSensor.reset()
+         * for every associated element. Handy for the cases when moving elements in the DOM.
+         */
+        this.reset = function (container) {
+            reset(container);
+        }
+
         this.update = function () {
             this.init();
         };
@@ -470,6 +497,10 @@
 
     ElementQueries.update = function () {
         ElementQueries.instance.update();
+    };
+
+    ElementQueries.reset = function () {
+        ElementQueries.instance.reset();
     };
 
     /**
