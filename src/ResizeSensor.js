@@ -201,8 +201,8 @@
 
             var dirty, rafId;
             var size = getElementSize(element);
-            var lastWidth = size.width;
-            var lastHeight = size.height;
+            var lastWidth = 0;
+            var lastHeight = 0;
             var initialHiddenCheck = true;
             var lastAnimationFrame = 0;
 

@@ -170,13 +170,12 @@
             if (!element.elementQueriesSetupInformation) {
                 element.elementQueriesSetupInformation = new SetupInformation(element, id);
             }
+
             if (!element.elementQueriesSensor) {
                 element.elementQueriesSensor = new ResizeSensor(element, function () {
                     element.elementQueriesSetupInformation.call();
                 });
             }
-
-            element.elementQueriesSetupInformation.call();
         }
 
         /**
@@ -441,7 +440,7 @@
             for (var i = 0, j = document.styleSheets.length; i < j; i++) {
                 try {
                     if (document.styleSheets[i].href && 0 === document.styleSheets[i].href.indexOf('file://')) {
-                        console.log("CssElementQueries: unable to parse local css files, " + document.styleSheets[i].href);
+                        console.warn("CssElementQueries: unable to parse local css files, " + document.styleSheets[i].href);
                     }
 
                     readRules(document.styleSheets[i].cssRules || document.styleSheets[i].rules || document.styleSheets[i].cssText);
