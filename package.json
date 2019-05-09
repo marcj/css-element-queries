@@ -4,20 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp build"
   },
   "author": "",
   "dependencies": {
-    "css-element-queries": "^1.0.2",
+    "css-element-queries": "^1.2.0",
     "bootstrap": "^3.3.6",
     "codemirror": "^5.11.0",
-    "gulp": "^3.9.0",
+    "gulp": "^4.0.2",
     "gulp-browserify": "^0.5.1",
-    "gulp-concat": "^2.6.0",
-    "gulp-markdown": "^1.2.0",
-    "gulp-sass": "^2.1.1",
-    "gulp-watch": "^4.3.5",
-    "hammerjs": "^2.0.6",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^4.0.2",
+    "gulp-watch": "^5.0.1",
+    "hammerjs": "^2.0.8",
     "jquery": "^2.2.0"
   }
 }
