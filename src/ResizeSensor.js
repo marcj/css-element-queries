@@ -98,10 +98,11 @@
      *
      * @param {Element|Element[]|Elements|jQuery} element
      * @param {Function} callback
+     * @param {object} params
      *
      * @constructor
      */
-    var ResizeSensor = function(element, callback) {
+    var ResizeSensor = function (element, callback, params) {
         /**
          *
          * @constructor
@@ -113,9 +114,9 @@
             };
 
             var i, j;
-            this.call = function(sizeInfo) {
+            this.call = function(sizeInfo, params) {
                 for (i = 0, j = q.length; i < j; i++) {
-                    q[i].call(this, sizeInfo);
+                    q[i].call(this, sizeInfo, params);
                 }
             };
 
@@ -136,8 +137,9 @@
          *
          * @param {HTMLElement} element
          * @param {Function}    resized
+         * @param {object}      params
          */
-        function attachResizeEvent(element, resized) {
+        function attachResizeEvent(element, resized, params) {
             if (!element) return;
             if (element.resizedAttached) {
                 element.resizedAttached.add(resized);
@@ -254,7 +256,7 @@
                 lastHeight = size.height;
 
                 if (element.resizedAttached) {
-                    element.resizedAttached.call(size);
+                    element.resizedAttached.call(size, params);
                 }
             };
 
@@ -285,7 +287,7 @@
         }
 
         forEachElement(element, function(elem){
-            attachResizeEvent(elem, callback);
+            attachResizeEvent(elem, callback, params);
         });
 
         this.detach = function(ev) {
