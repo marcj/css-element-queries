@@ -17,7 +17,8 @@ Features:
  - no CSS modifications. Valid CSS Syntax
  - all CSS selectors available. Uses regular attribute selector. No need to write rules in HTML/JS.
  - supports and tested in webkit, gecko and IE(10+)
- - `min-width`, `min-height`, `max-width` and `max-height` are supported so far
+ - `data-min-width`, `data-min-height`, `data-max-width` and `data-max-height` are supported so far and 
+ - for backwards compatibility the HTML non-compliant attributes `min-width`, `min-height`, `max-width` and `max-height` are still supported
  - works with any layout modifications: HTML (innerHTML etc), inline styles, DOM mutation, CSS3 transitions, fluid layout changes (also percent changes), pseudo classes (:hover etc.), window resizes and more
  - no Javascript-Framework dependency (works with jQuery, Mootools, etc.)
  - Works beautiful for responsive images without FOUC
@@ -33,17 +34,17 @@ More demos and information: http://marcj.github.io/css-element-queries/
     font-size: 12px;
 }
 
-.widget-name[min-width~="400px"] h2 {
+.widget-name[data-min-width~="400px"] h2 {
     font-size: 18px;
 }
 
-.widget-name[min-width~="600px"] h2 {
+.widget-name[data-min-width~="600px"] h2 {
     padding: 55px;
     text-align: center;
     font-size: 24px;
 }
 
-.widget-name[min-width~="700px"] h2 {
+.widget-name[data-min-width~="700px"] h2 {
     font-size: 34px;
     color: red;
 }
@@ -51,7 +52,7 @@ More demos and information: http://marcj.github.io/css-element-queries/
 
 As you can see we use the `~=` [attribute selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors).
 Since this css-element-queries polyfill adds new element attributes on the DOM element
-(`<div class="widget-name" min-width="400px 700px"></div>`) depending on your actual CSS and element's dimension,
+(`<div class="widget-name" data-min-width="400px 700px"></div>`) depending on your actual CSS and element's dimension,
 you should always use this attribute selector (especially if you have several element query rules on the same element).
 
 ```html
@@ -64,9 +65,9 @@ you should always use this attribute selector (especially if you have several el
 
 ```html
     <div data-responsive-image>
-        <img data-src="http://placehold.it/350x150"/>
-        <img min-width="350" data-src="http://placehold.it/700x300"/>
-        <img min-width="700" data-src="http://placehold.it/1400x600"/>
+        <img data-src="http://placehold.it/350x150"/>   
+        <img data-min-width="350" data-src="http://placehold.it/700x300"/>
+        <img data-min-width="700" data-src="http://placehold.it/1400x600"/>
     </div>
 ```
 
