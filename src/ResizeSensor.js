@@ -102,6 +102,8 @@
      * @constructor
      */
     var ResizeSensor = function(element, callback) {
+        var lastAnimationFrame = 0;
+        
         /**
          *
          * @constructor
@@ -204,7 +206,7 @@
             var lastWidth = 0;
             var lastHeight = 0;
             var initialHiddenCheck = true;
-            var lastAnimationFrame = 0;
+            lastAnimationFrame = 0;
 
             var resetExpandShrink = function () {
                 var width = element.offsetWidth;
@@ -281,7 +283,7 @@
             addEvent(shrink, 'scroll', onScroll);
 
             // Fix for custom Elements
-            requestAnimationFrame(reset);
+            lastAnimationFrame = requestAnimationFrame(reset);
         }
 
         forEachElement(element, function(elem){
@@ -289,6 +291,11 @@
         });
 
         this.detach = function(ev) {
+            // clean up the unfinished animation frame to prevent a potential endless requestAnimationFrame of reset
+            if (!lastAnimationFrame) {
+                window.cancelAnimationFrame(lastAnimationFrame);
+                lastAnimationFrame = 0;
+            }
             ResizeSensor.detach(element, ev);
         };
 
