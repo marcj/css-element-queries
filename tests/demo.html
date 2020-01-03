@@ -97,6 +97,15 @@
         .example-2[min-width~="400px"] .example-2-box {
             background-color: gray;
         }
+
+        #example-invisible {
+            display: none;
+        }
+
+        #example-invisible[min-width~="100px"]{
+            color: red;
+            font-weight: bold;
+        }
     </style>
 
     <script type="text/javascript">
@@ -257,7 +266,7 @@
                     </div>
                 </div>
                 <div class="code html">
-                    <textarea class="html">
+                    <textarea class="html" readonly>
 <div class="example-2">
     <h2>Demo 2</h2>
     <div class="example-2-box">
@@ -370,6 +379,26 @@ new ResizeSensor(element, function() {
     console.log('Changed to ' + element.clientWidth);
 });</textarea>
                     </div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h2>Invisible Demo</h2>
+                <div style="height: 80px">
+                    <div class="examplesResizerDemos">
+                        Press button to show.
+                        <div id="example-invisible">
+                            This should be red.
+                        </div>
+                    </div>
+                </div>
+                <div class="example-desc">
+                    <button onclick="document.getElementById('example-invisible').style.display = 'block'">Unhide box</button>
+                    <script type="text/javascript">
+                        new ResizeSensor(document.getElementById('example-invisible'), function(d) {
+                            console.log('invisible box changed', d);
+                        });
+                    </script>
                 </div>
             </div>
 
