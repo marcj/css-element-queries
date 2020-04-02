@@ -313,13 +313,19 @@
         };
 
         this.reset = function() {
-            element.resizeSensor.resetSensor();
+            //To prevent invoking element.resizeSensor.resetSensor if it's undefined
+            if (element.resizeSensor.resetSensor) {
+                element.resizeSensor.resetSensor();
+            }
         };
     };
 
     ResizeSensor.reset = function(element) {
         forEachElement(element, function(elem){
-            elem.resizeSensor.resetSensor();
+            //To prevent invoking element.resizeSensor.resetSensor if it's undefined
+            if (element.resizeSensor.resetSensor) {
+                elem.resizeSensor.resetSensor();
+            }
         });
     };
 
