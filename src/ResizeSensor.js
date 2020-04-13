@@ -305,7 +305,7 @@
 
         this.detach = function(ev) {
             // clean up the unfinished animation frame to prevent a potential endless requestAnimationFrame of reset
-            if (!lastAnimationFrameForInvisibleCheck) {
+            if (lastAnimationFrameForInvisibleCheck) {
                 cancelAnimationFrame(lastAnimationFrameForInvisibleCheck);
                 lastAnimationFrameForInvisibleCheck = 0;
             }
