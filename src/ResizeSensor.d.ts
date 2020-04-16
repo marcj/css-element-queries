@@ -1,4 +1,9 @@
-export declare type ResizeSensorCallback = (size: { width: number; height: number; }) => void;
+export declare interface Size {
+    width: number;
+    height: number;
+}
+
+export declare type ResizeSensorCallback = (size: Size) => void;
 
 export declare class ResizeSensor {
     /**
