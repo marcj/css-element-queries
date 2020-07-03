@@ -113,7 +113,7 @@
             this.element = element;
             var key, option, elementSize, value, actualValue, attrValues, attrValue, attrName;
 
-            var attributes = ['min-width', 'min-height', 'max-width', 'max-height'];
+            var attributes = ['min-width', 'data-min-width', 'min-height', 'data-min-height', 'max-width', 'data-max-width', 'max-height', 'data-max-height'];
 
             /**
              * Extracts the computed width/height and sets to min/max- attribute.
@@ -133,7 +133,7 @@
                     value = convertToPx(this.element, option.value);
 
                     actualValue = option.property === 'width' ? elementSize.width : elementSize.height;
-                    attrName = option.mode + '-' + option.property;
+                    attrName = option.attrName;
                     attrValue = '';
 
                     if (option.mode === 'min' && actualValue >= value) {
@@ -185,8 +185,9 @@
          * @param {String} mode min|max
          * @param {String} property width|height
          * @param {String} value
+         * @param {String} attrName
          */
-        function queueQuery(selector, mode, property, value) {
+        function queueQuery(selector, mode, property, value, attrName) {
             if (typeof(allQueries[selector]) === 'undefined') {
                 allQueries[selector] = [];
                 // add animation to trigger animationstart event, so we know exactly when a element appears in the DOM
@@ -200,6 +201,7 @@
             allQueries[selector].push({
                 mode: mode,
                 property: property,
+                attrName: attrName,
                 value: value
             });
         }
@@ -336,8 +338,8 @@
             }
         }
 
-        var regex = /,?[\s\t]*([^,\n]*?)((?:\[[\s\t]*?(?:min|max)-(?:width|height)[\s\t]*?[~$\^]?=[\s\t]*?"[^"]*?"[\s\t]*?])+)([^,\n\s\{]*)/mgi;
-        var attrRegex = /\[[\s\t]*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]/mgi;
+        var regex = /,?[\s\t]*([^,\n]*?)((?:\[[\s\t]*?(?:data-)?(?:min|max)-(?:width|height)[\s\t]*?[~$\^]?=[\s\t]*?"[^"]*?"[\s\t]*?])+)([^,\n\s\{]*)/mgi;
+        var attrRegex = /\[[\s\t]*?((?:data-)?(min|max)-(width|height))[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]/mgi;
 
         /**
          * @param {String} css
@@ -351,7 +353,7 @@
                 attrs = match[2];
 
                 while (null !== (attrMatch = attrRegex.exec(attrs))) {
-                    queueQuery(smatch, attrMatch[1], attrMatch[2], attrMatch[3]);
+                    queueQuery(smatch, attrMatch[2], attrMatch[3], attrMatch[4], attrMatch[1]);
                 }
             }
         }
@@ -368,16 +370,16 @@
 
             if ('string' === typeof rules) {
                 rules = rules.toLowerCase();
-                if (-1 !== rules.indexOf('min-width') || -1 !== rules.indexOf('max-width')) {
+                if (-1 !== rules.indexOf('min-width') || -1 !== rules.indexOf('data-min-width') || -1 !== rules.indexOf('max-width') || -1 !== rules.indexOf('data-max-width')) {
                     extractQuery(rules);
                 }
             } else {
                 for (var i = 0, j = rules.length; i < j; i++) {
                     if (1 === rules[i].type) {
                         selector = rules[i].selectorText || rules[i].cssText;
-                        if (-1 !== selector.indexOf('min-height') || -1 !== selector.indexOf('max-height')) {
+                        if (-1 !== selector.indexOf('min-height') || -1 !== selector.indexOf('data-min-height') || -1 !== selector.indexOf('max-height') || -1 !== selector.indexOf('data-max-height')) {
                             extractQuery(selector);
-                        } else if (-1 !== selector.indexOf('min-width') || -1 !== selector.indexOf('max-width')) {
+                        } else if (-1 !== selector.indexOf('min-width') || -1 !== selector.indexOf('data-min-width') || -1 !== selector.indexOf('max-width') || -1 !== selector.indexOf('data-max-width')) {
                             extractQuery(selector);
                         }
                     } else if (4 === rules[i].type) {
