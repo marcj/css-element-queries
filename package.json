@@ -3,12 +3,11 @@
   "version": "1.2.3",
   "description": "CSS-Element-Queries Polyfill. Proof-of-concept for high-speed element dimension/media queries in valid css.",
   "main": "index.js",
+  "module": "lib/index.js",
   "typings": "css-element-queries.d.ts",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup -c",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -21,7 +20,7 @@
   },
   "homepage": "https://github.com/marcj/css-element-queries",
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-bump": "^0.3.1"
+    "@rollup/plugin-commonjs": "^14.0.0",
+    "rollup": "^2.22.1"
   }
 }
