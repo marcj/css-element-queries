@@ -1,5 +1,3 @@
-declare const ResizeSensor;
-
 const state: {
     dragged: Element
 } = {

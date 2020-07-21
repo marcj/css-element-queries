@@ -1,2 +1,4 @@
-export { ResizeSensor, ResizeSensorCallback, Size } from "./src/ResizeSensor";
-export { ElementQueries } from './src/ElementQueries';
+import * as ResizeSensor from "./src/ResizeSensor";
+import * as ElementQueries from "./src/ElementQueries";
+
+export { ResizeSensor, ElementQueries };
