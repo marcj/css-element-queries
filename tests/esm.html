@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Css-element-queries ES module Demo</title>
+    <style>
+      #container {
+        background-color: red;
+        height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script type="module">
+      import { ElementQueries, ResizeSensor } from "../lib/index.js";
+      ElementQueries.init();
+      new ResizeSensor(document.getElementById("container"), console.log);
+    </script>
+  </body>
+</html>
