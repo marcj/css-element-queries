@@ -91,12 +91,12 @@ If you're using a module loader you need to trigger the event listening or initi
 ```javascript
 var ElementQueries = require('css-element-queries/src/ElementQueries');
 
- //attaches to DOMLoadContent
+ // Attaches to DOMContentLoaded
 ElementQueries.listen();
 
-//or if you want to trigger it yourself.
+// Or if you want to trigger it yourself
 // Parse all available CSS and attach ResizeSensor to those elements which have rules attached
-// (make sure this is called after 'load' event, because CSS files are not ready when domReady is fired.
+// (Make sure this is called after 'DOMContentLoaded' fires, because CSS files are not ready before then.)
 ElementQueries.init();
 ```
 
