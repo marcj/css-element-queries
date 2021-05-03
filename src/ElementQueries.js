@@ -111,7 +111,7 @@
          */
         function SetupInformation(element, id) {
             this.element = element;
-            var key, option, elementSize, value, actualValue, attrValues, attrValue, attrName;
+            var key, option, elementSize, value, actualValue, attrValues, attrValue, attrName, orientation;
 
             var attributes = ['min-width', 'min-height', 'max-width', 'max-height'];
 
@@ -121,6 +121,8 @@
             this.call = function () {
                 // extract current dimensions
                 elementSize = getElementSize(this.element);
+                orientation = (elementSize.width > elementSize.height) ? 'landscape' : 'portrait';
+                if (elementSize.width == elementSize.height) orientation = 'square';
 
                 attrValues = {};
 
@@ -159,6 +161,7 @@
                         this.element.removeAttribute(attributes[k]);
                     }
                 }
+                this.element.setAttribute("orientation", orientation);
             };
         }
 
