@@ -192,8 +192,8 @@
                 // add animation to trigger animationstart event, so we know exactly when a element appears in the DOM
 
                 var id = idToSelectorMapping.length;
-                cssStyleElement.innerHTML += '\n' + selector + ' {animation: 0.1s element-queries;}';
-                cssStyleElement.innerHTML += '\n' + selector + ' > .resize-sensor {min-width: '+id+'px;}';
+                cssStyleElement.textContent += '\n' + selector + ' {animation: 0.1s element-queries;}';
+                cssStyleElement.textContent += '\n' + selector + ' > .resize-sensor {min-width: '+id+'px;}';
                 idToSelectorMapping.push(selector);
             }
 
@@ -429,10 +429,10 @@
             if (!defaultCssInjected) {
                 cssStyleElement = document.createElement('style');
                 cssStyleElement.type = 'text/css';
-                cssStyleElement.innerHTML = '[responsive-image] > img, [data-responsive-image] {overflow: hidden; padding: 0; } [responsive-image] > img, [data-responsive-image] > img {width: 100%;}';
+                cssStyleElement.textContent = '[responsive-image] > img, [data-responsive-image] {overflow: hidden; padding: 0; } [responsive-image] > img, [data-responsive-image] > img {width: 100%;}';
 
                 //safari wants at least one rule in keyframes to start working
-                cssStyleElement.innerHTML += '\n@keyframes element-queries { 0% { visibility: inherit; } }';
+                cssStyleElement.textContent += '\n@keyframes element-queries { 0% { visibility: inherit; } }';
                 document.getElementsByTagName('head')[0].appendChild(cssStyleElement);
                 defaultCssInjected = true;
             }
